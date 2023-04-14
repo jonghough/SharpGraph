@@ -1,3 +1,5 @@
+![example workflow](https://github.com/jonghough/SharpGraph/actions/workflows/unit-test.yaml/badge.svg)
+
 # SharpGraph
 Graphs and algorithms
  
