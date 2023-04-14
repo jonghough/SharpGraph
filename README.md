@@ -1,7 +1,8 @@
  
 # SharpGraph
 Graphs and algorithms
-![example workflow](https://github.com/jonghough/SharpGraph/actions/workflows/unit-test.yaml/badge.svg?branch=master)
+
+![unit test workflow](https://github.com/jonghough/SharpGraph/actions/workflows/unit-test.yaml/badge.svg?branch=master)
  
 ## Project
 This is a .NET library containing an assortment of `Graph` algorithms.
