@@ -7,7 +7,7 @@ Graphs and algorithms
 ## Project
 This is a .NET library containing an assortment of `Graph` algorithms.
 
-#### Currently implemented algorithms:
+#### Some currently implemented algorithms:
 
 
 | Algorithm | Usage |
@@ -20,6 +20,7 @@ This is a .NET library containing an assortment of `Graph` algorithms.
 |Connected subgraphs | find all maximally connected subgraphs of a graph|
 |General DFS and BFS search algorithms | For graph searching |
 |Find minimum cut of a graph | Necessary edges to keep the graph connected|
+|Maximum Flow | Find max flow in a flow network |
 |Planarity testing | Checks if a graph is planar |
 
  

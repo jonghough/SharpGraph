@@ -201,6 +201,20 @@ namespace SharpGraph
             return true;
         }
 
+        public Edge? GetEdge(HashSet<Node> nodes){
+            if (nodes.Count != 2)
+            {
+                throw new Exception("GetEdge can only take a set of two nodes. i.e. the nodes that are incident with the edge.");
+
+            }
+            var nodeList = nodes.ToList();
+            var maybeEdge = GetEdge(nodeList[0], nodeList[1]);
+            if (maybeEdge == null)
+            {
+                return GetEdge(nodeList[1], nodeList[0]);
+            }
+            return maybeEdge;
+        }
         public Edge? GetEdge(Node node1, Node node2)
         {
 
