@@ -126,6 +126,14 @@ namespace SharpGraph
             return GenerateBipartiteComplete(leftNodes, rightNodes);
         }
 
+        /// <summary>
+        /// Generates the complete bipartite graph with left sdie having <code>leftNodes</code> nodes and
+        /// the right side having <code>rightNodes</code> nodes. Each node on left side is adjacent to each and only the 
+        /// nodes on the right side, and vice versa.
+        /// </summary>
+        /// <param name="leftNodes">nodes for the left side</param>
+        /// <param name="rightNodes">nodes for the right side</param>
+        /// <returns>Complete bipartite graph</returns>
         public static Graph GenerateBipartiteComplete(HashSet<Node> leftNodes, HashSet<Node> rightNodes)
         {
             int ls = leftNodes.Count;
@@ -187,7 +195,7 @@ namespace SharpGraph
         /// Creates a barbell graph, which is defined as two complete graphs connected by a single edge.
         /// The <i>leftSet</i> and <i>rightSet>\i? arguments give the nodes of the two generated complete graphs.
         /// 
-        /// The connecting edge is incident with arbitrary ndoes on each of the complete graphs.
+        /// The connecting edge is incident with arbitrary nodes on each of the complete graphs.
         /// </summary>
         /// <param name="leftSet">nodes of the "left" side barbell</param>
         /// <param name="rightSet">nodes of the "right" side barbell</param>
@@ -206,14 +214,14 @@ namespace SharpGraph
             List<Edge> allEdges = gLeft.GetEdges();
             allEdges.AddRange(gRight.GetEdges());
             allEdges.Add(e);
-          
+
             return new Graph(allEdges);
         }
         /// <summary>
         /// Creates a barbell graph, which is defined as two complete graphs connected by a single edge.
         /// The <i>leftSize</i> and <i>rightSize>\i? arguments give the number of nodes of the two generated complete graphs.
         /// 
-        /// The connecting edge is incident with arbitrary ndoes on each of the complete graphs.
+        /// The connecting edge is incident with arbitrary nodes on each of the complete graphs.
         /// </summary>
         /// <param name="leftSize">number of nodes of the "left" side barbell</param>
         /// <param name="rightSize">number of nodes of the "right" side barbell</param>
@@ -272,6 +280,18 @@ namespace SharpGraph
             return new Graph(edgeList);
         }
 
+
+        /// <summary>
+        /// Generates a 3D grid (lattice) of nodes where each node is adjacent to the nearest nodes in
+        /// the cardinal directions (left,right, up,down, front,back). The dimensions (in terms of nodes) 
+        /// of the resulting graph will be width x depth x height, where height is calcualted as 
+        /// the number of nodes in the nodeSet divided by (width x depth).
+        /// This means the number of nodes in nodeSet must be a multiple of widthxdepth.
+        /// </summary>
+        /// <param name="nodeSet">Set of nodes</param>
+        /// <param name="width">width of the graph in terms of nodes</param>
+        /// <param name="depth">depth of the graph in terms of nodes</param>
+        /// <returns>3D grid.</returns>
         public static Graph Generate3DGrid(HashSet<Node> nodeSet, int width, int depth)
         {
             if (nodeSet.Count % (width * depth) != 0)
@@ -321,7 +341,8 @@ namespace SharpGraph
         /// <returns>Wheel graph.</returns>
         public static Graph GenerateWheelGraph(int spokesCount)
         {
-            if(spokesCount < 3){
+            if (spokesCount < 3)
+            {
                 throw new Exception(String.Format("The number of spokes must be at least 3. Number provided {0}.", spokesCount));
             }
             int c = 0;
@@ -371,7 +392,7 @@ namespace SharpGraph
 
         }
 
-         /// <summary>
+        /// <summary>
         /// Generates random weights on the edges of the graph. The random weights are sampled
         /// from a uniform (0,1) distribution. Weights will be scaled and shifted to fit int he range
         /// <i>(minWeight, maxWeight)</i>.
@@ -379,15 +400,17 @@ namespace SharpGraph
         /// <param name="graph">The graph</param>
         /// <param name="minWeight">The minimum weight allowed</param>
         /// <param name="maxWeight">The maximum weight allowed</param>
-        public static void GenerateRandomWeights (Graph graph, float minWeight,
-            float maxWeight) {
+        public static void GenerateRandomWeights(Graph graph, float minWeight,
+            float maxWeight)
+        {
 
-            Random random = new Random (Guid.NewGuid ().GetHashCode ());
+            Random random = new Random(Guid.NewGuid().GetHashCode());
 
             //visit all the edges and wrap them with a weighted edge.
-            foreach (Edge edge in graph.GetEdges ()) {
-                var ew = graph.AddComponent<EdgeWeight> (edge);
-                float weight = (float) random.NextDouble () * (maxWeight - minWeight) + minWeight;
+            foreach (Edge edge in graph.GetEdges())
+            {
+                var ew = graph.AddComponent<EdgeWeight>(edge);
+                float weight = (float)random.NextDouble() * (maxWeight - minWeight) + minWeight;
                 ew.Weight = weight;
             }
 

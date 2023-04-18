@@ -44,7 +44,7 @@ namespace SharpGraph {
                 .Select (i => {
                     var direction = this.GetComponent<EdgeDirection> (i);
                     if (direction == null) {
-                        throw new Exception ("no direction");
+                        throw new Exception ("Edge has no direction");
                     }
                     if (nodes.Contains (i.From ()) && !nodes.Contains (i.To ())
 

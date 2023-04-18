@@ -311,14 +311,14 @@ namespace SharpGraph
             Assert.AreEqual(14, span.Count);
         }
 
-           [Test]
+        [Test]
         public void SpanningTreeTestDisconnected()
         {
 
             var g = new Graph();
-            g.AddEdge("A","B");
-            g.AddEdge("B","C");
-            g.AddEdge("D","E");
+            g.AddEdge("A", "B");
+            g.AddEdge("B", "C");
+            g.AddEdge("D", "E");
             var span = g.GenerateSpanningTree();
             Assert.AreEqual(3, span.Count);
         }

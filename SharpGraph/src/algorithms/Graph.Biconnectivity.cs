@@ -1,4 +1,4 @@
- 
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,8 +13,17 @@ namespace SharpGraph
 
         /// <summary>
         /// Finds biconnected components of the graph. The graph is assumed to be undirected.
+        /// The returned biconnected components are represented as sets of edges. A graph, or subgraph of a graph,
+        /// is biconnected if removing any node still leaves a connected graph, or subgraph, respectively.
+        /// <example>
+        /// We can create the biconnected subgraphs of a group, g, by first finding the biconnected components.
+        /// <code>
+        /// var biconnectedComps = g.FindBiconnectedComponents(); 
+        /// var connectedSubgraphs = biconnectedComps.ToList().Select(c => new Graph(c.ToList())).toList();
+        /// </code>
+        /// </example>
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Biconnected components.</returns>
         public HashSet<HashSet<Edge>> FindBiconnectedComponents()
         {
 

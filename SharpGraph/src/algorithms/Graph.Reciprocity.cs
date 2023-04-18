@@ -3,41 +3,49 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SharpGraph {
-    public partial class Graph {
+namespace SharpGraph
+{
+    public partial class Graph
+    {
         /// <summary>
         /// Returns the <i>reciprocity</i> of each node of the graph, where reciprocity is defined as the
         /// ratio of the bidirectional edges to the total edges to and from the node.
         /// </summary>
-        /// <returns></returns>
-        public Dictionary<Node, float> Reciprocity () {
+        /// <returns>reciprocity of each node in the graph, as a dictionary of node, float pairs.</returns>
+        public Dictionary<Node, float> Reciprocity()
+        {
 
-            var nodeDict = _nodes.ToDictionary (x => x, x => (0, 1));
+            var nodeDict = _nodes.ToDictionary(x => x, x => (0, 1));
 
-            foreach (var edge in this._edges) {
-                var direction = this.GetComponent<EdgeDirection> (edge);
-                (int, int) fromPair = nodeDict[edge.From ()];
-                (int, int) toPair = nodeDict[edge.To ()];
+            foreach (var edge in this._edges)
+            {
+                var direction = this.GetComponent<EdgeDirection>(edge);
+                (int, int) fromPair = nodeDict[edge.From()];
+                (int, int) toPair = nodeDict[edge.To()];
 
-                if (direction.Direction == Direction.Both) {
+                if (direction.Direction == Direction.Both)
+                {
                     fromPair = (fromPair.Item1 + 1, fromPair.Item2 + 1);
                     toPair = (toPair.Item1 + 1, toPair.Item2 + 1);
-                } else {
+                }
+                else
+                {
                     fromPair = (fromPair.Item1, fromPair.Item2 + 1);
                     toPair = (toPair.Item1, toPair.Item2 + 1);
                 }
 
-                nodeDict[edge.From ()] = fromPair;
-                nodeDict[edge.To ()] = toPair;
+                nodeDict[edge.From()] = fromPair;
+                nodeDict[edge.To()] = toPair;
 
             }
 
-            return nodeDict.Select (kvp => {
+            return nodeDict.Select(kvp =>
+            {
                 var key = kvp.Key;
                 var v = kvp.Value;
                 var val = v.Item1 / v.Item2;
-                return new KeyValuePair<Node, float> (key, val);
-            }).ToDictionary (x => x.Key, x => x.Value);
+                return new KeyValuePair<Node, float>(key, val);
+            }).ToDictionary(x => x.Key, x => x.Value);
         }
     }
 }
