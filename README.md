@@ -1,11 +1,18 @@
  
 # SharpGraph
-Graphs and algorithms
+ 
+ A C# Library Package for `.Net 6` and above, for the purpose of working with graphs and  graph algorithms.
+
 
 ![unit test workflow](https://github.com/jonghough/SharpGraph/actions/workflows/unit-test.yaml/badge.svg?branch=master)
  
 ## Project
-This is a .NET library containing an assortment of `Graph` algorithms.
+This is a .NET library containing an assortment of graph algorithms.
+
+## Nuget
+```
+dotnet add package SharpGraphLib --version 1.0.1
+```
 
 #### Some currently implemented algorithms:
 
@@ -18,6 +25,7 @@ This is a .NET library containing an assortment of `Graph` algorithms.
 |Bellman-Ford | for finding shortest path between two nodes on a connected, weighted graph with positive or negative weights, and no negative weight cycles|
 |Spanning Tree | finds the minimum spanning tree for a connected, weighted graph|
 |Connected subgraphs | find all maximally connected subgraphs of a graph|
+|bionnected subgraphs | find all biconnected subgraphs of a graph|
 |General DFS and BFS search algorithms | For graph searching |
 |Find minimum cut of a graph | Necessary edges to keep the graph connected|
 |Maximum Flow | Find max flow in a flow network |
