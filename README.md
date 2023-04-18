@@ -63,8 +63,19 @@ var graph = GraphGenerator.Create(nodes);
 
 ```csharp
 //test whether the graph is connected, which means it is possible to move from any point to any other point.
+var g = new Graph():
+for(int i = 0; i < 10;i++){
+    g.AddEdge(new Edge(""+i, ""+(i+1)));
+}
+g.IsConnected(); //true
+```
+As another exampler, we can generate a complete graph on 10 nodes and check if it is connected. We can also
+find biconnected components of the graph.
+```csharp
 var g = GraphGenerator.CreateComplete(NodeGenerator.GenerateNodes(10)); // generate complete graph
-Connectivity.IsConnected(g); //true
+g.IsConnected(); //true
+//find biconnected components
+g.FindBiconnectedComponents (); // complete graph so only 1 biconnected component, the graph itself.
 ```
 
 ### find minimum spanning tree of a connected weighted graph
@@ -110,26 +121,17 @@ var cycles = graph7.FindAllCyclesInGraph();
 
 We can find the minimum distance path between any two nodes on a connected graph using `Dijkstra's Algorithm`. 
 
-```csharp
-Node b1 = new Node ("A"); 
-Node b2 = new Node ("B"); 
-Node b3 = new Node ("C"); 
-Node b4 = new Node ("D"); 
-Node b5 = new Node ("E"); 
-Node b6 = new Node ("F"); 
-Node b7 = new Node ("G"); 
-Node b8 = new Node ("H"); 
-
-Edge eAB = new Edge (b1, b2);
-Edge eAG = new Edge (b1, b7);
-Edge eCD = new Edge (b3, b4);
-Edge eDH = new Edge (b4, b8);
-Edge eAF = new Edge (b1, b6);
-Edge eBF = new Edge (b2, b6);
-Edge eDF = new Edge (b4, b6);
-Edge eCG = new Edge (b3, b7);
-Edge eBC = new Edge (b2, b3);
-Edge eCE = new Edge (b3, b5);
+```csharp 
+Edge eAB = new Edge ("A", "B");
+Edge eAG = new Edge ("A", "G");
+Edge eCD = new Edge ("C", "D");
+Edge eDH = new Edge ("D", "H");
+Edge eAF = new Edge ("A", "F");
+Edge eBF = new Edge ("B", "F");
+Edge eDF = new Edge ("D", "F");
+Edge eCG = new Edge ("C", "G");
+Edge eBC = new Edge ("B", "C");
+Edge eCE = new Edge ("C", "E");
 
 List<Edge> list = new List<Edge> ();
 list.Add (eAB);
