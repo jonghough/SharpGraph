@@ -121,7 +121,7 @@ calculation can be quite complex. For example, for the complete graph on 8 nodes
 ```csharp
 HashSet<Node> nodes7 = NodeGenerator.GenerateNodes(7);
 var graph7 = GraphGenerator.CreateComplete(nodes7); 
-var cycles = graph7.FindAllCyclesInGraph();
+var cycles = graph7.FindSimpleCycles();
 // number of cycles should be 1172
 ```
 
