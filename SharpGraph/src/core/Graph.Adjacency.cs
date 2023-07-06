@@ -134,7 +134,7 @@ namespace SharpGraph
         {
             foreach (Edge e in GetEdges())
             {
-                if (e.Nodes().Contains(t1) && e.Nodes().Contains(t2))
+                if (e.Nodes().Contains(t1) && e.Nodes().Contains(t2) && t1 != t2)
                 {
                     return true;
                 }
