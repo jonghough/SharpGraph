@@ -18,6 +18,19 @@ namespace SharpGraph {
 
         }
 
+         [Test]
+        public void TestLineGraphOfCycle1 () {
+            var C10 = GraphGenerator.GenerateCycle(10);
+
+            var lineGraph = LineGraph.GenerateLineGraph (C10, new LineGraphBuilder ());
+
+            Assert.AreEqual (10, C10.GetEdges ().Count);
+            Assert.AreEqual (10, lineGraph.GetEdges ().Count);
+            Assert.AreEqual (10, C10.GetNodes ().Count);
+            Assert.AreEqual (10, lineGraph.GetNodes ().Count);
+
+        }
+
         class LineGraphBuilder : ILineGraphBuilder {
             public Edge createEdge (Node nodeFrom, Node nodeTo) {
                 return new Edge (nodeFrom, nodeTo);
