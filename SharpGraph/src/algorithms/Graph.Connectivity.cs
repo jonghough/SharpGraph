@@ -70,11 +70,8 @@ namespace SharpGraph
             {
 
                 List<Node> conn = GetConnected(n, nodeDict);
-                conn.Add(n);
-                foreach (Node ed in conn)
-                {
-
-                }
+                conn.Add(n); 
+                
                 connectedComponents.Add(conn);
                 nn = GetFirstUnvisitedNode(nodeDict);
                 if (nn == null)

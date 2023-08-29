@@ -64,7 +64,7 @@ namespace SharpGraph {
         }
 
         [Test]
-        public void StronglyConnectedCOmponentTest1 () {
+        public void StronglyConnectedComponentTest1 () {
 
             HashSet<Node> nodes = NodeGenerator.GenerateNodes (5);
             List<Node> nodeList = new List<Node> (nodes);
@@ -105,7 +105,7 @@ namespace SharpGraph {
         }
 
         [Test]
-        public void StronglyConnectedCOmponentTest2 () {
+        public void StronglyConnectedComponentTest2 () {
 
             HashSet<Node> nodes = NodeGenerator.GenerateNodes (5);
             List<Node> nodeList = new List<Node> (nodes);
@@ -141,11 +141,11 @@ namespace SharpGraph {
             ed5.Direction = Direction.Forwards;
 
             List<Graph> sccl = g.FindStronglyConnectedComponents ();
-            Assert.True (sccl.Count == 5);
+            Assert.True (sccl.Count == 2);
         }
 
         [Test]
-        public void StronglyConnectedCOmponentTest3 () {
+        public void StronglyConnectedComponentTest3 () {
 
             HashSet<Node> nodes = NodeGenerator.GenerateNodes (6);
             List<Node> nodeList = new List<Node> (nodes);
@@ -194,6 +194,65 @@ namespace SharpGraph {
 
             List<Graph> sccl = g.FindStronglyConnectedComponents ();
             Assert.True (sccl.Count == 2);
+        }
+
+        [Test]
+        public void WeaklyConnectedComponentTest1 () {
+
+            HashSet<Node> nodes = NodeGenerator.GenerateNodes (5);
+            List<Node> nodeList = new List<Node> (nodes);
+            Edge wedge1 = new Edge (nodeList[0], nodeList[1]);
+            Edge wedge2 = new Edge (nodeList[1], nodeList[2]);
+            Edge wedge3 = new Edge (nodeList[2], nodeList[3]);
+            Edge wedge4 = new Edge (nodeList[3], nodeList[0]);
+            Edge wedge5 = new Edge (nodeList[3], nodeList[4]);
+
+            var edges = new List<Edge> ();
+            edges.Add (wedge1);
+            edges.Add (wedge2);
+            edges.Add (wedge3);
+            edges.Add (wedge4);
+            edges.Add (wedge5);
+
+            var g = new Graph (edges);
+
+            var ed1 = g.AddComponent<EdgeDirection> (wedge1);
+            ed1.Direction = Direction.Forwards;
+
+            var ed2 = g.AddComponent<EdgeDirection> (wedge2);
+            ed2.Direction = Direction.Forwards;
+
+            var ed3 = g.AddComponent<EdgeDirection> (wedge3);
+            ed3.Direction = Direction.Forwards;
+
+            var ed4 = g.AddComponent<EdgeDirection> (wedge4);
+            ed4.Direction = Direction.Forwards;
+
+            var ed5 = g.AddComponent<EdgeDirection> (wedge5);
+            ed5.Direction = Direction.Forwards;
+            //graph is not connected.
+            Assert.True (g.IsConnected ());
+
+            List<Graph> wccl = g.FindWeaklyConnectedComponents ();
+            Assert.True (wccl.Count == 1); // ignoring direction only one component.
+        }
+
+         [Test]
+        public void WeaklyConnectedComponentTest2 () {
+            var g = new Graph();
+            g.AddEdge("1", "2");
+            g.AddEdge("1", "3");
+            g.AddEdge("1", "4"); 
+            g.AddEdge("2", "3");
+            g.AddEdge("2", "4");
+            // another component  
+            g.AddEdge("5", "6");
+            g.AddEdge("6", "7");
+
+            g.GetEdges().ForEach(e => g.AddComponent<EdgeDirection>(e));
+            List<Graph> wccl = g.FindWeaklyConnectedComponents ();
+            
+            Assert.True (wccl.Count == 2);
         }
 
         [Test]

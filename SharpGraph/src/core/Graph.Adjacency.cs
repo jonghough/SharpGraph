@@ -57,7 +57,7 @@ namespace SharpGraph
                 foreach (Edge e in edgeSet)
                 {
                     EdgeDirection ed = GetComponent<EdgeDirection>(e);
-                    if (ed == null)
+                    if (!isDirected || ed == null)
                     {
                         adjacent.UnionWith(e.Nodes());
                     }
