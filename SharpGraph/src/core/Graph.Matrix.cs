@@ -6,13 +6,14 @@ using MathNet.Numerics.LinearAlgebra.Single;
 
 namespace SharpGraph
 {
-    public class MatrixException : Exception {
-        public MatrixException(string msg) : base(msg){}
+    public class MatrixException : Exception
+    {
+        public MatrixException(string msg) : base(msg) { }
     }
     public partial class Graph
     {
 
-      
+
         /// <summary>
         /// Creates an adjacency matrix from the graph. The matrix will have <i>N</i> 
         /// rows and <i>N</i> columns where <i>N</i> is euqal to the number of nodes in the graph.
@@ -87,12 +88,13 @@ namespace SharpGraph
 
         public static Graph FromAdjacencyMatrix(Matrix<float> adjacencyMatrix)
         {
-            
+
             var mat = adjacencyMatrix;
-            if(mat.RowCount != mat.ColumnCount){
+            if (mat.RowCount != mat.ColumnCount)
+            {
                 throw new MatrixException("Adjacency matrix must have same number of columns and rows.");
             }
-            var nodeCount = mat.RowCount; 
+            var nodeCount = mat.RowCount;
             var nodes = NodeGenerator.GenerateNodes(nodeCount).ToList();
             var edges = new List<Edge>();
             for (int i = 0; i < nodeCount; i++)
@@ -102,7 +104,7 @@ namespace SharpGraph
                     if (i == j)
                     {
                         continue;
-                    } 
+                    }
                     if (mat[i, j] > 0 && i > j)
                     {
                         edges.Add(new Edge(nodes[i], nodes[j]));

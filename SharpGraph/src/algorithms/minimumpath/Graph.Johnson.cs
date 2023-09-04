@@ -86,13 +86,13 @@ namespace SharpGraph
 
             for (int i = 0; i < nl.Count - 1; i++)
             {
-                var minPath = g.FindMinPathWithDistances(nl[i], nl[i + 1]); 
+                var minPath = g.FindMinPathWithDistances(nl[i], nl[i + 1]);
 
                 foreach (var kvp in minPath.Item2)
                 {
-                    var nodes = kvp.Value; 
+                    var nodes = kvp.Value;
                     Tuple<Node, Node, float> path = new Tuple<Node, Node, float>(nl[i], kvp.Key, kvp.Value.Distance);
-                    result.Add(path); 
+                    result.Add(path);
                 }
             }
             return result;

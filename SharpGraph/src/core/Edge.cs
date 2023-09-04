@@ -119,7 +119,7 @@ namespace SharpGraph
 
         public static bool operator ==(Edge lhs, Edge rhs)
         {
-             
+
             return lhs.Equals(rhs);
         }
 

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace SharpGraph
 {
-    
+
     public partial class Graph
     {
 
@@ -25,7 +25,8 @@ namespace SharpGraph
         /// <returns>The minimum number of edge removals to make a disconnected graph</returns>
         public int FindMinCut()
         {
-            if(!this.IsConnected()){
+            if (!this.IsConnected())
+            {
                 throw new NotConnectedException("Graph is not connected.");
             }
             List<Edge> edgeList = this.GetEdges();

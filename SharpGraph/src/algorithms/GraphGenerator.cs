@@ -393,6 +393,55 @@ namespace SharpGraph
         }
 
         /// <summary>
+        /// Generates the <i>Turan</i> graph on n nodes, with r partitions. That is, the <i>multipartite</i> graph 
+        /// formed from n vertices with r parittions. 
+        /// If r does not evenly divide n then the  sizes of the subsets will be made as equal as possible.
+        /// The nodes of the resulting graph shall be labelled
+        /// <i>0,1,2,...,n</i>,
+        /// and each partition will contain a sequential subset of these values.
+        /// e.g. If n is 10, and r is 5, then there will be 5 partitions of the multipartite graph, each with 2 nodes.
+        /// The partitions will be
+        /// <i>("0","1"), ("2","3"),...,("8","9")</i>
+        /// 
+        /// </summary>
+        /// <param name="n">The number of nodes / vertices in the resulting graph</param>
+        /// <param name="r">The number of subsets of the vertices.</param>
+        /// <returns>A TuranGraph(n,r)</returns>
+        public static Graph GenerateTuranGraph(uint n, uint r)
+        {
+
+            var g = CreateComplete(n);
+            uint i = 0;
+            while (i < n)
+            {
+                uint j = 0;
+                var part = new HashSet<uint>();
+                while (j < r)
+                {
+                    if (i + j > n)
+                    {
+                        goto COMPLETE;
+                    }
+                    part.Add(i + j);
+                    j++;
+                }
+                foreach (var p in part)
+                {
+                    foreach (var q in part)
+                    {
+                        if (p != q)
+                        {
+                            g.RemoveEdge("" + p, "" + q);
+                        }
+                    }
+                }
+                i += r;
+            }
+        COMPLETE: { }
+            return g;
+        }
+
+        /// <summary>
         /// Generates random weights on the edges of the graph. The random weights are sampled
         /// from a uniform (0,1) distribution. Weights will be scaled and shifted to fit int he range
         /// <i>(minWeight, maxWeight)</i>.

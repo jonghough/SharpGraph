@@ -2,42 +2,42 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
+using Xunit;
 
 namespace SharpGraph
 {
-    [TestFixture]
+
     public class PlanarityTest
     {
-        [Test]
+        [Fact]
         public void PlanarityTestSucceedsForComplete4()
         {
-            var g = GraphGenerator.CreateComplete(4); 
-            var isPlanar = g.IsPlanar(); 
-            Assert.AreEqual(true, isPlanar); 
+            var g = GraphGenerator.CreateComplete(4);
+            var isPlanar = g.IsPlanar();
+            Assert.True(isPlanar);
         }
 
 
-        [Test]
+        [Fact]
         public void PlanarityTestFailsForComplete5()
         {
-            var g = GraphGenerator.CreateComplete(5); 
-            var isPlanar = g.IsPlanar(); 
-            Assert.AreEqual(false, isPlanar);
+            var g = GraphGenerator.CreateComplete(5);
+            var isPlanar = g.IsPlanar();
+            Assert.False(isPlanar);
             // removing an edge should make the graph planar
-            bool b = g.RemoveEdge(new Edge("0","1"));
-            isPlanar = g.IsPlanar(); 
-            Assert.AreEqual(true, isPlanar);
+            bool b = g.RemoveEdge(new Edge("0", "1"));
+            isPlanar = g.IsPlanar();
+            Assert.True(isPlanar);
         }
 
-        [Test]
+        [Fact]
         public void PlanarityTestFailsForComplete33()
         {
-            var g = GraphGenerator.GenerateBipartiteComplete(3, 3); 
-            var isPlanar = g.IsPlanar(); 
-            Assert.AreEqual(false, isPlanar); 
+            var g = GraphGenerator.GenerateBipartiteComplete(3, 3);
+            var isPlanar = g.IsPlanar();
+            Assert.False(isPlanar);
         }
-        [Test]
+        [Fact]
         public void PlanarityTestFailsForSuperGraphOfComplete5()
         {
             var g = new Graph();
@@ -55,43 +55,43 @@ namespace SharpGraph
             g.AddEdge("4", "6");
             g.AddEdge("5", "6");
 
-            var isPlanar = g.IsPlanar(); 
-            Assert.AreEqual(false, isPlanar);
+            var isPlanar = g.IsPlanar();
+            Assert.False(isPlanar);
 
 
         }
 
-        [Test]
+        [Fact]
         public void PlanarityTestSucceedsForBipartite2_10()
         {
-            var g = GraphGenerator.GenerateBipartiteComplete(2,10); 
-            var isPlanar = g.IsPlanar(); 
-            Assert.AreEqual(true, isPlanar); 
+            var g = GraphGenerator.GenerateBipartiteComplete(2, 10);
+            var isPlanar = g.IsPlanar();
+            Assert.True(isPlanar);
         }
 
-         [Test]
+        [Fact]
         public void PlanarityTestSucceedsForComplete4x2()
         {
             var g = GraphGenerator.CreateComplete(4);
-            var h= GraphGenerator.CreateComplete(new string[]{ "A", "B", "C","D"});
+            var h = GraphGenerator.CreateComplete(new string[] { "A", "B", "C", "D" });
             var merged = g.MergeWith(h);
-            merged.AddEdge("1","A");
+            merged.AddEdge("1", "A");
             //merged is now a "barbell of two copies of K4. It should be planar
             var isPlanar = merged.IsPlanar();
-            Assert.AreEqual(true, isPlanar);
+            Assert.True(isPlanar);
         }
 
-        [Test]
+        [Fact]
         public void PlanarityTestFailsForComplete8()
         {
             var g = GraphGenerator.CreateComplete(8);
             var isPlanar = g.IsPlanar();
-            Assert.AreEqual(false, isPlanar);
+            Assert.False(isPlanar);
 
             //remove an edge 
-            g.RemoveEdge(new Edge("1","2"));
-            isPlanar = g.IsPlanar(); 
-            Assert.AreEqual(false, isPlanar);
+            g.RemoveEdge(new Edge("1", "2"));
+            isPlanar = g.IsPlanar();
+            Assert.False(isPlanar);
         }
     }
 }

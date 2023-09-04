@@ -26,10 +26,12 @@ namespace SharpGraph
 
 
             List<Graph> connectedSubgraphs = FindMaximallyConnectedSubgraphs();
+
             List<List<Node>> cycleList = new List<List<Node>>();
             foreach (Graph g in connectedSubgraphs)
             {
-                cycleList.AddRange(FindAllCycles(nodeDict, edgeDict));
+
+                cycleList.AddRange(g.FindAllCycles(nodeDict, edgeDict));
             }
             return cycleList;
         }

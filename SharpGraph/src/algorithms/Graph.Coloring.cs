@@ -88,6 +88,6 @@ namespace SharpGraph
             }
             return dict;
         }
- 
+
     }
 }

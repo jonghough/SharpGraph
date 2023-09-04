@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SharpGraph {
+namespace SharpGraph
+{
 
-    public partial class Graph {
+    public partial class Graph
+    {
 
         /// <summary>
         /// Returns the node boundary of the given node set. The node boundary is defined
@@ -13,57 +15,66 @@ namespace SharpGraph {
         /// </summary>
         /// <param name="nodes">Collection of nodes to find the boundary of.</param>
         /// <returns>A HashSet of Nodes, giving the boundary node set of the input parameter node set.</returns>
-        public HashSet<Node> NodeBoundary (HashSet<Node> nodes) {
-            var except = new HashSet<Node> (_nodes.Except (nodes));
+        public HashSet<Node> NodeBoundary(HashSet<Node> nodes)
+        {
+            var except = new HashSet<Node>(_nodes.Except(nodes));
             if (except.Count == 0) return except;
 
             var boundaryNodes = _edges
-                .Select (i => {
-                    if (nodes.Contains (i.From ()) && !nodes.Contains (i.To ())) {
-                        Node? res = (Node?) i.To ();
+                .Select(i =>
+                {
+                    if (nodes.Contains(i.From()) && !nodes.Contains(i.To()))
+                    {
+                        Node? res = (Node?)i.To();
                         return res;
                     }
-                    if (!nodes.Contains (i.From ()) && nodes.Contains (i.To ())) {
-                        Node? res = (Node?) i.From ();
+                    if (!nodes.Contains(i.From()) && nodes.Contains(i.To()))
+                    {
+                        Node? res = (Node?)i.From();
                         return res;
                     }
-                    return (Node?) null;
+                    return (Node?)null;
                 })
-                .Where (x => x != null)
-                .Select (i => i.Value)
-                .ToList ();
-            return new HashSet<Node> (boundaryNodes);
+                .Where(x => x != null)
+                .Select(i => i.Value)
+                .ToList();
+            return new HashSet<Node>(boundaryNodes);
 
         }
 
-        public HashSet<Node> DirectedNodeBoundary (HashSet<Node> nodes) {
-            var except = new HashSet<Node> (_nodes.Except (nodes));
+        public HashSet<Node> DirectedNodeBoundary(HashSet<Node> nodes)
+        {
+            var except = new HashSet<Node>(_nodes.Except(nodes));
             if (except.Count == 0) return except;
 
             var boundaryNodes = _edges
-                .Select (i => {
-                    var direction = this.GetComponent<EdgeDirection> (i);
-                    if (direction == null) {
-                        throw new Exception ("Edge has no direction");
+                .Select(i =>
+                {
+                    var direction = this.GetComponent<EdgeDirection>(i);
+                    if (direction == null)
+                    {
+                        throw new Exception("Edge has no direction");
                     }
-                    if (nodes.Contains (i.From ()) && !nodes.Contains (i.To ())
+                    if (nodes.Contains(i.From()) && !nodes.Contains(i.To())
 
                         &&
-                        direction.Direction != Direction.Backwards) {
-                        Node? res = (Node?) i.To ();
+                        direction.Direction != Direction.Backwards)
+                    {
+                        Node? res = (Node?)i.To();
                         return res;
                     }
-                    if (!nodes.Contains (i.From ()) && nodes.Contains (i.To ()) &&
-                        direction.Direction != Direction.Forwards) {
-                        Node? res = (Node?) i.From ();
+                    if (!nodes.Contains(i.From()) && nodes.Contains(i.To()) &&
+                        direction.Direction != Direction.Forwards)
+                    {
+                        Node? res = (Node?)i.From();
                         return res;
                     }
-                    return (Node?) null;
+                    return (Node?)null;
                 })
-                .Where (x => x != null)
-                .Select (i => i.Value)
-                .ToList ();
-            return new HashSet<Node> (boundaryNodes);
+                .Where(x => x != null)
+                .Select(i => i.Value)
+                .ToList();
+            return new HashSet<Node>(boundaryNodes);
 
         }
 
@@ -74,24 +85,28 @@ namespace SharpGraph {
         /// </summary>
         /// <param name="nodes">Collection of nodes to find the boundary of.</param>
         /// <returns>A HashSet of edges, giving the boundary edge set of the input parameter node set.</returns>
-        public HashSet<Edge> EdgeBoundary (HashSet<Node> nodes) {
+        public HashSet<Edge> EdgeBoundary(HashSet<Node> nodes)
+        {
 
             var boundaryEdges = _edges
-                .Select (i => {
-                    if (nodes.Contains (i.From ()) && !nodes.Contains (i.To ())) {
-                        Edge? res = (Edge?) i;
+                .Select(i =>
+                {
+                    if (nodes.Contains(i.From()) && !nodes.Contains(i.To()))
+                    {
+                        Edge? res = (Edge?)i;
                         return res;
                     }
-                    if (!nodes.Contains (i.From ()) && nodes.Contains (i.To ())) {
-                        Edge? res = (Edge?) i;
+                    if (!nodes.Contains(i.From()) && nodes.Contains(i.To()))
+                    {
+                        Edge? res = (Edge?)i;
                         return res;
                     }
-                    return (Edge?) null;
+                    return (Edge?)null;
                 })
-                .Where (x => x != null)
-                .Select (i => i.Value)
-                .ToList ();
-            return new HashSet<Edge> (boundaryEdges);
+                .Where(x => x != null)
+                .Select(i => i.Value)
+                .ToList();
+            return new HashSet<Edge>(boundaryEdges);
 
         }
     }

@@ -2,14 +2,14 @@ using System.Configuration.Assemblies;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace SharpGraph
 {
-    [TestFixture]
+
     public class JohnsonTest
     {
-        [Test]
+        [Fact]
         public void JohnsonTest1()
         {
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(4);
@@ -28,10 +28,10 @@ namespace SharpGraph
             var minPath = g.FindShortestPaths();
 
 
-            Assert.AreEqual(12, minPath.Count);
+            Assert.Equal(12, minPath.Count);
         }
 
-        [Test]
+        [Fact]
         public void JohnsonTest2()
         {
             var g = GraphGenerator.GenerateCycle(7);
@@ -49,10 +49,10 @@ namespace SharpGraph
             var minPath = g.FindShortestPaths();
 
             // 7*6 all possible ordered pairs
-            Assert.AreEqual(7*6, minPath.Count);
+            Assert.Equal(7 * 6, minPath.Count);
         }
 
-        [Test]
+        [Fact]
         public void JohnsonExceptionTest1()
         {
             var g = GraphGenerator.CreateComplete(5);
@@ -70,7 +70,7 @@ namespace SharpGraph
 
         }
 
-        [Test]
+        [Fact]
         public void JohnsonExceptionTest2()
         {
             var g = GraphGenerator.CreateComplete(5);
@@ -83,7 +83,7 @@ namespace SharpGraph
                 var b = g.AddComponent<EdgeDirection>(e);
                 b.Direction = Direction.Both;
             }
- 
+
             // exception because no weights
             Assert.Throws<Exception>(() => g.FindShortestPaths());
         }

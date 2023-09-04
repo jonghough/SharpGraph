@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System;
 
 namespace SharpGraph
-{ 
+{
     public partial class Graph
     {
 
@@ -70,8 +70,8 @@ namespace SharpGraph
             {
 
                 List<Node> conn = GetConnected(n, nodeDict);
-                conn.Add(n); 
-                
+                conn.Add(n);
+
                 connectedComponents.Add(conn);
                 nn = GetFirstUnvisitedNode(nodeDict);
                 if (nn == null)
@@ -104,7 +104,7 @@ namespace SharpGraph
         {
             nodeDict[node].Visited = true;
             List<Node> connList = new List<Node>();
-            List<Node> adjNodes = GetAdjacentUnvisited(node,nodeDict);
+            List<Node> adjNodes = GetAdjacentUnvisited(node, nodeDict);
             connList.AddRange(adjNodes);
             foreach (Node t in adjNodes)
             {
@@ -117,7 +117,7 @@ namespace SharpGraph
             return connList;
         }
 
-       
+
 
         private HashSet<Node> Assign(Node n, HashSet<Node> visited)
         {
@@ -192,7 +192,7 @@ namespace SharpGraph
             var parents = new Dictionary<Node, Node>();
             var bridges = new HashSet<Edge>();
             foreach (var node in this._nodes)
-            { 
+            {
                 disc[node] = float.PositiveInfinity;
                 low[node] = float.PositiveInfinity;
             }
@@ -210,9 +210,11 @@ namespace SharpGraph
         }
     }
 
-    public class NotConnectedException : Exception{
+    public class NotConnectedException : Exception
+    {
 
-        public NotConnectedException(string msg):base(msg){ 
+        public NotConnectedException(string msg) : base(msg)
+        {
         }
     }
 

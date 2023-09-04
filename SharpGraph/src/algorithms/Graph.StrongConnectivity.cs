@@ -21,10 +21,11 @@ namespace SharpGraph
         public List<Graph> FindStronglyConnectedComponents()
         {
             // Kosaraju’s algorithm
-            if(!IsDirected()){
+            if (!IsDirected())
+            {
                 throw new Exception("Cannot run algorithm. Graph is not directed.");
             }
-             
+
             var linkedList = new LinkedList<Node>();
             var visited = new HashSet<Node>();
 
@@ -66,7 +67,8 @@ namespace SharpGraph
             linkedList.AddFirst(node);
         }
 
-        private bool IsDirected(){  
+        private bool IsDirected()
+        {
             foreach (var e in this.GetEdges())
             {
                 if (!HasComponent<EdgeDirection>(e))
@@ -79,19 +81,21 @@ namespace SharpGraph
 
 
         /// <summary>
-       /// Finds all weakly connected components of the graph. Components of a <i>Directed Graph</i> are weakly connected if each
+        /// Finds all weakly connected components of the graph. Components of a <i>Directed Graph</i> are weakly connected if each
         /// node of the component can be reached from every other node, regardless of edge direction.
         /// The important requirement is the the graph object is a directed graph. i.e. Each <i>Edge</i> has a <i>EdgeDirection</i>
         /// component. If any edge lacks such a component an Exception is thrown.
         /// </summary>
         /// <returns>List of graphs, where each graph is equivalent to a weakly connected component.</returns>
-        public List<Graph>  FindWeaklyConnectedComponents(){
-            if(!IsDirected()){
+        public List<Graph> FindWeaklyConnectedComponents()
+        {
+            if (!IsDirected())
+            {
                 throw new Exception("Cannot run algorithm. Graph is not directed.");
             }
 
-            var connectedComponents =  GetConnectedComponents();
-             
+            var connectedComponents = GetConnectedComponents();
+
             var graphs = connectedComponents.Select(hs => new Graph(this, hs.ToHashSet())).ToList();
             return graphs;
         }

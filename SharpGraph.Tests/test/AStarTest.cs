@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace SharpGraph
 {
@@ -21,11 +21,10 @@ namespace SharpGraph
 
     }
 
-    [TestFixture]
     public class AStarTest
     {
 
-        [Test]
+        [Fact]
         public void AStarTest1()
         {
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(10);
@@ -40,10 +39,10 @@ namespace SharpGraph
             List<Node> minPath = g.FindMinPath(n1, n2, new SimpleHeuristic());
             HashSet<Node> minPathSet = new HashSet<Node>(minPath);
             //----assert there are no loops ---
-            Assert.AreEqual(minPath.Count, minPathSet.Count);
+            Assert.Equal(minPath.Count, minPathSet.Count);
         }
 
-        [Test]
+        [Fact]
         public void AStarTest2()
         {
 
@@ -82,7 +81,7 @@ namespace SharpGraph
 
         }
 
-        [Test]
+        [Fact]
         public void AStarTest3()
         {
 
@@ -138,7 +137,7 @@ namespace SharpGraph
 
         }
 
-        [Test]
+        [Fact]
         public void AStarTest4()
         {
 
@@ -160,7 +159,7 @@ namespace SharpGraph
 
         }
 
-        [Test]
+        [Fact]
         public void AStarTest5()
         {
             // A ->B path does not exist

@@ -1,4 +1,4 @@
-﻿using System; 
+﻿using System;
 
 namespace SharpGraph
 {
@@ -65,7 +65,7 @@ namespace SharpGraph
 
         public static bool operator ==(Node lhs, Node rhs)
         {
-             
+
             return lhs.Equals(rhs);
         }
 

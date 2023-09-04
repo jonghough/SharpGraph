@@ -2,10 +2,10 @@
 
 namespace SharpGraph
 {
-	public interface IAStarHeuristic
-	{
+    public interface IAStarHeuristic
+    {
 
-		float GetHeuristic (Node t, Node goal);
-	}
+        float GetHeuristic(Node t, Node goal);
+    }
 }
 

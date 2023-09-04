@@ -1,4 +1,4 @@
-﻿using System; 
+﻿using System;
 
 namespace SharpGraph
 {
@@ -62,17 +62,20 @@ namespace SharpGraph
             else return (_capacity - _flow);
         }
 
-          public override void Copy (EdgeComponent edgeComponent) {
+        public override void Copy(EdgeComponent edgeComponent)
+        {
             if (edgeComponent == null)
-                throw new Exception ("Null edge component");
-            if (edgeComponent is EdgeCapacity) {
+                throw new Exception("Null edge component");
+            if (edgeComponent is EdgeCapacity)
+            {
                 EdgeCapacity ec = edgeComponent as EdgeCapacity;
                 ec._weight = _weight;
                 ec._capacity = _capacity;
                 ec._flow = _flow;
                 ec._flowDirection = _flowDirection;
                 ec._reverseFlow = _reverseFlow;
-            } else throw new Exception ("Type is not correct");
+            }
+            else throw new Exception("Type is not correct");
         }
     }
 }

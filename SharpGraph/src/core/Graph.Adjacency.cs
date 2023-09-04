@@ -82,7 +82,7 @@ namespace SharpGraph
                 }
                 adjacent.Remove(node);
             }
-            
+
             return new List<Node>(adjacent);
         }
 

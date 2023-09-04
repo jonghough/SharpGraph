@@ -37,7 +37,7 @@ namespace SharpGraph
           {
               Node newNode = builder.createNode(e);
               edgeNodeDict[e] = newNode;
-              List<Edge> incident =  graph.GetIncidentEdges( e);
+              List<Edge> incident = graph.GetIncidentEdges(e);
               foreach (Edge inc in incident)
               {
                   if (edgeNodeDict.ContainsKey(inc) && edgeNodeDict[inc] != newNode)

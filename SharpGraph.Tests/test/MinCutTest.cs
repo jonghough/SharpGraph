@@ -1,15 +1,15 @@
 ﻿using System;
-using NUnit.Framework;
+using Xunit;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace SharpGraph
 {
-    [TestFixture]
+
     public class MinCutTest
     {
 
-        [Test]
+        [Fact]
         public void TestMinCutOfComplete()
         {
 
@@ -17,11 +17,11 @@ namespace SharpGraph
             var g = GraphGenerator.CreateComplete(nodes);
 
             int cutEdges = g.FindMinCut();
-            Assert.IsTrue(cutEdges >= 7);
+            Assert.True(cutEdges >= 7);
         }
 
 
-        [Test]
+        [Fact]
         public void TestMinCutOfCycle()
         {
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(8);
@@ -29,10 +29,10 @@ namespace SharpGraph
 
             int cutEdges = g.FindMinCut();
 
-            Assert.AreEqual(2, cutEdges);
+            Assert.Equal(2, cutEdges);
         }
 
-        [Test]
+        [Fact]
         public void TestMinCutOfTree()
         {
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(18);
@@ -41,11 +41,11 @@ namespace SharpGraph
             var gtree = new Graph(tree);
             int cutEdges = gtree.FindMinCut();
 
-            Assert.AreEqual(1, cutEdges);
+            Assert.Equal(1, cutEdges);
         }
 
 
-        [Test]
+        [Fact]
         public void TestMinCutMultiRun()
         {
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(10);
@@ -60,7 +60,7 @@ namespace SharpGraph
                 if (size < minSize)
                     minSize = size;
             }
-            Assert.IsTrue(minSize >= 9);
+            Assert.True(minSize >= 9);
         }
     }
 }

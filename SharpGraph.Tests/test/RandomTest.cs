@@ -2,46 +2,46 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
+using Xunit;
 
 namespace SharpGraph
 {
-    [TestFixture]
+
     public class RandomTest
     {
-        [Test]
+        [Fact]
         public void RandomTest1()
         {
             var g = Graph.GenerateRandom(10, 5, false, 10);
             var ns = g.GetNodes().ToList();
 
-            Assert.AreEqual(10, ns.Count);
-            Assert.AreEqual(5, g.GetEdges().Count);
+            Assert.Equal(10, ns.Count);
+            Assert.Equal(5, g.GetEdges().Count);
         }
 
-         [Test]
+        [Fact]
         public void RandomTest2()
         {
             var g = Graph.GenerateRandom(140, 125, false, 10);
             var ns = g.GetNodes().ToList();
 
-            Assert.AreEqual(140, ns.Count);
-            Assert.AreEqual(125, g.GetEdges().Count);
+            Assert.Equal(140, ns.Count);
+            Assert.Equal(125, g.GetEdges().Count);
             foreach (var edge in g.GetEdges())
             {
                 var comp = g.GetComponent<EdgeDirection>(edge);
-                Assert.IsNull(comp);
+                Assert.Null(comp);
             }
         }
 
-        [Test]
+        [Fact]
         public void RandomTest3()
         {
             var g = Graph.GenerateRandom(8, 15, true, 50);
             var ns = g.GetNodes().ToList();
 
-            Assert.AreEqual(8, ns.Count);
-            Assert.AreEqual(15, g.GetEdges().Count);
+            Assert.Equal(8, ns.Count);
+            Assert.Equal(15, g.GetEdges().Count);
             foreach (var edge in g.GetEdges())
             {
                 var comp = g.GetComponent<EdgeDirection>(edge);
@@ -49,50 +49,50 @@ namespace SharpGraph
             }
         }
 
-        [Test]
+        [Fact]
         public void RandomTest4()
         {
             var g = Graph.GenerateRandom(20, 10, false, 50);
             var ns = g.GetNodes().ToList();
 
-            Assert.AreEqual(20, ns.Count);
-            Assert.AreEqual(10, g.GetEdges().Count);
+            Assert.Equal(20, ns.Count);
+            Assert.Equal(10, g.GetEdges().Count);
             // not enough edges to remain connected.
-            Assert.AreEqual(false, g.IsConnected());
+            Assert.False(g.IsConnected());
         }
 
 
-        [Test]
+        [Fact]
         public void RandomExceptionTest1()
         {
             Assert.Throws<RandomGraphException>(() => Graph.GenerateRandom(5, 11, false, 10));
 
         }
 
-        [Test]
+        [Fact]
         public void RandomExceptionTest2()
         {
             Assert.Throws<RandomGraphException>(() => Graph.GenerateRandom(5, -1, false, 2));
 
         }
 
-        [Test]
+        [Fact]
         public void RandomSpanningTreeTest1()
         {
-            var g = Graph.GenerateRandomSpanningTree(10,   10);
+            var g = Graph.GenerateRandomSpanningTree(10, 10);
             var ns = g.GetNodes().ToList();
 
-            Assert.AreEqual(10, ns.Count);
-            Assert.AreEqual(9, g.GetEdges().Count);
+            Assert.Equal(10, ns.Count);
+            Assert.Equal(9, g.GetEdges().Count);
             // tree so there should be no cyclesw
             var simpleCycles = g.FindSimpleCycles();
-            Assert.AreEqual(0, simpleCycles.Count);
+            Assert.Empty(simpleCycles);
         }
 
-        [Test]
+        [Fact]
         public void RandomSpanningTreeExceptionTest1()
         {
-            Assert.Throws<RandomGraphException>(() => Graph.GenerateRandomSpanningTree(2, -1 ));
+            Assert.Throws<RandomGraphException>(() => Graph.GenerateRandomSpanningTree(2, -1));
 
         }
     }

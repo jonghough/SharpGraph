@@ -102,7 +102,7 @@ namespace SharpGraph
             }
 
             //build the path list.
-            Node? pp = routeMemoryMap[finish].Previous; 
+            Node? pp = routeMemoryMap[finish].Previous;
             if (pp.HasValue)
             {
                 Node p = pp.Value;
@@ -119,7 +119,7 @@ namespace SharpGraph
                     }
                     else
                     {
-                        if(pn.HasValue)
+                        if (pn.HasValue)
                             p = pn.Value;
                         else break;
                     }

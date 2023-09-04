@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace SharpGraph
 {
 
- 
+
     public partial class Graph
     {
 
@@ -48,11 +48,11 @@ namespace SharpGraph
                 if (!nodeS.Equals(t))
                 {
                     gScoreMap.Add(t, float.MaxValue);
-                    fScoreMap.Add(t, 0f); 
+                    fScoreMap.Add(t, 0f);
                     routeMemoryMap[t].Previous = t;
-                } 
+                }
             }
-            gScoreMap.Add(nodeS, 0f); 
+            gScoreMap.Add(nodeS, 0f);
             routeMemoryMap[nodeS].Previous = nodeS;
             fScoreMap.Add(nodeS, 0f + heuristic.GetHeuristic(nodeS, nodeF)); // (f = g + heuristic)
             while (openPQ.Count > 0)
@@ -82,21 +82,21 @@ namespace SharpGraph
                             float tmp = gScoreMap[current] + GetComponent<EdgeWeight>(u).Weight;
                             if (openSet.Contains(t) == false)
                             {
-                                routeMemoryMap[t].Previous = current; 
+                                routeMemoryMap[t].Previous = current;
                                 openSet.Add(t);
                                 openPQ.Add(t);
                                 gScoreMap[t] = tmp;
-                                fScoreMap[t] = gScoreMap[t] + heuristic.GetHeuristic(t, nodeF); 
+                                fScoreMap[t] = gScoreMap[t] + heuristic.GetHeuristic(t, nodeF);
                                 routeMemoryMap[t].Distance = tmp;
                             }
                             else
                             {
                                 float currentScore = gScoreMap[t];
                                 if (currentScore > tmp)
-                                { 
+                                {
                                     routeMemoryMap[t].Previous = current;
                                     gScoreMap[t] = tmp;
-                                    fScoreMap[t] = gScoreMap[t] + heuristic.GetHeuristic(t, nodeF); 
+                                    fScoreMap[t] = gScoreMap[t] + heuristic.GetHeuristic(t, nodeF);
                                     routeMemoryMap[t].Distance = tmp;
                                 }
                             }
@@ -104,16 +104,16 @@ namespace SharpGraph
                     }
                 }
             }
- 
-            routeMemoryMap[nodeF].Distance = gScoreMap[nodeF]; 
+
+            routeMemoryMap[nodeF].Distance = gScoreMap[nodeF];
             Node p = routeMemoryMap[nodeF].Previous.GetValueOrDefault();
             while (true)
             {
 
-                shortestPath.Add(p); 
+                shortestPath.Add(p);
                 routeMemoryMap[p].Distance = gScoreMap[p];
                 if (p == nodeF || p == nodeS)
-                    break; 
+                    break;
                 p = routeMemoryMap[p].Previous.GetValueOrDefault();
 
             }
