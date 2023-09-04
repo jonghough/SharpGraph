@@ -14,7 +14,11 @@
   <ItemGroup>
     <PackageReference Include="C5" Version="2.5.3" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" /> 
-     <None Include="../README.md" Pack="true" PackagePath="\" />
+     <None Include="../README.md" Pack="true" PackagePath="\" /> 
+     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+       <PrivateAssets>all</PrivateAssets>
+     </PackageReference>
   </ItemGroup>
  
  
