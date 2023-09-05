@@ -7,7 +7,6 @@ namespace SharpGraph
 {
     public class LineGraphTest
     {
-
         [Fact]
         public void TestLineGraphOfComplete()
         {
@@ -18,7 +17,6 @@ namespace SharpGraph
 
             Assert.Equal(21, K7.GetEdges().Count);
             Assert.Equal(21 * 10 / 2, lineGraph.GetEdges().Count);
-
         }
 
         [Fact]
@@ -32,17 +30,16 @@ namespace SharpGraph
             Assert.Equal(10, lineGraph.GetEdges().Count);
             Assert.Equal(10, C10.GetNodes().Count);
             Assert.Equal(10, lineGraph.GetNodes().Count);
-
         }
 
         class LineGraphBuilder : ILineGraphBuilder
         {
-            public Edge createEdge(Node nodeFrom, Node nodeTo)
+            public Edge CreateEdge(Node nodeFrom, Node nodeTo)
             {
                 return new Edge(nodeFrom, nodeTo);
             }
 
-            public Node createNode(Edge edge)
+            public Node CreateNode(Edge edge)
             {
                 var bn = new Node("(" + edge.From().GetLabel() + ", " + edge.To().GetLabel() + ")");
                 return bn;

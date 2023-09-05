@@ -1,10 +1,14 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+// <copyright file="Graph.Reciprocity.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace SharpGraph
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public partial class Graph
     {
         /// <summary>
@@ -14,10 +18,9 @@ namespace SharpGraph
         /// <returns>reciprocity of each node in the graph, as a dictionary of node, float pairs.</returns>
         public Dictionary<Node, float> Reciprocity()
         {
+            var nodeDict = this.nodes.ToDictionary(x => x, x => (0, 1));
 
-            var nodeDict = _nodes.ToDictionary(x => x, x => (0, 1));
-
-            foreach (var edge in this._edges)
+            foreach (var edge in this.edges)
             {
                 var direction = this.GetComponent<EdgeDirection>(edge);
                 (int, int) fromPair = nodeDict[edge.From()];
@@ -36,16 +39,17 @@ namespace SharpGraph
 
                 nodeDict[edge.From()] = fromPair;
                 nodeDict[edge.To()] = toPair;
-
             }
 
-            return nodeDict.Select(kvp =>
-            {
-                var key = kvp.Key;
-                var v = kvp.Value;
-                var val = v.Item1 / v.Item2;
-                return new KeyValuePair<Node, float>(key, val);
-            }).ToDictionary(x => x.Key, x => x.Value);
+            return nodeDict
+                .Select(kvp =>
+                {
+                    var key = kvp.Key;
+                    var v = kvp.Value;
+                    var val = v.Item1 / v.Item2;
+                    return new KeyValuePair<Node, float>(key, val);
+                })
+                .ToDictionary(x => x.Key, x => x.Value);
         }
     }
 }

@@ -1,13 +1,17 @@
-﻿using System;
+﻿// <copyright file="EdgeWeight.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 namespace SharpGraph
 {
+    using System;
 
     /// <summary>
-    /// An EdgeComponent type that is used internally by various algorithms that require 
+    /// An EdgeComponent type that is used internally by various algorithms that require
     /// weights on edges of the graph.
-    /// 
+    ///
     /// Example usage:
-    /// 
+    ///
     /// <code>
     /// EdgeComponent myComp = myGraph.AddComponent<EdgeComponent>(myEdge);
     /// float w = myComponent.Weight;
@@ -20,12 +24,18 @@ namespace SharpGraph
         public override void Copy(EdgeComponent edgeComponent)
         {
             if (edgeComponent == null)
+            {
                 throw new Exception("Null edge component");
+            }
+
             if (edgeComponent is EdgeWeight)
             {
-                (edgeComponent as EdgeWeight).Weight = Weight;
+                (edgeComponent as EdgeWeight).Weight = this.Weight;
             }
-            else throw new Exception("Type is not correct");
+            else
+            {
+                throw new Exception("Type is not correct");
+            }
         }
     }
 }

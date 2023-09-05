@@ -1,27 +1,28 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿// <copyright file="Graph.DepthFirstSearch.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace SharpGraph
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
     public partial class Graph
     {
-
-
         public void DFS(OnNextNode nextNodeFunction, Node start)
         {
-            //find the initial node, and set all nodes to unvisited.
+            // find the initial node, and set all nodes to unvisited.
             Node currentNode = start;
             Node previousNode = start;
             var nodeSearchMemDict = new Dictionary<Node, NodeSearchMemory>();
 
-            foreach (Node node in _nodes)
+            foreach (Node node in this.nodes)
             {
-
                 nodeSearchMemDict[node] = new NodeSearchMemory();
             }
 
-            //DFS
+            // DFS
             Stack<Node> nodeStack = new Stack<Node>();
             nodeStack.Push(currentNode);
             while (nodeStack.Count > 0)
@@ -30,30 +31,32 @@ namespace SharpGraph
 
                 if (!nodeSearchMemDict[current].Visited)
                 {
-                    //Call delegate fucntion here. 
+                    // Call delegate fucntion here.
                     nextNodeFunction(this, previousNode, current);
 
                     nodeSearchMemDict[current].Visited = true;
-                    List<Node> adjNodes = GetAdjacentUnvisited(current, nodeSearchMemDict);
+                    List<Node> adjNodes = this.GetAdjacentUnvisited(current, nodeSearchMemDict);
                     foreach (Node m in adjNodes)
                     {
                         nodeStack.Push(m);
                     }
                 }
+
                 previousNode = current;
             }
         }
 
         public void DFS(OnNextNode nextNodeFunction)
         {
-            //find the initial node, and set all nodes to unvisited.
-            Node currentNode = new Node();
-            Node previousNode = new Node();
+            // find the initial node, and set all nodes to unvisited.
+            Node currentNode = default(Node);
+            Node previousNode = default(Node);
             bool currentSelected = false;
 
             var nodeSearchMemDict = new Dictionary<Node, NodeSearchMemory>();
-            //find an initial node, and set all nodes to not visited.
-            foreach (Node node in _nodes)
+
+            // find an initial node, and set all nodes to not visited.
+            foreach (Node node in this.nodes)
             {
                 if (!currentSelected)
                 {
@@ -61,6 +64,7 @@ namespace SharpGraph
                     currentNode = node;
                     previousNode = node;
                 }
+
                 nodeSearchMemDict[node] = new NodeSearchMemory();
             }
 
@@ -68,7 +72,8 @@ namespace SharpGraph
             {
                 return;
             }
-            //DFS
+
+            // DFS
             Stack<Node> nodeStack = new Stack<Node>();
             nodeStack.Push(currentNode);
             while (nodeStack.Count > 0)
@@ -77,34 +82,36 @@ namespace SharpGraph
 
                 if (!nodeSearchMemDict[current].Visited)
                 {
-                    //Call delegate fucntion here. 
+                    // Call delegate fucntion here.
                     nextNodeFunction(this, previousNode, current);
 
                     nodeSearchMemDict[current].Visited = true;
-                    List<Node> adjNodes = GetAdjacentUnvisited(current, nodeSearchMemDict);
+                    List<Node> adjNodes = this.GetAdjacentUnvisited(current, nodeSearchMemDict);
                     foreach (Node m in adjNodes)
                     {
                         nodeStack.Push(m);
                     }
                 }
+
                 previousNode = current;
             }
         }
 
         /// <summary>
         /// Performs a preorder depth-first search of the graph edges, beginning at an arbitray node.
-        /// 
-        /// </summary> 
-        /// <param name="nextEdgeFunction">The function called on each edge.</param> 
+        ///
+        /// </summary>
+        /// <param name="nextEdgeFunction">The function called on each edge.</param>
         public void DFSEdge(OnNextEdge nextEdgeFunction)
         {
-            //find the initial node, and set all nodes to unvisited.
+            // find the initial node, and set all nodes to unvisited.
             Edge currentEdge = default(Edge);
             Edge previousEdge = default(Edge);
             bool currentSelected = false;
             var edgeSearchMemDict = new Dictionary<Edge, EdgeSearchMemory>();
-            //find an initial node, and set all nodes to not visited.
-            foreach (Edge edge in GetEdges())
+
+            // find an initial node, and set all nodes to not visited.
+            foreach (Edge edge in this.GetEdges())
             {
                 if (!currentSelected)
                 {
@@ -112,10 +119,11 @@ namespace SharpGraph
                     currentEdge = edge;
                     previousEdge = edge;
                 }
+
                 edgeSearchMemDict[edge] = new EdgeSearchMemory();
             }
 
-            //DFS
+            // DFS
             Stack<Edge> edgeStack = new Stack<Edge>();
             edgeStack.Push(currentEdge);
             while (edgeStack.Count > 0)
@@ -124,16 +132,20 @@ namespace SharpGraph
 
                 if (!edgeSearchMemDict[current].Visited)
                 {
-                    //Call delegate function here. 
+                    // Call delegate function here.
                     nextEdgeFunction(this, previousEdge, current);
 
                     edgeSearchMemDict[current].Visited = true;
-                    List<Edge> incidentEdges = GetIncidentEdgesUnvisited(current, edgeSearchMemDict);
+                    List<Edge> incidentEdges = this.GetIncidentEdgesUnvisited(
+                        current,
+                        edgeSearchMemDict
+                    );
                     foreach (Edge e in incidentEdges)
                     {
                         edgeStack.Push(e);
                     }
                 }
+
                 previousEdge = current;
             }
         }

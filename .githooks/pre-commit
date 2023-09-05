@@ -1,0 +1,9 @@
+#!/usr/bin/env dotnet-script
+#load "command-line.csx"
+Console.WriteLine("pre-commit hook");
+var res = ExecuteCommand("dotnet format");
+if(res != 0){
+    Console.WriteLine("Format failed.");
+    Environment.Exit(res);
+}
+Environment.Exit(-1);

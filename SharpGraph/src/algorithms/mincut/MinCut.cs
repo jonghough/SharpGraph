@@ -1,19 +1,21 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿// <copyright file="MinCut.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace SharpGraph
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public partial class Graph
     {
-
         /// <summary>
         /// Finds the minimum cut of the graph. Graph is assumed ot be unweighted, and undirected.
-        /// If the graph is not connected a <code>NotConnectedException</code> will be thrown.
+        /// If the graph is not connected a. <code>NotConnectedException</code> will be thrown.
         /// This algorithm is based on<i>Kagr's algorthm</i>
-        /// <see href="http://www.columbia.edu/~cs2035/courses/ieor6614.S09/Contraction.pdf">Kager Algorithm</see>
+        /// <see href="http://www.columbia.edu/~cs2035/courses/ieor6614.S09/Contraction.pdf">Kager Algorithm</see>.
         /// <code>
         /// HashSet&lt;Node&gt; nodes = NodeGenerator.GenerateNodes(8);
         /// var g = GraphGenerator.CreateComplete(nodes);
@@ -22,13 +24,14 @@ namespace SharpGraph
         /// In the above example, <i>cutEdges</i> should equal 7, sd s mimum of 7 edge removals
         /// would be needed to make K8 disconnected.
         /// </summary>
-        /// <returns>The minimum number of edge removals to make a disconnected graph</returns>
+        /// <returns>The minimum number of edge removals to make a disconnected graph.</returns>
         public int FindMinCut()
         {
             if (!this.IsConnected())
             {
                 throw new NotConnectedException("Graph is not connected.");
             }
+
             List<Edge> edgeList = this.GetEdges();
 
             Graph modGraph = new Graph(edgeList, this.GetNodes());
@@ -43,35 +46,46 @@ namespace SharpGraph
                 modGraph = modGraph.ContractEdge(toRemove);
                 nCount = modGraph.GetNodes().Count;
             }
-            int sum = modGraph._edges.Select(e => modGraph.GetComponent<MultiplicityComponent>(e).multiplicity).Sum();
+
+            int sum = modGraph.edges
+                .Select(e => modGraph.GetComponent<MultiplicityComponent>(e).Multiplicity)
+                .Sum();
             return sum;
         }
 
         private Graph ContractEdge(Edge edge)
         {
             if (this.GetEdges().Contains(edge) == false)
+            {
                 throw new Exception("Edge does not exist on this graph.");
-            //arbitrary, choose the form node to make the new node.
+            }
+
+            // arbitrary, choose the form node to make the new node.
             Node newNode = edge.From();
-            List<Edge> incident = GetIncidentEdges(edge.To());
+            List<Edge> incident = this.GetIncidentEdges(edge.To());
             HashSet<Edge> toRemove = new HashSet<Edge>();
             HashSet<Edge> newEdges = new HashSet<Edge>();
             var dict = new Dictionary<Edge, int>();
-            foreach (var ed in _edges)
+            foreach (var ed in this.edges)
             {
-                dict[ed] = GetComponent<MultiplicityComponent>(ed).multiplicity;
+                dict[ed] = this.GetComponent<MultiplicityComponent>(ed).Multiplicity;
             }
+
             dict[edge] = 0;
             foreach (Edge e in incident)
             {
                 if (e == edge)
+                {
                     continue;
-                if (toRemove.Contains(e))
-                    continue;
+                }
 
+                if (toRemove.Contains(e))
+                {
+                    continue;
+                }
                 else if (e.From() == edge.To())
                 {
-                    int mult = GetComponent<MultiplicityComponent>(e).multiplicity;
+                    int mult = this.GetComponent<MultiplicityComponent>(e).Multiplicity;
                     toRemove.Add(e);
                     var rex = new Edge(newNode, e.To());
 
@@ -84,9 +98,10 @@ namespace SharpGraph
                     {
                         dict[rex] += mult;
                     }
+
                     var rexi = new Edge(e.To(), newNode);
 
-                    if (_edges.Contains(rexi))
+                    if (this.edges.Contains(rexi))
                     {
                         if (!toRemove.Contains(rexi))
                         {
@@ -97,12 +112,10 @@ namespace SharpGraph
                             }
                         }
                     }
-
-
                 }
                 else if (e.To() == edge.To())
                 {
-                    var mult = GetComponent<MultiplicityComponent>(e).multiplicity;
+                    var mult = this.GetComponent<MultiplicityComponent>(e).Multiplicity;
                     toRemove.Add(e);
                     var rex = new Edge(e.From(), newNode);
                     newEdges.Add(rex);
@@ -114,9 +127,10 @@ namespace SharpGraph
                     {
                         dict[rex] += mult;
                     }
+
                     var rexi = new Edge(newNode, e.From());
 
-                    if (_edges.Contains(rexi))
+                    if (this.edges.Contains(rexi))
                     {
                         if (!toRemove.Contains(rexi))
                         {
@@ -127,7 +141,6 @@ namespace SharpGraph
                             }
                         }
                     }
-
                 }
             }
 
@@ -139,42 +152,47 @@ namespace SharpGraph
             {
                 newEdges.Add(ex);
             }
+
             newEdges.Remove(edge);
             foreach (Edge deadEdge in toRemove)
             {
                 newEdges.Remove(deadEdge);
             }
+
             var g = new Graph(new List<Edge>(newEdges), nodes);
 
-            g._edges.ForEach(e =>
+            g.edges.ForEach(e =>
             {
                 var comp = g.AddComponent<MultiplicityComponent>(e);
 
                 if (dict.ContainsKey(e))
                 {
-                    comp.multiplicity = dict[e];
+                    comp.Multiplicity = dict[e];
                 }
             });
             return g;
         }
-
     }
 
     internal class MultiplicityComponent : EdgeComponent
     {
-
-        public int multiplicity = 1;
+        public int Multiplicity = 1;
 
         public override void Copy(EdgeComponent edgeComponent)
         {
             if (edgeComponent == null)
+            {
                 throw new Exception("Null edge component");
+            }
+
             if (edgeComponent is MultiplicityComponent)
             {
-                (edgeComponent as MultiplicityComponent).multiplicity = multiplicity;
+                (edgeComponent as MultiplicityComponent).Multiplicity = this.Multiplicity;
             }
-            else throw new Exception("Type is not correct");
+            else
+            {
+                throw new Exception("Type is not correct");
+            }
         }
-
     }
 }

@@ -1,82 +1,85 @@
-﻿using System;
+﻿// <copyright file="CapacityEdge.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace SharpGraph
 {
+    using System;
 
     /// <summary>
     /// EdgeCapacity class extends the EdgeComponent class, and can be
     /// attached to each edge of a graph.
-    /// The class' purpose is to hold information useful for performing network flow 
+    /// The class' purpose is to hold information useful for performing network flow
     /// algorithms.
     /// </summary>
     public class EdgeCapacity : EdgeComponent
     {
-        protected float _weight;
+        protected float weight;
 
-        private float _capacity;
+        private float capacity;
 
-        public float Capacity { get { return _capacity; } set { _capacity = value; } }
+        private float flow;
 
-        private float _flow;
+        private float reverseFlow;
+
+        private Direction flowDirection = Direction.Forwards;
+
+        public float Capacity
+        {
+            get { return this.capacity; }
+            set { this.capacity = value; }
+        }
 
         public float Flow
         {
-            get
-            {
-                return _flow;
-            }
-            set
-            {
-                _flow = value;
-            }
+            get { return this.flow; }
+            set { this.flow = value; }
         }
-
-        private float _reverseFlow;
 
         public float ReverseFlow
         {
-            get
-            {
-                return _reverseFlow;
-            }
-            set
-            {
-                _reverseFlow = value;
-            }
+            get { return this.reverseFlow; }
+            set { this.reverseFlow = value; }
         }
 
-        private Direction _flowDirection = Direction.Forwards;
         public Direction FlowDirection
         {
-            get { return _flowDirection; }
-            set { _flowDirection = value; }
+            get { return this.flowDirection; }
+            set { this.flowDirection = value; }
         }
-
-
-
 
         public float GetResidualFlow()
         {
-            if (_flowDirection == Direction.Backwards)
-                return 0 + _flow;
-            else return (_capacity - _flow);
+            if (this.flowDirection == Direction.Backwards)
+            {
+                return 0 + this.flow;
+            }
+            else
+            {
+                return this.capacity - this.flow;
+            }
         }
 
         public override void Copy(EdgeComponent edgeComponent)
         {
             if (edgeComponent == null)
+            {
                 throw new Exception("Null edge component");
+            }
+
             if (edgeComponent is EdgeCapacity)
             {
                 EdgeCapacity ec = edgeComponent as EdgeCapacity;
-                ec._weight = _weight;
-                ec._capacity = _capacity;
-                ec._flow = _flow;
-                ec._flowDirection = _flowDirection;
-                ec._reverseFlow = _reverseFlow;
+                ec.weight = this.weight;
+                ec.capacity = this.capacity;
+                ec.flow = this.flow;
+                ec.flowDirection = this.flowDirection;
+                ec.reverseFlow = this.reverseFlow;
             }
-            else throw new Exception("Type is not correct");
+            else
+            {
+                throw new Exception("Type is not correct");
+            }
         }
     }
 }
-
