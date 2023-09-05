@@ -1,14 +1,14 @@
-﻿// <copyright file="MinCut.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="MinCut.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public partial class Graph
     {
         /// <summary>
@@ -32,22 +32,22 @@ namespace SharpGraph
                 throw new NotConnectedException("Graph is not connected.");
             }
 
-            List<Edge> edgeList = this.GetEdges();
+            var edgeList = this.GetEdges();
 
-            Graph modGraph = new Graph(edgeList, this.GetNodes());
+            var modGraph = new Graph(edgeList, this.GetNodes());
 
             edgeList.ForEach(e => modGraph.AddComponent<MultiplicityComponent>(e));
-            Random r = new Random();
-            int nCount = modGraph.GetNodes().Count;
+            var r = new Random();
+            var nCount = modGraph.GetNodes().Count;
             while (nCount > 2)
             {
-                int next = r.Next(0, modGraph.GetEdges().Count);
-                Edge toRemove = modGraph.GetEdges()[next];
+                var next = r.Next(0, modGraph.GetEdges().Count);
+                var toRemove = modGraph.GetEdges()[next];
                 modGraph = modGraph.ContractEdge(toRemove);
                 nCount = modGraph.GetNodes().Count;
             }
 
-            int sum = modGraph.edges
+            var sum = modGraph.edges
                 .Select(e => modGraph.GetComponent<MultiplicityComponent>(e).Multiplicity)
                 .Sum();
             return sum;
@@ -61,10 +61,10 @@ namespace SharpGraph
             }
 
             // arbitrary, choose the form node to make the new node.
-            Node newNode = edge.From();
-            List<Edge> incident = this.GetIncidentEdges(edge.To());
-            HashSet<Edge> toRemove = new HashSet<Edge>();
-            HashSet<Edge> newEdges = new HashSet<Edge>();
+            var newNode = edge.From();
+            var incident = this.GetIncidentEdges(edge.To());
+            var toRemove = new HashSet<Edge>();
+            var newEdges = new HashSet<Edge>();
             var dict = new Dictionary<Edge, int>();
             foreach (var ed in this.edges)
             {
@@ -72,7 +72,7 @@ namespace SharpGraph
             }
 
             dict[edge] = 0;
-            foreach (Edge e in incident)
+            foreach (var e in incident)
             {
                 if (e == edge)
                 {
@@ -85,7 +85,7 @@ namespace SharpGraph
                 }
                 else if (e.From() == edge.To())
                 {
-                    int mult = this.GetComponent<MultiplicityComponent>(e).Multiplicity;
+                    var mult = this.GetComponent<MultiplicityComponent>(e).Multiplicity;
                     toRemove.Add(e);
                     var rex = new Edge(newNode, e.To());
 
@@ -154,7 +154,7 @@ namespace SharpGraph
             }
 
             newEdges.Remove(edge);
-            foreach (Edge deadEdge in toRemove)
+            foreach (var deadEdge in toRemove)
             {
                 newEdges.Remove(deadEdge);
             }

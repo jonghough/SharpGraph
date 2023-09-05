@@ -1,13 +1,13 @@
-﻿// <copyright file="NodeGenerator.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="NodeGenerator.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-
     public static class NodeGenerator
     {
         /// <summary>
@@ -34,11 +34,11 @@ namespace SharpGraph
                 );
             }
 
-            HashSet<Node> nodes = new HashSet<Node>();
-            int i = number;
+            var nodes = new HashSet<Node>();
+            var i = number;
             while (i-- > 0)
             {
-                Node b = new Node("Node_" + i);
+                var b = new Node("Node_" + i);
                 nodes.Add(b);
             }
 

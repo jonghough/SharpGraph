@@ -1,14 +1,14 @@
-﻿// <copyright file="Graph.SpanningTree.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.SpanningTree.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public enum SpanningTreeAlgorithm
     {
         Kruskal,
@@ -91,12 +91,12 @@ namespace SharpGraph
         public List<Edge> GenerateSpanningTree()
         {
             var edges = this.GetEdges();
-            List<Edge> gcopy = new List<Edge>(edges);
-            List<Edge> stEdges = new List<Edge>();
-            List<DisjointSet> ds = new List<DisjointSet>();
+            _ = new List<Edge>(edges);
+            var stEdges = new List<Edge>();
+            var ds = new List<DisjointSet>();
             var nodeIndexDict = new Dictionary<Node, int>();
             var nodeList = this.nodes.ToList();
-            for (int i = 0; i < nodeList.Count; i++)
+            for (var i = 0; i < nodeList.Count; i++)
             {
                 ds.Add(new DisjointSet(i, 0));
                 nodeIndexDict[nodeList[i]] = i;
@@ -104,8 +104,8 @@ namespace SharpGraph
 
             foreach (var edge in edges)
             {
-                int x = this.Find(ds, nodeIndexDict[edge.From()]);
-                int y = this.Find(ds, nodeIndexDict[edge.To()]);
+                var x = this.Find(ds, nodeIndexDict[edge.From()]);
+                var y = this.Find(ds, nodeIndexDict[edge.To()]);
 
                 if (x != y)
                 {
@@ -162,12 +162,12 @@ namespace SharpGraph
                         .Weight.CompareTo(this.GetComponent<EdgeWeight>(y).Weight);
                 }
             );
-            List<Edge> gcopy = new List<Edge>(edges);
-            List<Edge> stEdges = new List<Edge>();
-            List<DisjointSet> ds = new List<DisjointSet>();
+            var gcopy = new List<Edge>(edges);
+            var stEdges = new List<Edge>();
+            var ds = new List<DisjointSet>();
             var nodeIndexDict = new Dictionary<Node, int>();
             var nodeList = this.nodes.ToList();
-            for (int i = 0; i < nodeList.Count; i++)
+            for (var i = 0; i < nodeList.Count; i++)
             {
                 ds.Add(new DisjointSet(i, 0));
                 nodeIndexDict[nodeList[i]] = i;
@@ -175,8 +175,8 @@ namespace SharpGraph
 
             foreach (var edge in edges)
             {
-                int x = this.Find(ds, nodeIndexDict[edge.From()]);
-                int y = this.Find(ds, nodeIndexDict[edge.To()]);
+                var x = this.Find(ds, nodeIndexDict[edge.From()]);
+                var y = this.Find(ds, nodeIndexDict[edge.To()]);
 
                 if (x != y)
                 {
@@ -267,8 +267,8 @@ namespace SharpGraph
 
         public int Compare(Node o1, Node o2)
         {
-            float o1f = this.NodeMap[o1].Item1;
-            float o2f = this.NodeMap[o2].Item1;
+            var o1f = this.NodeMap[o1].Item1;
+            var o2f = this.NodeMap[o2].Item1;
 
             return o1f.CompareTo(o2f);
         }

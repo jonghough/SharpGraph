@@ -1,14 +1,12 @@
-// <copyright file="Graph.Internals.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.Internals.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System.Collections.Generic;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public partial class Graph
     {
         /// <summary>
@@ -40,12 +38,12 @@ namespace SharpGraph
         public T AddComponent<T>(Node node)
             where T : NodeComponent, new()
         {
-            T t = this.GetComponent<T>(node);
+            var t = this.GetComponent<T>(node);
             if (t == null)
             {
                 t = new T();
                 t.Owner = node;
-                string nm = typeof(T).FullName;
+                var nm = typeof(T).FullName;
                 this.nodeComponents[node].Add(nm, t);
                 return t;
             }
@@ -111,11 +109,11 @@ namespace SharpGraph
         public T AddComponent<T>(Edge e)
             where T : EdgeComponent, new()
         {
-            T t = this.GetComponent<T>(e);
+            var t = this.GetComponent<T>(e);
             if (t == null)
             {
                 t = new T();
-                string nm = typeof(T).FullName;
+                var nm = typeof(T).FullName;
                 this.edgeComponents[e].Add(nm, t);
                 return t;
             }
@@ -151,6 +149,84 @@ namespace SharpGraph
             return this.graphComponents[typeof(T).FullName] as T;
         }
 
+        public T AddComponent<T>()
+            where T : GraphComponent, new()
+        {
+            var t = this.GetComponent<T>();
+            if (t == null)
+            {
+                t = new T();
+                var nm = typeof(T).FullName;
+                this.graphComponents[nm] = t;
+                return t;
+            }
+            else
+            {
+                return t;
+            }
+        }
+
+        public bool RemoveComponent<T>()
+            where T : GraphComponent, new()
+        {
+            var t = this.GetComponent<T>();
+            if (t == null)
+            {
+                return false;
+            }
+            else
+            {
+                this.graphComponents.Remove(typeof(T).FullName);
+                return true;
+            }
+        }
+
+        public Graph Copy()
+        {
+            var ns = this.GetNodes();
+            var es = this.GetEdges();
+            var g = new Graph(es, ns);
+            foreach (var dic in this.nodeComponents)
+            {
+                foreach (var kvp in dic.Value)
+                {
+                    var v = kvp.Value;
+                    var t = v.GetType();
+                    var m = typeof(Graph)
+                        .GetMethod(
+                            nameof(Graph.AddNodeComponent),
+                            System.Reflection.BindingFlags.NonPublic
+                                | System.Reflection.BindingFlags.Instance
+                        )
+                        .MakeGenericMethod(t);
+                    var componentObject = m.Invoke(g, new object[] { dic.Key });
+
+                    v.Copy(componentObject as NodeComponent);
+                }
+            }
+
+            foreach (var dic in this.edgeComponents)
+            {
+                foreach (var kvp in dic.Value)
+                {
+                    var v = kvp.Value;
+                    var t = v.GetType();
+                    var componentObject = typeof(Graph)
+                        .GetMethod(
+                            nameof(Graph.AddEdgeComponent),
+                            System.Reflection.BindingFlags.NonPublic
+                                | System.Reflection.BindingFlags.Instance
+                        )
+                        .MakeGenericMethod(t)
+                        .Invoke(g, new object[] { dic.Key });
+
+                    v.Copy(componentObject as EdgeComponent);
+                }
+            }
+
+            return g;
+        }
+
         private KeyValuePair<string, NodeComponent> GetComponentKVP<T>(Node n)
             where T : NodeComponent, new()
         {
@@ -180,84 +256,6 @@ namespace SharpGraph
             where T : EdgeComponent, new()
         {
             return this.AddComponent<T>(edge);
-        }
-
-        public T AddComponent<T>()
-            where T : GraphComponent, new()
-        {
-            T t = this.GetComponent<T>();
-            if (t == null)
-            {
-                t = new T();
-                string nm = typeof(T).FullName;
-                this.graphComponents[nm] = t;
-                return t;
-            }
-            else
-            {
-                return t;
-            }
-        }
-
-        public bool RemoveComponent<T>()
-            where T : GraphComponent, new()
-        {
-            T t = this.GetComponent<T>();
-            if (t == null)
-            {
-                return false;
-            }
-            else
-            {
-                this.graphComponents.Remove(typeof(T).FullName);
-                return true;
-            }
-        }
-
-        public Graph Copy()
-        {
-            var ns = this.GetNodes();
-            var es = this.GetEdges();
-            var g = new Graph(es, ns);
-            foreach (var dic in this.nodeComponents)
-            {
-                foreach (var kvp in dic.Value)
-                {
-                    var v = kvp.Value;
-                    Type t = v.GetType();
-                    var m = typeof(Graph)
-                        .GetMethod(
-                            nameof(Graph.AddNodeComponent),
-                            System.Reflection.BindingFlags.NonPublic
-                                | System.Reflection.BindingFlags.Instance
-                        )
-                        .MakeGenericMethod(t);
-                    object componentObject = m.Invoke(g, new object[] { dic.Key });
-
-                    v.Copy(componentObject as NodeComponent);
-                }
-            }
-
-            foreach (var dic in this.edgeComponents)
-            {
-                foreach (var kvp in dic.Value)
-                {
-                    var v = kvp.Value;
-                    Type t = v.GetType();
-                    object componentObject = typeof(Graph)
-                        .GetMethod(
-                            nameof(Graph.AddEdgeComponent),
-                            System.Reflection.BindingFlags.NonPublic
-                                | System.Reflection.BindingFlags.Instance
-                        )
-                        .MakeGenericMethod(t)
-                        .Invoke(g, new object[] { dic.Key });
-
-                    v.Copy(componentObject as EdgeComponent);
-                }
-            }
-
-            return g;
         }
 
         private KeyValuePair<string, EdgeComponent> GetComponentKVP<T>(Edge e)

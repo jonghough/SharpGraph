@@ -1,13 +1,14 @@
-// <copyright file="Graph.Random.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.Random.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public class RandomGraphException : Exception
     {
         public RandomGraphException(string msg)
@@ -69,8 +70,8 @@ namespace SharpGraph
             var edges = new HashSet<(Node, Node)>();
             while (edges.Count < edgeCount)
             {
-                int n1 = r.Next(nodeCount);
-                int n2 = r.Next(nodeCount);
+                var n1 = r.Next(nodeCount);
+                var n2 = r.Next(nodeCount);
                 if (n1 == n2)
                 {
                     continue;
@@ -127,9 +128,9 @@ namespace SharpGraph
             );
             var nodes = NodeGenerator.GenerateNodes(nodeCount).ToList();
             var edges = new List<Edge>();
-            for (int i = 1; i < nodeCount; i++)
+            for (var i = 1; i < nodeCount; i++)
             {
-                int m = r.Next(i);
+                var m = r.Next(i);
                 edges.Add(new Edge(nodes[m], nodes[i]));
             }
 

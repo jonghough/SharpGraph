@@ -1,13 +1,13 @@
-// <copyright file="Graph.Coloring.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.Coloring.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public enum NodeOrdering
     {
         Random,
@@ -36,7 +36,7 @@ namespace SharpGraph
                 adjacent = adjacent.Intersect(processed).ToList();
 
                 var adjColors = adjacent.Select(a => dict[a]).ToHashSet();
-                bool didProcess = false;
+                var didProcess = false;
                 uint i = 0;
                 for (i = 0; ; i++)
                 {
@@ -61,7 +61,7 @@ namespace SharpGraph
 
         private List<Node> GetOrderedNodes(NodeOrdering nodeOrdering)
         {
-            List<Node> nodes = this.nodes.ToList();
+            var nodes = this.nodes.ToList();
 
             switch (nodeOrdering)
             {
@@ -69,10 +69,10 @@ namespace SharpGraph
                     break;
                 case NodeOrdering.NodeOrderAscending:
                 {
-                    Dictionary<Node, int> order = new Dictionary<Node, int>();
+                    var order = new Dictionary<Node, int>();
                     foreach (var m in nodes)
                     {
-                        int o = this.GetAdjacent(m).Count();
+                        var o = this.GetAdjacent(m).Count();
                         order[m] = o;
                     }
 
@@ -82,10 +82,10 @@ namespace SharpGraph
 
                 case NodeOrdering.NodeOrderDescending:
                 {
-                    Dictionary<Node, int> order = new Dictionary<Node, int>();
+                    var order = new Dictionary<Node, int>();
                     foreach (var m in nodes)
                     {
-                        int o = this.GetAdjacent(m).Count();
+                        var o = this.GetAdjacent(m).Count();
                         order[m] = o;
                     }
 

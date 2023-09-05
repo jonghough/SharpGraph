@@ -1,14 +1,15 @@
-// <copyright file="Graph.Planarity.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.Planarity.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
-
     internal enum Orientation
     {
         Forward,
@@ -23,7 +24,7 @@ namespace SharpGraph
         /// with no crossing edges. This method uses an implementation of the "left-right approach" to planarity testing,
         /// and is heavily based off the networkx implementation.
         /// This method will return true if the graph is planar, and false otherwise. No "proof": i.e. a counterexample or an example embedding are provided.
-        /// <see href="https://networkx.org/documentation/stable/_modules/networkx/algorithms/planarity.html#CheckPlanarity" networkx implementation...... </see>
+        /// <see href="https://networkx.org/documentation/stable/_modules/networkx/algorithms/planarity.html#CheckPlanarity" networkx implementation................. </see>
         /// <see href="https://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=70329F8449DE1E839C85438D379BE36C?doi=10.1.1.217.9208&rep=rep1&type=pdf">algorithm.</see>
         ///
         /// <returns></returns></summary>
@@ -35,7 +36,7 @@ namespace SharpGraph
 
         /// <summary>
         /// Checks whether the graph is planar. A bool result is returned in a tuple with a planar embedding if the graph is planar or null otherwise.
-        /// <see href="https://networkx.org/documentation/stable/_modules/networkx/algorithms/planarity.html#CheckPlanarity" networkx implementation...... </see>
+        /// <see href="https://networkx.org/documentation/stable/_modules/networkx/algorithms/planarity.html#CheckPlanarity" networkx implementation................. </see>
         /// <see href="https://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=70329F8449DE1E839C85438D379BE36C?doi=10.1.1.217.9208&rep=rep1&type=pdf">algorithm.</see>
         ///
         /// <returns></returns></summary>
@@ -48,7 +49,7 @@ namespace SharpGraph
             }
 
             var planarEmbedding = new PlanarEmbedding(this);
-            bool hasEmbedding = this.FindOrientation(new PlanarityChecker(), planarEmbedding);
+            var hasEmbedding = this.FindOrientation(new PlanarityChecker(), planarEmbedding);
 
             return (hasEmbedding, planarEmbedding);
         }
@@ -144,7 +145,7 @@ namespace SharpGraph
 
         private void DfsOrientation(Node v, PlanarityChecker planarityChecker)
         {
-            bool hasParent = planarityChecker.ParentEdge.TryGetValue(v, out (Node, Node)? e);
+            _ = planarityChecker.ParentEdge.TryGetValue(v, out var e);
             foreach (var w in this.GetAdjacent(v))
             {
                 if (
@@ -233,20 +234,14 @@ namespace SharpGraph
 
         private bool DFSTesting(Node v, PlanarityChecker planarityChecker)
         {
-            bool hasParent = planarityChecker.ParentEdge.TryGetValue(
-                v,
-                out (Node, Node)? parentEdge
-            );
+            _ = planarityChecker.ParentEdge.TryGetValue(v, out var parentEdge);
             var orderedAdjacents = planarityChecker.OrderedAdjacentNodes;
 
             foreach (var w in orderedAdjacents[v])
             {
                 var ei = (v, w);
                 planarityChecker.StackBottom[ei] = planarityChecker.TopOfStack();
-                bool wHasParent = planarityChecker.ParentEdge.TryGetValue(
-                    w,
-                    out (Node, Node)? wParentEdge
-                );
+                _ = planarityChecker.ParentEdge.TryGetValue(w, out var wParentEdge);
                 if (wParentEdge != null && ei == wParentEdge)
                 {
                     if (!this.DFSTesting(w, planarityChecker))
@@ -304,6 +299,8 @@ namespace SharpGraph
             this.Ccw = new Dictionary<(Node, Node), Node>();
             this.FirstNeighbor = new Dictionary<Node, Node>();
         }
+
+        internal static void TraverseFace(Node n, Node m, bool markHalfEdges = false) { }
 
         internal void AddHalfEdgeCW(Node first, Node end, Node? refN)
         {
@@ -368,8 +365,6 @@ namespace SharpGraph
         {
             return (m, this.Ccw[(m, n)]);
         }
-
-        internal void TraverseFace(Node n, Node m, bool markHalfEdges = false) { }
     }
 
     public class ConflictPair
@@ -598,8 +593,8 @@ namespace SharpGraph
                     this.Refx[q.Right.Low.Value] = this.LowPtEdge[e];
                 }
 
-                var e1 = this.S[this.S.Count - 1];
-                var f = this.StackBottom[ei];
+                _ = this.S[this.S.Count - 1];
+                _ = this.StackBottom[ei];
                 if (this.S[this.S.Count - 1].Equals(this.StackBottom[ei]))
                 {
                     break;

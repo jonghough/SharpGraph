@@ -1,6 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿// <copyright file="RandomTest.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
+// </copyright>
+
 using System.Linq;
 using Xunit;
 
@@ -56,6 +58,7 @@ namespace SharpGraph
 
             Assert.Equal(20, ns.Count);
             Assert.Equal(10, g.GetEdges().Count);
+
             // not enough edges to remain connected.
             Assert.False(g.IsConnected());
         }
@@ -80,6 +83,7 @@ namespace SharpGraph
 
             Assert.Equal(10, ns.Count);
             Assert.Equal(9, g.GetEdges().Count);
+
             // tree so there should be no cyclesw
             var simpleCycles = g.FindSimpleCycles();
             Assert.Empty(simpleCycles);

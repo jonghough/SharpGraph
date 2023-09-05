@@ -1,7 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿// <copyright file="PlanarityTest.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
+// </copyright>
+
 using Xunit;
 
 namespace SharpGraph
@@ -22,8 +23,9 @@ namespace SharpGraph
             var g = GraphGenerator.CreateComplete(5);
             var isPlanar = g.IsPlanar();
             Assert.False(isPlanar);
+
             // removing an edge should make the graph planar
-            bool b = g.RemoveEdge(new Edge("0", "1"));
+            _ = g.RemoveEdge(new Edge("0", "1"));
             isPlanar = g.IsPlanar();
             Assert.True(isPlanar);
         }
@@ -49,7 +51,8 @@ namespace SharpGraph
             g.AddEdge("2", "5");
             g.AddEdge("3", "4");
             g.AddEdge("3", "5");
-            //between nodes 4 and 5 we have a new node 6. Graph is not isomorphic to K5, but
+
+            // between nodes 4 and 5 we have a new node 6. Graph is not isomorphic to K5, but
             // but is an expansion of K5
             g.AddEdge("4", "6");
             g.AddEdge("5", "6");
@@ -73,7 +76,8 @@ namespace SharpGraph
             var h = GraphGenerator.CreateComplete(new string[] { "A", "B", "C", "D" });
             var merged = g.MergeWith(h);
             merged.AddEdge("1", "A");
-            //merged is now a "barbell of two copies of K4. It should be planar
+
+            // merged is now a "barbell of two copies of K4. It should be planar
             var isPlanar = merged.IsPlanar();
             Assert.True(isPlanar);
         }
@@ -85,7 +89,7 @@ namespace SharpGraph
             var isPlanar = g.IsPlanar();
             Assert.False(isPlanar);
 
-            //remove an edge
+            // remove an edge
             g.RemoveEdge(new Edge("1", "2"));
             isPlanar = g.IsPlanar();
             Assert.False(isPlanar);

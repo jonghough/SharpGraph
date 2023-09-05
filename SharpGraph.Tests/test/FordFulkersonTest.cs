@@ -1,5 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿// <copyright file="FordFulkersonTest.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
+// </copyright>
+
 using System.Collections.Generic;
 using Xunit;
 
@@ -16,20 +19,20 @@ namespace SharpGraph
              */
             var nodes = new List<Node>(NodeGenerator.GenerateNodes(7));
 
-            Edge e1 = new Edge(nodes[0], nodes[1]);
-            Edge e2 = new Edge(nodes[0], nodes[3]);
+            var e1 = new Edge(nodes[0], nodes[1]);
+            var e2 = new Edge(nodes[0], nodes[3]);
 
-            Edge e3 = new Edge(nodes[1], nodes[2]);
-            Edge e3x = new Edge(nodes[1], nodes[4]);
-            Edge e4 = new Edge(nodes[2], nodes[0]);
-            Edge e5 = new Edge(nodes[2], nodes[3]);
-            Edge e6 = new Edge(nodes[2], nodes[4]);
-            Edge e7 = new Edge(nodes[3], nodes[5]);
-            Edge e8 = new Edge(nodes[3], nodes[4]);
-            Edge e9 = new Edge(nodes[4], nodes[6]);
-            Edge e10 = new Edge(nodes[5], nodes[6]);
+            var e3 = new Edge(nodes[1], nodes[2]);
+            var e3x = new Edge(nodes[1], nodes[4]);
+            var e4 = new Edge(nodes[2], nodes[0]);
+            var e5 = new Edge(nodes[2], nodes[3]);
+            var e6 = new Edge(nodes[2], nodes[4]);
+            var e7 = new Edge(nodes[3], nodes[5]);
+            var e8 = new Edge(nodes[3], nodes[4]);
+            var e9 = new Edge(nodes[4], nodes[6]);
+            var e10 = new Edge(nodes[5], nodes[6]);
 
-            List<Edge> edges = new List<Edge>();
+            var edges = new List<Edge>();
             edges.Add(e1);
             edges.Add(e2);
             edges.Add(e3);
@@ -73,12 +76,12 @@ namespace SharpGraph
         [Fact]
         public void TestFF2()
         {
-            Node n1 = new Node("A");
-            Node n2 = new Node("B");
+            var n1 = new Node("A");
+            var n2 = new Node("B");
 
-            Edge e1 = new Edge(n1, n2);
+            var e1 = new Edge(n1, n2);
 
-            List<Edge> edges = new List<Edge>();
+            var edges = new List<Edge>();
             edges.Add(e1);
 
             var g = new Graph(edges);

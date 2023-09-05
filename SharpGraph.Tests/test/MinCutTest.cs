@@ -1,7 +1,9 @@
-﻿using System;
+﻿// <copyright file="MinCutTest.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
+// </copyright>
+
 using Xunit;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace SharpGraph
 {
@@ -10,20 +12,20 @@ namespace SharpGraph
         [Fact]
         public void TestMinCutOfComplete()
         {
-            HashSet<Node> nodes = NodeGenerator.GenerateNodes(8);
+            var nodes = NodeGenerator.GenerateNodes(8);
             var g = GraphGenerator.CreateComplete(nodes);
 
-            int cutEdges = g.FindMinCut();
+            var cutEdges = g.FindMinCut();
             Assert.True(cutEdges >= 7);
         }
 
         [Fact]
         public void TestMinCutOfCycle()
         {
-            HashSet<Node> nodes = NodeGenerator.GenerateNodes(8);
+            var nodes = NodeGenerator.GenerateNodes(8);
             var g = GraphGenerator.GenerateCycle(nodes);
 
-            int cutEdges = g.FindMinCut();
+            var cutEdges = g.FindMinCut();
 
             Assert.Equal(2, cutEdges);
         }
@@ -31,11 +33,11 @@ namespace SharpGraph
         [Fact]
         public void TestMinCutOfTree()
         {
-            HashSet<Node> nodes = NodeGenerator.GenerateNodes(18);
+            var nodes = NodeGenerator.GenerateNodes(18);
             var g = GraphGenerator.CreateComplete(nodes);
             var tree = g.GenerateSpanningTree();
             var gtree = new Graph(tree);
-            int cutEdges = gtree.FindMinCut();
+            var cutEdges = gtree.FindMinCut();
 
             Assert.Equal(1, cutEdges);
         }
@@ -43,18 +45,21 @@ namespace SharpGraph
         [Fact]
         public void TestMinCutMultiRun()
         {
-            HashSet<Node> nodes = NodeGenerator.GenerateNodes(10);
+            var nodes = NodeGenerator.GenerateNodes(10);
             var g = GraphGenerator.CreateComplete(nodes);
-            int minSize = int.MaxValue;
-            int runs = 1000;
+            var minSize = int.MaxValue;
+            var runs = 1000;
             while (runs-- > 0)
             {
                 var cutEdges = g.FindMinCut();
-                int size = cutEdges;
+                var size = cutEdges;
 
                 if (size < minSize)
+                {
                     minSize = size;
+                }
             }
+
             Assert.True(minSize >= 9);
         }
     }

@@ -1,13 +1,12 @@
-﻿// <copyright file="LineGraph.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="LineGraph.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System.Collections.Generic;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-
     public interface ILineGraphBuilder
     {
         Node CreateNode(Edge edge);
@@ -33,17 +32,17 @@ namespace SharpGraph
             graph.BFSEdge(
                 (g, c, e) =>
                 {
-                    Node newNode = builder.CreateNode(e);
+                    var newNode = builder.CreateNode(e);
                     edgeNodeDict[e] = newNode;
-                    List<Edge> incident = graph.GetIncidentEdges(e);
-                    foreach (Edge inc in incident)
+                    var incident = graph.GetIncidentEdges(e);
+                    foreach (var inc in incident)
                     {
                         if (edgeNodeDict.ContainsKey(inc) && edgeNodeDict[inc] != newNode)
                         {
                             var edge = builder.CreateEdge(edgeNodeDict[inc], newNode);
                             var ch = e.GetHashCode();
                             var ih = inc.GetHashCode();
-                            int hash = ((ch * ih) * 1337) - (13 * (((ch + ih) << 2) ^ (ch + ih)));
+                            var hash = ((ch * ih) * 1337) - (13 * (((ch + ih) << 2) ^ (ch + ih)));
 
                             if (edgeDict.ContainsKey(hash)) { }
                             else

@@ -1,13 +1,14 @@
-﻿// <copyright file="Graph.FordFulkerson.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.FordFulkerson.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public partial class Graph
     {
         /// <summary>
@@ -35,7 +36,7 @@ namespace SharpGraph
         {
             // find some initial path.
             var flowMemoryMap = new Dictionary<Node, FlowMemory>();
-            foreach (Node n in this.GetNodes())
+            foreach (var n in this.GetNodes())
             {
                 // NodeData nodeData = AddComponent<NodeData> (n);
                 var fm = new FlowMemory();
@@ -43,28 +44,28 @@ namespace SharpGraph
                 flowMemoryMap[n] = fm;
             }
 
-            foreach (Edge e in this.GetEdges())
+            foreach (var e in this.GetEdges())
             {
                 var capacity = this.AddComponent<EdgeCapacity>(e);
                 capacity.FlowDirection = Direction.Forwards;
             }
 
-            List<Edge> allEdges = new List<Edge>(this.GetEdges());
-            List<Edge> initialPath = this.FindPath(allEdges, startNode, finishNode, flowMemoryMap);
+            var allEdges = new List<Edge>(this.GetEdges());
+            var initialPath = this.FindPath(allEdges, startNode, finishNode, flowMemoryMap);
 
             while (initialPath != null)
             {
-                Node last = startNode;
+                var last = startNode;
                 Func<Edge, float> selector = e =>
                 {
                     return this.GetComponent<EdgeCapacity>(e).GetResidualFlow();
                 };
                 var minFlow = initialPath.Select(selector).Min();
-                List<Edge> minNode = initialPath
+                var minNode = initialPath
                     .FindAll(e => this.GetComponent<EdgeCapacity>(e).GetResidualFlow() == minFlow)
                     .ToList();
 
-                foreach (Edge e in initialPath)
+                foreach (var e in initialPath)
                 {
                     if (this.GetComponent<EdgeCapacity>(e).FlowDirection == Direction.Forwards)
                     {
@@ -76,12 +77,12 @@ namespace SharpGraph
                     }
                 }
 
-                foreach (Node n in this.GetNodes())
+                foreach (var n in this.GetNodes())
                 {
                     flowMemoryMap[n].Visited = false;
                 }
 
-                foreach (Edge e in this.GetEdges())
+                foreach (var e in this.GetEdges())
                 {
                     this.GetComponent<EdgeCapacity>(e).FlowDirection = Direction.Forwards;
                 }
@@ -109,7 +110,7 @@ namespace SharpGraph
         {
             // filter only the edges coming from the start node
             Predicate<Edge> match = e => !edges.Contains(e);
-            List<Edge> edgesList = this.GetIncidentEdges(start, match)
+            var edgesList = this.GetIncidentEdges(start, match)
                 .Where(e =>
                 {
                     if (e.From() == start && !flowMemoryMap[e.To()].Visited)
@@ -129,7 +130,7 @@ namespace SharpGraph
 
             // For each outgoing edge, do a depth first search for any path terminating at the
             // finish node. If no such path can be found, then there is no route from start to finish.
-            foreach (Edge selectedEdge in edgesList)
+            foreach (var selectedEdge in edgesList)
             {
                 if (selectedEdge != null)
                 {
@@ -153,7 +154,7 @@ namespace SharpGraph
 
                     if (selectedEdge.To() == finish)
                     {
-                        List<Edge> path = new List<Edge>();
+                        var path = new List<Edge>();
 
                         path.Add(selectedEdge);
 
@@ -161,19 +162,19 @@ namespace SharpGraph
                     }
                     else
                     {
-                        List<Edge> edgesCopy = new List<Edge>(edges);
+                        var edgesCopy = new List<Edge>(edges);
                         edgesCopy.Remove(selectedEdge);
-                        Node next = selectedEdge.To();
+                        var next = selectedEdge.To();
                         if (next == start)
                         {
                             next = selectedEdge.From();
                         }
 
-                        List<Edge> subPath = this.FindPath(edgesCopy, next, finish, flowMemoryMap);
+                        var subPath = this.FindPath(edgesCopy, next, finish, flowMemoryMap);
 
                         if (subPath != null && subPath.Count() != 0)
                         {
-                            List<Edge> path = new List<Edge>();
+                            var path = new List<Edge>();
 
                             path.AddRange(subPath);
                             path.Insert(0, selectedEdge);

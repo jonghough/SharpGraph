@@ -1,6 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿// <copyright file="TrianglesTest.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
+// </copyright>
+
 using Xunit;
 
 namespace SharpGraph
@@ -85,7 +87,7 @@ namespace SharpGraph
         public void TransitivityTest1()
         {
             var g = GraphGenerator.CreateComplete(5);
-            int n = g.Transitivity();
+            var n = g.Transitivity();
             Assert.Equal(1, n);
         }
     }

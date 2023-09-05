@@ -1,13 +1,14 @@
-// <copyright file="Graph.Triangles.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.Triangles.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public partial class Graph
     {
         /// <summary>
@@ -24,11 +25,11 @@ namespace SharpGraph
             var result = new List<List<Node>>();
             var dic = new Dictionary<Edge, int>();
             var incident = this.GetIncidentEdges(node);
-            for (int i = 0; i < incident.Count - 1; i++)
+            for (var i = 0; i < incident.Count - 1; i++)
             {
                 var e1 = incident[i];
                 dic[e1] = i;
-                for (int j = i + 1; j < incident.Count; j++)
+                for (var j = i + 1; j < incident.Count; j++)
                 {
                     var e2 = incident[j];
                     if (e1.From() == e2.From())
@@ -113,11 +114,11 @@ namespace SharpGraph
         {
             var result = new List<Tuple<Node, Node, Node>>();
             var dic = new Dictionary<Edge, int>();
-            for (int i = 0; i < this.edges.Count - 2; i++)
+            for (var i = 0; i < this.edges.Count - 2; i++)
             {
                 var e1 = this.edges[i];
                 dic[e1] = i;
-                for (int j = i + 1; j < this.edges.Count - 1; j++)
+                for (var j = i + 1; j < this.edges.Count - 1; j++)
                 {
                     var e2 = this.edges[j];
                     if (e1.From() == e2.From())
@@ -184,7 +185,7 @@ namespace SharpGraph
 
         public int GetTriadCount()
         {
-            var sum = this.nodes.ToList().Select(v => this.ChoosePairs(this.Degree(v))).Sum();
+            var sum = this.nodes.ToList().Select(v => ChoosePairs(this.Degree(v))).Sum();
             return sum;
         }
 
@@ -193,7 +194,7 @@ namespace SharpGraph
             return 3 * this.FindTriangles().Count / this.GetTriadCount();
         }
 
-        private int ChoosePairs(int n)
+        private static int ChoosePairs(int n)
         {
             return n * (n - 1) / 2;
         }

@@ -1,8 +1,10 @@
+﻿// <copyright file="GraphTest.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
+// </copyright>
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Xml.Linq;
 using Xunit;
 
 namespace SharpGraph
@@ -12,18 +14,18 @@ namespace SharpGraph
         [Fact]
         public void TestNodeAndEdgeEquality()
         {
-            Node n1 = new Node("A");
-            Node n2 = new Node("B");
+            var n1 = new Node("A");
+            var n2 = new Node("B");
             Assert.Equal(n1, new Node("A"));
             Assert.True(n1 == new Node("A"));
             Assert.NotEqual(n1, n2);
             Assert.True(n1 != n2);
 
-            Node n3 = new Node("C");
-            Edge e1 = new Edge(n1, n2);
-            Edge e2 = new Edge(new Node("A"), new Node("B"));
-            Edge e3 = new Edge(n1, n3);
-            Edge e4 = new Edge(n3, n1);
+            var n3 = new Node("C");
+            var e1 = new Edge(n1, n2);
+            var e2 = new Edge(new Node("A"), new Node("B"));
+            var e3 = new Edge(n1, n3);
+            var e4 = new Edge(n3, n1);
 
             Assert.Equal(e1, e2);
             Assert.True(e1 == e2);
@@ -125,10 +127,10 @@ namespace SharpGraph
         public void TestRemoveEdge3()
         {
             var g1 = GraphGenerator.CreateComplete(6);
-            var edgeCount = g1.GetEdges().Count;
+            _ = g1.GetEdges().Count;
 
             Assert.Equal(15, g1.GetEdges().Count);
-            bool success = g1.RemoveEdge("3", "1");
+            var success = g1.RemoveEdge("3", "1");
             Assert.False(success, "the edge with from=3, to=1 does not exist");
 
             Assert.Equal(15, g1.GetEdges().Count);
@@ -143,34 +145,34 @@ namespace SharpGraph
         [Fact]
         public void TestCopy()
         {
-            HashSet<Node> nodes = NodeGenerator.GenerateNodes(3);
+            var nodes = NodeGenerator.GenerateNodes(3);
             var g = GraphGenerator.CreateComplete(nodes);
 
-            foreach (Node n in nodes)
+            foreach (var n in nodes)
             {
                 var x = g.AddComponent<TestComponent>(n);
                 x.Distance = 11.5f;
             }
 
-            foreach (Edge e in g.GetEdges())
+            foreach (var e in g.GetEdges())
             {
                 var a = g.AddComponent<TestComponent2>(e);
-                a.x = 12f;
-                a.y = 200f;
+                a.X = 12f;
+                a.Y = 200f;
             }
 
             var h = g.Copy();
-            foreach (Node n in h.GetNodes())
+            foreach (var n in h.GetNodes())
             {
                 var x = h.GetComponent<TestComponent>(n);
                 Assert.Equal(11.5f, x.Distance);
             }
 
-            foreach (Edge e in h.GetEdges())
+            foreach (var e in h.GetEdges())
             {
                 var a = g.GetComponent<TestComponent2>(e);
-                Assert.Equal(12f, a.x);
-                Assert.Equal(200f, a.y);
+                Assert.Equal(12f, a.X);
+                Assert.Equal(200f, a.Y);
             }
         }
 
@@ -223,10 +225,11 @@ namespace SharpGraph
             );
             Assert.True(g != null);
             Assert.True(g.GetNodes().Count == 7);
-            for (int i = 1; i <= 7; i++)
+            for (var i = 1; i <= 7; i++)
             {
                 Assert.Contains(new Node("node" + i), g.GetNodes());
             }
+
             Assert.True(g.GetAdjacent(new Node("node1")).Count == 1);
             Assert.True(g.GetAdjacent(new Node("node5")).Count == 2);
             Assert.True(g.GetAdjacent(new Node("node6")).Count == 2);
@@ -281,41 +284,55 @@ namespace SharpGraph
             {
                 Assert.Contains(new Node(node), g.GetNodes());
             }
+
             Assert.NotNull(g.GetEdge(nodes[0], nodes[1]));
         }
     }
 
-    class TestComponent : NodeComponent
+    internal class TestComponent : NodeComponent
     {
         public float Distance { get; set; }
 
         public override void Copy(NodeComponent nodeComponent)
         {
             if (nodeComponent == null)
+            {
                 throw new Exception("Null node component");
+            }
+
             if (nodeComponent is TestComponent)
-                (nodeComponent as TestComponent).Distance = Distance;
+            {
+                (nodeComponent as TestComponent).Distance = this.Distance;
+            }
             else
+            {
                 throw new Exception("Type is not correct");
+            }
         }
     }
 
-    class TestComponent2 : EdgeComponent
+    internal class TestComponent2 : EdgeComponent
     {
-        public float x { get; set; }
-        public float y { get; set; }
+        public float X { get; set; }
+
+        public float Y { get; set; }
 
         public override void Copy(EdgeComponent nodeComponent)
         {
             if (nodeComponent == null)
+            {
                 throw new Exception("Null edge component");
+            }
+
             if (nodeComponent is TestComponent2)
             {
-                (nodeComponent as TestComponent2).x = x;
-                (nodeComponent as TestComponent2).y = y;
+                (nodeComponent as TestComponent2).X = this.X;
+                (nodeComponent as TestComponent2).Y = this.Y;
             }
             else
+            {
                 throw new Exception("Type is not correct");
+            }
         }
     }
 }
