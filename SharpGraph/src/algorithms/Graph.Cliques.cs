@@ -1,18 +1,20 @@
-using System.Collections.Generic;
+// <copyright file="Graph.Cliques.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace SharpGraph
 {
+    using System.Collections.Generic;
 
     public partial class Graph
     {
-
         /// <summary>
         /// Finds all <i>maximal cliques</i> in the graph. The method returns
         /// a list of <i>hashsets</i>, where each hashset represents the nodes in the
         /// clique containing those nodes. This is an implementation of <i>Bron-Kerbosch</i>
         /// algorithm.
         /// <code>
-        /// var cliques = g.FindMaximalCliques(); 
+        /// var cliques = g.FindMaximalCliques();
         /// </code>
         /// </summary>
         /// <returns>List of sets, where each set represents an optimal clique.</returns>
@@ -20,15 +22,14 @@ namespace SharpGraph
         {
             var r = new HashSet<Node>();
             var x = new HashSet<Node>();
-            var p = GetNodes();
+            var p = this.GetNodes();
 
-            var cliques = FindCliques(r, x, p);
+            var cliques = this.FindCliques(r, x, p);
             return cliques;
-
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="r"></param>
         /// <param name="x"></param>
@@ -48,21 +49,24 @@ namespace SharpGraph
                 foreach (Node n in p)
                 {
                     if (used.Contains(n))
+                    {
                         continue;
+                    }
+
                     var r_ = new HashSet<Node>(r);
                     var x_ = new HashSet<Node>(x);
-                    var p_ = new HashSet<Node>(GetAdjacent(n));
+                    var p_ = new HashSet<Node>(this.GetAdjacent(n));
                     p_.RemoveWhere(i => used.Contains(i));
                     p_.IntersectWith(p);
                     r_.Add(n);
                     x_.UnionWith(used);
-                    x_.IntersectWith(GetAdjacent(n));
-                    var fc = FindCliques(r_, x_, p_);
+                    x_.IntersectWith(this.GetAdjacent(n));
+                    var fc = this.FindCliques(r_, x_, p_);
                     nodeSetList.AddRange(fc);
                     used.Add(n);
-
                 }
             }
+
             return nodeSetList;
         }
     }

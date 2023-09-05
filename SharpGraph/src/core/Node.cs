@@ -1,71 +1,23 @@
-﻿using System; 
+﻿// <copyright file="Node.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace SharpGraph
 {
-
-    public abstract class NodeComponent
-    {
-        private Node _owner;
-        public Node Owner { get { return _owner; } internal set { _owner = value; } }
-        public NodeComponent()
-        {
-
-        }
-
-        public abstract void Copy(NodeComponent nodeComponent);
-    }
+    using System;
 
     public struct Node : IEquatable<Node>
     {
-
-        private string _label;
+        private string label;
 
         public Node(string label)
         {
-            _label = label;
-            init();
-        }
-
-        private void init()
-        {
-
-        }
-
-        public string GetLabel()
-        {
-            return _label;
-        }
-
-
-
-        public override string ToString()
-        {
-            return " " + _label + " ";
-
-        }
-
-        public override int GetHashCode()
-        {
-            return this._label.GetHashCode();
-        }
-
-        public bool Equals(Node other)
-        {
-            return this._label.Equals(other._label);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj is Node)
-            {
-                return Equals((Node)obj);
-            }
-            return false;
+            this.label = label;
+            this.Init();
         }
 
         public static bool operator ==(Node lhs, Node rhs)
         {
-             
             return lhs.Equals(rhs);
         }
 
@@ -73,5 +25,52 @@ namespace SharpGraph
         {
             return !(lhs == rhs);
         }
+
+        public string GetLabel()
+        {
+            return this.label;
+        }
+
+        public override string ToString()
+        {
+            return " " + this.label + " ";
+        }
+
+        public override int GetHashCode()
+        {
+            return this.label.GetHashCode();
+        }
+
+        public bool Equals(Node other)
+        {
+            return this.label.Equals(other.label);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Node)
+            {
+                return this.Equals((Node)obj);
+            }
+
+            return false;
+        }
+
+        private void Init() { }
+    }
+
+    public abstract class NodeComponent
+    {
+        private Node owner;
+
+        public NodeComponent() { }
+
+        public Node Owner
+        {
+            get { return this.owner; }
+            internal set { this.owner = value; }
+        }
+
+        public abstract void Copy(NodeComponent nodeComponent);
     }
 }

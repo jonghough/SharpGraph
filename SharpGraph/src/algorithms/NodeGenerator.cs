@@ -1,14 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿// <copyright file="NodeGenerator.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace SharpGraph
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
     public static class NodeGenerator
     {
         /// <summary>
         /// Returns a set of nodes, whose names are indexed by the positive integers less than
-        /// or equal to the input number. 
+        /// or equal to the input number.
         /// <example>
         /// <code>
         ///     var nodes = NodeGenerator.GenerateNodes(5);
@@ -17,10 +21,19 @@ namespace SharpGraph
         /// </example>
         /// </summary>
         /// <param name="number">number of nodes to generate.</param>
-        /// <returns>set of nodes</returns>
+        /// <returns>set of nodes.</returns>
         public static HashSet<Node> GenerateNodes(int number)
         {
-            if (number < 1) throw new Exception(string.Format("argument 'number' must be a positive integer. Value given {0}", number));
+            if (number < 1)
+            {
+                throw new Exception(
+                    string.Format(
+                        "argument 'number' must be a positive integer. Value given {0}",
+                        number
+                    )
+                );
+            }
+
             HashSet<Node> nodes = new HashSet<Node>();
             int i = number;
             while (i-- > 0)
@@ -28,9 +41,8 @@ namespace SharpGraph
                 Node b = new Node("Node_" + i);
                 nodes.Add(b);
             }
+
             return nodes;
         }
     }
-
-
 }

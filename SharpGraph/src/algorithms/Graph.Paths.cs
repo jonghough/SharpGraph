@@ -1,21 +1,25 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+// <copyright file="Graph.Paths.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace SharpGraph
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public partial class Graph
     {
-
-        /// <summary>
-        /// Finds all <i>simple paths</i> between the <code>from</code> node and the <code>to</code> node, 
+        ///
+        /// <returns></returns><summary>
+        /// Finds all <i>simple paths</i> between the. <code>from</code> node and the. <code>to</code> node,
         /// where a simple path is a path that does nottraverse an edge more than once or traversea node more than once.
-        /// The <code>limit</code> provides a way to short-circuit the algorithm, if the number of simple paths in the 
-        /// graph is very large, by stopping after a certain number of paths has been found. 
-        /// If <code>limit</code> is -1, then the limit will not be taken into account, and all
+        /// The. <code>limit</code> provides a way to short-circuit the algorithm, if the number of simple paths in the
+        /// graph is very large, by stopping after a certain number of paths has been found.
+        /// If. <code>limit</code> is -1, then the limit will not be taken into account, and all
         /// paths will be found.
-        /// 
+        ///
         /// The method will returns a list of node lists, wher eeach node list represents a single path.
         /// <example>
         /// Consider the complete graph K4. Given an arbitrary startNode and endNode, we can find the
@@ -42,7 +46,8 @@ namespace SharpGraph
             var path = new List<Node>();
             var hs = new HashSet<Node>();
 
-            Stack<(Node, (HashSet<Node>, List<Node>))> nodeStack = new Stack<(Node, (HashSet<Node>, List<Node>))>();
+            Stack<(Node, (HashSet<Node>, List<Node>))> nodeStack =
+                new Stack<(Node, (HashSet<Node>, List<Node>))>();
             nodeStack.Push((from, (new HashSet<Node>(hs), path.Select(x => x).ToList())));
             while (nodeStack.Count > 0)
             {
@@ -56,11 +61,10 @@ namespace SharpGraph
                     cl.Add(current);
                     nextHS.Add(current);
 
-                    List<Node> adjNodes = GetAdjacent(current);
+                    List<Node> adjNodes = this.GetAdjacent(current);
 
                     foreach (Node m in adjNodes)
                     {
-
                         if (m == to)
                         {
                             if (limit > -1 && cl.Count > limit)
@@ -77,7 +81,9 @@ namespace SharpGraph
                         }
                         else
                         {
-                            nodeStack.Push((m, (new HashSet<Node>(nextHS), cl.Select(i => i).ToList())));
+                            nodeStack.Push(
+                                (m, (new HashSet<Node>(nextHS), cl.Select(i => i).ToList()))
+                            );
                         }
                     }
                 }

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+echo "*** begin format ***"
+dotnet format
+res=$?
+
+if [ $res -ne 0 ] ; then
+    echo "dotnet format failed with result ${res}"
+    exit $res;
+fi 
+
+echo "*** finish format ***"
+exit 0;

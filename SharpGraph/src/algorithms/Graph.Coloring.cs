@@ -1,59 +1,27 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+// <copyright file="Graph.Coloring.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 namespace SharpGraph
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public enum NodeOrdering
     {
         Random,
         NodeOrderAscending,
-        NodeOrderDescending
-
+        NodeOrderDescending,
     }
-    partial class Graph
+
+    public partial class Graph
     {
-
-
-        private List<Node> GetOrderedNodes(NodeOrdering nodeOrdering)
-        {
-            List<Node> nodes = this._nodes.ToList();
-
-            switch (nodeOrdering)
-            {
-                case NodeOrdering.Random:
-                    break;
-                case NodeOrdering.NodeOrderAscending:
-                    {
-                        Dictionary<Node, int> order = new Dictionary<Node, int>();
-                        foreach (var m in nodes)
-                        {
-                            int o = this.GetAdjacent(m).Count();
-                            order[m] = o;
-                        }
-                        nodes = nodes.OrderBy(item => order[item]).ToList();
-                        break;
-                    }
-                case NodeOrdering.NodeOrderDescending:
-                    {
-                        Dictionary<Node, int> order = new Dictionary<Node, int>();
-                        foreach (var m in nodes)
-                        {
-                            int o = this.GetAdjacent(m).Count();
-                            order[m] = o;
-                        }
-                        nodes = nodes.OrderByDescending(item => order[item]).ToList();
-                        break;
-                    }
-            }
-            return nodes;
-        }
-
         /// <summary>
         /// Colors the nodes of the graph by a greedy algorithm. There are no guarantees the coloring will
         /// be optimal.
         /// The method returns a dictionary of node-color pairs, where colors are represented by <i>uint</i>s.
-        /// 
+        ///
         /// </summary>
         /// <param name="nodeOrdering"></param>
         /// <returns>Dictionary of node, color pairs.</returns>
@@ -61,7 +29,7 @@ namespace SharpGraph
         {
             var processed = new HashSet<Node>();
             var dict = new Dictionary<Node, uint>();
-            var nodes = GetOrderedNodes(nodeOrdering);
+            var nodes = this.GetOrderedNodes(nodeOrdering);
             foreach (var n in nodes)
             {
                 var adjacent = this.GetAdjacent(n);
@@ -80,14 +48,53 @@ namespace SharpGraph
                         break;
                     }
                 }
+
                 if (!didProcess)
                 {
                     processed.Add(n);
                     dict[n] = ++i;
                 }
             }
+
             return dict;
         }
- 
+
+        private List<Node> GetOrderedNodes(NodeOrdering nodeOrdering)
+        {
+            List<Node> nodes = this.nodes.ToList();
+
+            switch (nodeOrdering)
+            {
+                case NodeOrdering.Random:
+                    break;
+                case NodeOrdering.NodeOrderAscending:
+                {
+                    Dictionary<Node, int> order = new Dictionary<Node, int>();
+                    foreach (var m in nodes)
+                    {
+                        int o = this.GetAdjacent(m).Count();
+                        order[m] = o;
+                    }
+
+                    nodes = nodes.OrderBy(item => order[item]).ToList();
+                    break;
+                }
+
+                case NodeOrdering.NodeOrderDescending:
+                {
+                    Dictionary<Node, int> order = new Dictionary<Node, int>();
+                    foreach (var m in nodes)
+                    {
+                        int o = this.GetAdjacent(m).Count();
+                        order[m] = o;
+                    }
+
+                    nodes = nodes.OrderByDescending(item => order[item]).ToList();
+                    break;
+                }
+            }
+
+            return nodes;
+        }
     }
 }

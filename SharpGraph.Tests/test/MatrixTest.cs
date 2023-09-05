@@ -1,5 +1,5 @@
 using System;
-using NUnit.Framework;
+using Xunit;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -7,64 +7,57 @@ namespace SharpGraph
 {
     public class MatrixTest
     {
-
-        [Test]
+        [Fact]
         public void TestAdjacencyMatrixForK4()
         {
             var k4 = GraphGenerator.CreateComplete(4);
             var mat = k4.GetAdjacencyMatrix();
-            Assert.AreEqual(4, mat.RowCount);
-            Assert.AreEqual(4, mat.ColumnCount);
-            Assert.AreEqual(0.0f, mat[0, 0]);
-            Assert.AreEqual(1.0f, mat[0, 1]);
-            Assert.AreEqual(1.0f, mat[2, 0]);
-            Assert.AreEqual(1.0f, mat[3, 1]);
-
+            Assert.Equal(4, mat.RowCount);
+            Assert.Equal(4, mat.ColumnCount);
+            Assert.Equal(0.0f, mat[0, 0]);
+            Assert.Equal(1.0f, mat[0, 1]);
+            Assert.Equal(1.0f, mat[2, 0]);
+            Assert.Equal(1.0f, mat[3, 1]);
         }
 
-        [Test]
+        [Fact]
         public void TestAdjacencyMatrixForK3_3()
         {
             var k4 = GraphGenerator.GenerateBipartiteComplete(3, 3);
             var mat = k4.GetAdjacencyMatrix();
-            Assert.AreEqual(6, mat.RowCount);
-            Assert.AreEqual(6, mat.ColumnCount);
+            Assert.Equal(6, mat.RowCount);
+            Assert.Equal(6, mat.ColumnCount);
             var rowSums = mat.RowSums();
             // in K3_3 each node is adjacent to exactly 3 other nodes.
             foreach (var rs in rowSums)
             {
-                Assert.AreEqual(3, rs);
+                Assert.Equal(3, rs);
             }
-
         }
 
-        [Test]
+        [Fact]
         public void TestAdjacencyMatrixEdgeless()
         {
             var g = new Graph(new List<Edge>(), NodeGenerator.GenerateNodes(25));
             var mat = g.GetAdjacencyMatrix();
-            Assert.AreEqual(25, mat.RowCount);
-            Assert.AreEqual(25, mat.ColumnCount);
+            Assert.Equal(25, mat.RowCount);
+            Assert.Equal(25, mat.ColumnCount);
             var rowSums = mat.RowSums();
 
             foreach (var rs in rowSums)
             {
-                Assert.AreEqual(0, rs);
-            } 
+                Assert.Equal(0, rs);
+            }
         }
 
-        [Test]
+        [Fact]
         public void TestCompleteGraphFromAdjacencyMatrix()
         {
             var k6 = GraphGenerator.CreateComplete(6);
-            var mat = k6.GetAdjacencyMatrix();  
+            var mat = k6.GetAdjacencyMatrix();
             var g = Graph.FromAdjacencyMatrix(mat);
-            Assert.AreEqual(15, g.GetEdges().Count);
-            Assert.AreEqual(expected: 6, g.GetNodes().Count);
-
-            
+            Assert.Equal(15, g.GetEdges().Count);
+            Assert.Equal(expected: 6, g.GetNodes().Count);
         }
-
-
     }
 }

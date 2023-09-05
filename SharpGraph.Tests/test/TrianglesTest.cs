@@ -1,31 +1,30 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace SharpGraph
 {
-    [TestFixture]
     public class TrainglesTest
     {
-        [Test]
+        [Fact]
         public void TestCycleGraphTriangles1()
         {
             var g = GraphGenerator.GenerateCycle(3);
             var triangles = g.FindTriangles();
 
-            Assert.AreEqual(1, triangles.Count);
+            Assert.Single(triangles);
         }
 
-        [Test]
+        [Fact]
         public void TestCycleGraphTriangles2()
         {
             var g = GraphGenerator.GenerateCycle(5);
             var triangles = g.FindTriangles();
-            Assert.AreEqual(0, triangles.Count);
+            Assert.Empty(triangles);
         }
 
-        [Test]
+        [Fact]
         public void TestTriangles3()
         {
             var g = new Graph();
@@ -36,10 +35,10 @@ namespace SharpGraph
             g.AddEdge("1", "3");
             var triangles = g.FindTriangles();
 
-            Assert.AreEqual(2, triangles.Count);
+            Assert.Equal(2, triangles.Count);
         }
 
-        [Test]
+        [Fact]
         public void TestTriangles4()
         {
             var g = new Graph();
@@ -51,14 +50,14 @@ namespace SharpGraph
             g.AddEdge("1", "3");
             var triangles = g.FindTriangles();
 
-            Assert.AreEqual(1, triangles.Count);
+            Assert.Single(triangles);
 
             g.AddEdge("1", "4");
             triangles = g.FindTriangles();
-            Assert.AreEqual(3, triangles.Count);
+            Assert.Equal(3, triangles.Count);
         }
 
-        [Test]
+        [Fact]
         public void TestTrianglesForNode1()
         {
             var g = new Graph();
@@ -70,24 +69,24 @@ namespace SharpGraph
             g.AddEdge("1", "3");
             var triangles = g.FindTriangles(new Node("1"));
 
-            Assert.AreEqual(1, triangles.Count);
+            Assert.Single(triangles);
 
             triangles = g.FindTriangles(new Node("4"));
 
-            Assert.AreEqual(0, triangles.Count);
+            Assert.Empty(triangles);
 
             g.AddEdge("1", "4");
             triangles = g.FindTriangles(new Node("1"));
-             
-            Assert.AreEqual(3, triangles.Count);
+
+            Assert.Equal(3, triangles.Count);
         }
 
-        [Test]
+        [Fact]
         public void TransitivityTest1()
         {
             var g = GraphGenerator.CreateComplete(5);
             int n = g.Transitivity();
-            Assert.AreEqual(1, n);
+            Assert.Equal(1, n);
         }
     }
 }

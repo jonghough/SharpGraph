@@ -1,53 +1,75 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+// <copyright file="Graph.Johnson.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace SharpGraph
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public partial class Graph
     {
         /// <summary>
-        /// Finds the shortest paths between all pairs of nodes, using <i>Johnson's algorithm</i>. 
-        /// The graph is assumed to be both weighted and directed. If any edge has no <code>EdgeWeight</code>
-        /// component, or <code>EdgeDirection</code> component then an exception will be thrown. Negative edge weights are allowed.
-        /// The method will return a list of tuples. Each tuple represents the shortest path length from a node to another node. 
-        /// Tuples are of the type <code>Node,Node,float</code>.
-        /// <see href="https://en.wikipedia.org/wiki/Johnson%27s_algorithm">Johnson's algorithm.</see> 
-        /// </summary> 
+        /// Finds the shortest paths between all pairs of nodes, using <i>Johnson's algorithm</i>.
+        /// The graph is assumed to be both weighted and directed. If any edge has no. <code>EdgeWeight</code>
+        /// component, or. <code>EdgeDirection</code> component then an exception will be thrown. Negative edge weights are allowed.
+        /// The method will return a list of tuples. Each tuple represents the shortest path length from a node to another node.
+        /// Tuples are of the type. <code>Node,Node,float</code>.
+        /// <see href="https://en.wikipedia.org/wiki/Johnson%27s_algorithm">Johnson's algorithm.</see>.
+        /// </summary>
         /// <returns>List of tuples, where esch tuple represents shortest path length between two nodes.</returns>
         public List<Tuple<Node, Node, float>> FindShortestPaths()
         {
-            var weightlessEdges = this._edges.Where(e => GetComponent<EdgeWeight>(e) == null).Count();
-            var directionlessEdges = this._edges.Where(e => GetComponent<EdgeDirection>(e) == null).Count();
+            var weightlessEdges = this.edges
+                .Where(e => this.GetComponent<EdgeWeight>(e) == null)
+                .Count();
+            var directionlessEdges = this.edges
+                .Where(e => this.GetComponent<EdgeDirection>(e) == null)
+                .Count();
 
             if (weightlessEdges > 0)
             {
-                throw new Exception(String.Format("All edges must contain an EdgeWeight component. {0} edges found without this component.", weightlessEdges));
+                throw new Exception(
+                    string.Format(
+                        "All edges must contain an EdgeWeight component. {0} edges found without this component.",
+                        weightlessEdges
+                    )
+                );
             }
 
             if (directionlessEdges > 0)
             {
-                throw new Exception(String.Format("All edges must contain an EdgeDirection component. {0} edges found without this component.", directionlessEdges));
-
+                throw new Exception(
+                    string.Format(
+                        "All edges must contain an EdgeDirection component. {0} edges found without this component.",
+                        directionlessEdges
+                    )
+                );
             }
+
             var g = this.Copy();
             var q = new Node(Guid.NewGuid().ToString());
-            g._nodes.ToList().ForEach(n =>
-            {
-                var edge = new Edge(q, n);
-                g.AddEdge(edge);
-                var ew = g.AddComponent<EdgeWeight>(edge);
-                ew.Weight = 0;
-                var dir = g.AddComponent<EdgeDirection>(edge);
-                dir.Direction = Direction.Forwards;
-            });
+            g.nodes
+                .ToList()
+                .ForEach(n =>
+                {
+                    var edge = new Edge(q, n);
+                    g.AddEdge(edge);
+                    var ew = g.AddComponent<EdgeWeight>(edge);
+                    ew.Weight = 0;
+                    var dir = g.AddComponent<EdgeDirection>(edge);
+                    dir.Direction = Direction.Forwards;
+                });
 
             var minPathDict = new Dictionary<Node, List<Node>>();
             var minPathDist = new Dictionary<Node, float>();
-            g._nodes.ToList().ForEach(n =>
-            {
-                minPathDict[n] = g.FindMinPathBF(q, n);
-            });
+            g.nodes
+                .ToList()
+                .ForEach(n =>
+                {
+                    minPathDict[n] = g.FindMinPathBF(q, n);
+                });
 
             foreach (var kvp in minPathDict)
             {
@@ -59,14 +81,15 @@ namespace SharpGraph
                     {
                         continue;
                     }
+
                     Edge edge = g.GetEdge(nodes[i], nodes[i + 1]).Value;
                     dist += g.GetComponent<EdgeWeight>(edge).Weight;
-
                 }
+
                 minPathDist[kvp.Key] = dist;
             }
 
-            foreach (var edge in g._edges)
+            foreach (var edge in g.edges)
             {
                 var dir = g.GetComponent<EdgeDirection>(edge);
                 var weight = g.GetComponent<EdgeWeight>(edge);
@@ -81,20 +104,25 @@ namespace SharpGraph
 
             // dijkstras on all pairs
             var result = new List<Tuple<Node, Node, float>>();
-            g._nodes.Remove(q);
-            var nl = g._nodes.ToList();
+            g.nodes.Remove(q);
+            var nl = g.nodes.ToList();
 
             for (int i = 0; i < nl.Count - 1; i++)
             {
-                var minPath = g.FindMinPathWithDistances(nl[i], nl[i + 1]); 
+                var minPath = g.FindMinPathWithDistances(nl[i], nl[i + 1]);
 
                 foreach (var kvp in minPath.Item2)
                 {
-                    var nodes = kvp.Value; 
-                    Tuple<Node, Node, float> path = new Tuple<Node, Node, float>(nl[i], kvp.Key, kvp.Value.Distance);
-                    result.Add(path); 
+                    var nodes = kvp.Value;
+                    Tuple<Node, Node, float> path = new Tuple<Node, Node, float>(
+                        nl[i],
+                        kvp.Key,
+                        kvp.Value.Distance
+                    );
+                    result.Add(path);
                 }
             }
+
             return result;
         }
     }

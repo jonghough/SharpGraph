@@ -1,11 +1,13 @@
-﻿using System;
+﻿// <copyright file="IAStarHeuristic.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace SharpGraph
 {
-	public interface IAStarHeuristic
-	{
+    using System;
 
-		float GetHeuristic (Node t, Node goal);
-	}
+    public interface IAStarHeuristic
+    {
+        float GetHeuristic(Node t, Node goal);
+    }
 }
-

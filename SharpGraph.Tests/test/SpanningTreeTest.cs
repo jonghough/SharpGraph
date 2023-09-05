@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace SharpGraph
 {
-    [TestFixture]
     public class SpanningTreeTest
     {
-        [Test]
+        [Fact]
         public void CompleteGraphSpanningTreeTest()
         {
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(10);
             var g = GraphGenerator.CreateComplete(nodes);
-            Assert.AreEqual(9, g.GenerateSpanningTree().Count);
+            Assert.Equal(9, g.GenerateSpanningTree().Count);
         }
 
-        [Test]
+        [Fact]
         public void MinimumSpanningTreeTest1()
         {
-
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(8);
             List<Node> nodeList = new List<Node>(nodes);
             Edge wedge1 = new Edge(nodeList[0], nodeList[1]);
@@ -67,13 +65,12 @@ namespace SharpGraph
 
             var span = g.GenerateMinimumSpanningTree();
 
-            Assert.AreEqual(7, span.Count);
+            Assert.Equal(7, span.Count);
         }
 
-        [Test]
+        [Fact]
         public void MinimumSpanningTreeTest2()
         {
-
             Node b1 = new Node("1");
             Node b2 = new Node("2");
             Node b3 = new Node("3");
@@ -96,10 +93,9 @@ namespace SharpGraph
             Assert.True(span.Contains(wedge1) && span.Contains(wedge2) && !span.Contains(wedge3));
         }
 
-        [Test]
+        [Fact]
         public void MinimumSpanningTreeTest3()
         {
-
             Node b1 = new Node("1");
             Node b2 = new Node("2");
             Node b3 = new Node("3");
@@ -126,14 +122,14 @@ namespace SharpGraph
             g.AddComponent<EdgeWeight>(wedge5).Weight = 0.15f;
 
             var span = g.GenerateMinimumSpanningTree();
-            Assert.AreEqual(3, span.Count);
+            Assert.Equal(3, span.Count);
             //minimum spanning tree should contain only edges 1 and 2
             Assert.True(span.Contains(wedge1) && span.Contains(wedge2));
             //only contains one of edge 3,4,5
             Assert.True(span.Contains(wedge3) ^ span.Contains(wedge4) ^ span.Contains(wedge5));
         }
 
-        [Test]
+        [Fact]
         public void MinimumSpanningTreeTestForDisconnected()
         {
             var g = new Graph();
@@ -143,22 +139,25 @@ namespace SharpGraph
             g.AddComponent<EdgeWeight>(g.GetEdge("C", "D").Value).Weight = 2;
 
             var span = g.GenerateMinimumSpanningTree();
-            Assert.AreEqual(2, span.Count);
-            Assert.Throws<MinimumSpanningTreeException>(() => g.GenerateMinimumSpanningTree(mustBeConnected: true));
+            Assert.Equal(2, span.Count);
+            Assert.Throws<MinimumSpanningTreeException>(
+                () => g.GenerateMinimumSpanningTree(mustBeConnected: true)
+            );
         }
 
-        [Test]
+        [Fact]
         public void MinimumSpanningTreeTestForUnweighted1()
         {
             var g = GraphGenerator.GenerateCycle(5);
 
-            Assert.Throws<MinimumSpanningTreeException>(() => g.GenerateMinimumSpanningTree(mustBeConnected: false));
+            Assert.Throws<MinimumSpanningTreeException>(
+                () => g.GenerateMinimumSpanningTree(mustBeConnected: false)
+            );
         }
 
-        [Test]
+        [Fact]
         public void MinimumSpanningTreePrimTest3()
         {
-
             Node b1 = new Node("1");
             Node b2 = new Node("2");
             Node b3 = new Node("3");
@@ -186,17 +185,16 @@ namespace SharpGraph
 
             var span = g.GenerateMinimumSpanningTree(SpanningTreeAlgorithm.Prim);
 
-            Assert.AreEqual(3, span.Count);
+            Assert.Equal(3, span.Count);
             //minimum spanning tree should contain only edges 1 and 2
             Assert.True(span.Contains(wedge1) && span.Contains(wedge2));
             //only contains one of edge 3,4,5
             Assert.True(span.Contains(wedge3) ^ span.Contains(wedge4) ^ span.Contains(wedge5));
         }
 
-        [Test]
+        [Fact]
         public void MinimumSpanningTreePrimTest1()
         {
-
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(8);
             List<Node> nodeList = new List<Node>(nodes);
             Edge wedge1 = new Edge(nodeList[0], nodeList[1]);
@@ -244,13 +242,12 @@ namespace SharpGraph
 
             var span = g.GenerateMinimumSpanningTree(SpanningTreeAlgorithm.Prim);
 
-            Assert.AreEqual(7, span.Count);
+            Assert.Equal(7, span.Count);
         }
 
-        [Test]
+        [Fact]
         public void MinimumSpanningTreePrimTest2()
         {
-
             Node b1 = new Node("1");
             Node b2 = new Node("2");
             Node b3 = new Node("3");
@@ -273,10 +270,9 @@ namespace SharpGraph
             Assert.True(span.Contains(wedge1) && span.Contains(wedge2) && !span.Contains(wedge3));
         }
 
-        [Test]
+        [Fact]
         public void SpanningTreeTest1()
         {
-
             Node b1 = new Node("1");
             Node b2 = new Node("2");
             Node b3 = new Node("3");
@@ -290,37 +286,34 @@ namespace SharpGraph
 
             var g = new Graph(edges);
             var span = g.GenerateSpanningTree();
-            Assert.AreEqual(2, span.Count);
+            Assert.Equal(2, span.Count);
         }
 
-        [Test]
+        [Fact]
         public void SpanningTreeTestCyclic()
         {
-
             var g = GraphGenerator.GenerateCycle(10);
             var span = g.GenerateSpanningTree();
-            Assert.AreEqual(9, span.Count);
+            Assert.Equal(9, span.Count);
         }
 
-        [Test]
+        [Fact]
         public void SpanningTreeTestComplete()
         {
-
             var g = GraphGenerator.CreateComplete(15);
             var span = g.GenerateSpanningTree();
-            Assert.AreEqual(14, span.Count);
+            Assert.Equal(14, span.Count);
         }
 
-        [Test]
+        [Fact]
         public void SpanningTreeTestDisconnected()
         {
-
             var g = new Graph();
             g.AddEdge("A", "B");
             g.AddEdge("B", "C");
             g.AddEdge("D", "E");
             var span = g.GenerateSpanningTree();
-            Assert.AreEqual(3, span.Count);
+            Assert.Equal(3, span.Count);
         }
     }
 }

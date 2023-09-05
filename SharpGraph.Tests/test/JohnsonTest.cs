@@ -2,20 +2,17 @@ using System.Configuration.Assemblies;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
 
 namespace SharpGraph
 {
-    [TestFixture]
     public class JohnsonTest
     {
-        [Test]
+        [Fact]
         public void JohnsonTest1()
         {
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(4);
             var g = GraphGenerator.CreateComplete(nodes);
-
-
 
             foreach (Edge e in g.GetEdges())
             {
@@ -27,15 +24,13 @@ namespace SharpGraph
 
             var minPath = g.FindShortestPaths();
 
-
-            Assert.AreEqual(12, minPath.Count);
+            Assert.Equal(12, minPath.Count);
         }
 
-        [Test]
+        [Fact]
         public void JohnsonTest2()
         {
             var g = GraphGenerator.GenerateCycle(7);
-
 
             var r = new Random();
             foreach (Edge e in g.GetEdges())
@@ -49,14 +44,13 @@ namespace SharpGraph
             var minPath = g.FindShortestPaths();
 
             // 7*6 all possible ordered pairs
-            Assert.AreEqual(7*6, minPath.Count);
+            Assert.Equal(7 * 6, minPath.Count);
         }
 
-        [Test]
+        [Fact]
         public void JohnsonExceptionTest1()
         {
             var g = GraphGenerator.CreateComplete(5);
-
 
             var r = new Random();
             // do not add direcitons
@@ -67,14 +61,12 @@ namespace SharpGraph
             }
             // exception because no direction
             Assert.Throws<Exception>(() => g.FindShortestPaths());
-
         }
 
-        [Test]
+        [Fact]
         public void JohnsonExceptionTest2()
         {
             var g = GraphGenerator.CreateComplete(5);
-
 
             var r = new Random();
             // do not add weights
@@ -83,10 +75,9 @@ namespace SharpGraph
                 var b = g.AddComponent<EdgeDirection>(e);
                 b.Direction = Direction.Both;
             }
- 
+
             // exception because no weights
             Assert.Throws<Exception>(() => g.FindShortestPaths());
         }
-
     }
 }
