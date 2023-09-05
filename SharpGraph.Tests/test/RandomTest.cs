@@ -6,7 +6,6 @@ using Xunit;
 
 namespace SharpGraph
 {
-
     public class RandomTest
     {
         [Fact]
@@ -61,19 +60,16 @@ namespace SharpGraph
             Assert.False(g.IsConnected());
         }
 
-
         [Fact]
         public void RandomExceptionTest1()
         {
             Assert.Throws<RandomGraphException>(() => Graph.GenerateRandom(5, 11, false, 10));
-
         }
 
         [Fact]
         public void RandomExceptionTest2()
         {
             Assert.Throws<RandomGraphException>(() => Graph.GenerateRandom(5, -1, false, 2));
-
         }
 
         [Fact]
@@ -93,7 +89,6 @@ namespace SharpGraph
         public void RandomSpanningTreeExceptionTest1()
         {
             Assert.Throws<RandomGraphException>(() => Graph.GenerateRandomSpanningTree(2, -1));
-
         }
     }
 }

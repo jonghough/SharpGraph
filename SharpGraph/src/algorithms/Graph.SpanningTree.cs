@@ -127,6 +127,25 @@ namespace SharpGraph
             return subsets[node].Parent;
         }
 
+        internal void Union(List<DisjointSet> subsets, int a, int b)
+        {
+            var rootA = this.Find(subsets, a);
+            var rootB = this.Find(subsets, b);
+
+            if (subsets[rootA].Rank < subsets[rootB].Rank)
+            {
+                subsets[rootA].Parent = rootB;
+            }
+            else
+            {
+                subsets[rootB].Parent = rootA;
+                if (subsets[rootB].Rank == subsets[rootA].Rank)
+                {
+                    subsets[rootA].Rank++;
+                }
+            }
+        }
+
         /// <summary>
         /// Generates a minimum spanning tree on the graph. The weight is defined using the.
         /// <code>EdgeWeight</code> component's. <code>Weight</code> value.
@@ -234,25 +253,6 @@ namespace SharpGraph
                 .Select(v => v.Item2)
                 .ToHashSet()
                 .ToList(); // listify the result edges, after dropping duplicates
-        }
-
-        internal void Union(List<DisjointSet> subsets, int a, int b)
-        {
-            var rootA = this.Find(subsets, a);
-            var rootB = this.Find(subsets, b);
-
-            if (subsets[rootA].Rank < subsets[rootB].Rank)
-            {
-                subsets[rootA].Parent = rootB;
-            }
-            else
-            {
-                subsets[rootB].Parent = rootA;
-                if (subsets[rootB].Rank == subsets[rootA].Rank)
-                {
-                    subsets[rootA].Rank++;
-                }
-            }
         }
     }
 

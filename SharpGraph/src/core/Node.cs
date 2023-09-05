@@ -36,8 +36,6 @@ namespace SharpGraph
             return " " + this.label + " ";
         }
 
-        private void Init() { }
-
         public override int GetHashCode()
         {
             return this.label.GetHashCode();
@@ -57,6 +55,8 @@ namespace SharpGraph
 
             return false;
         }
+
+        private void Init() { }
     }
 
     public abstract class NodeComponent

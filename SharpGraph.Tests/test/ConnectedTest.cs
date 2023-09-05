@@ -38,7 +38,6 @@ namespace SharpGraph
         [Fact]
         public void ConnectedTest5()
         {
-
             /* nodes 0,1,2,3 are connected and nodes 4,5,6,7 are connected */
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(8);
             List<Node> nodeList = new List<Node>(nodes);
@@ -74,12 +73,13 @@ namespace SharpGraph
         {
             // test edges with two obvious connected components is not connected.
             // then add a bridge edge and test that the result is connected.
-            var edges = new List<Edge>{
-                new Edge("a","b"),
-                new Edge("b","c"),
-                new Edge("a","c"),
-                new Edge("d","e"),
-                new Edge("e","f")
+            var edges = new List<Edge>
+            {
+                new Edge("a", "b"),
+                new Edge("b", "c"),
+                new Edge("a", "c"),
+                new Edge("d", "e"),
+                new Edge("e", "f")
             };
 
             var g = new Graph(edges);
@@ -92,7 +92,6 @@ namespace SharpGraph
         [Fact]
         public void StronglyConnectedComponentTest1()
         {
-
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(5);
             List<Node> nodeList = new List<Node>(nodes);
             Edge wedge1 = new Edge(nodeList[0], nodeList[1]);
@@ -134,7 +133,6 @@ namespace SharpGraph
         [Fact]
         public void StronglyConnectedComponentTest2()
         {
-
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(5);
             List<Node> nodeList = new List<Node>(nodes);
             Edge wedge1 = new Edge(nodeList[0], nodeList[1]);
@@ -175,7 +173,6 @@ namespace SharpGraph
         [Fact]
         public void StronglyConnectedComponentTest3()
         {
-
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(6);
             List<Node> nodeList = new List<Node>(nodes);
             Edge wedge1 = new Edge(nodeList[0], nodeList[1]);
@@ -228,7 +225,6 @@ namespace SharpGraph
         [Fact]
         public void WeaklyConnectedComponentTest1()
         {
-
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(5);
             List<Node> nodeList = new List<Node>(nodes);
             Edge wedge1 = new Edge(nodeList[0], nodeList[1]);
@@ -276,7 +272,7 @@ namespace SharpGraph
             g.AddEdge("1", "4");
             g.AddEdge("2", "3");
             g.AddEdge("2", "4");
-            // another component  
+            // another component
             g.AddEdge("5", "6");
             g.AddEdge("6", "7");
 
@@ -289,7 +285,6 @@ namespace SharpGraph
         [Fact]
         public void BridgeTest1()
         {
-
             var left = new HashSet<Node>();
             left.Add(new Node("A"));
             left.Add(new Node("B"));
@@ -308,12 +303,10 @@ namespace SharpGraph
         [Fact]
         public void BridgeTest2()
         {
-
             var g = GraphGenerator.CreateComplete("A", "B", "C", "D", "E");
 
             var bridges = g.FindBridges();
             Assert.Empty(bridges);
         }
     }
-
 }

@@ -6,7 +6,6 @@ namespace SharpGraph
 {
     public class BoundaryTest
     {
-
         [Fact]
         public void NodeBoundaryTest1()
         {
@@ -25,8 +24,6 @@ namespace SharpGraph
             Assert.DoesNotContain(nodes[0], bdry);
             Assert.DoesNotContain(nodes[1], bdry);
             Assert.DoesNotContain(nodes[2], bdry);
-
-
         }
 
         [Fact]
@@ -45,8 +42,6 @@ namespace SharpGraph
             bdry = g.EdgeBoundary(hs);
             // all edges to nodes 4,5. So 8 edges.
             Assert.Equal(8, bdry.Count);
-
-
         }
     }
 }

@@ -180,6 +180,48 @@ namespace SharpGraph
             return true;
         }
 
+        public ReadOnlyCollection<Edge> GetEdgesAsReadOnly()
+        {
+            return new ReadOnlyCollection<Edge>(this.edges);
+        }
+
+        public List<Edge> GetEdges()
+        {
+            return new List<Edge>(this.edges);
+        }
+
+        public HashSet<Node> GetNodes()
+        {
+            HashSet<Node> hs = new HashSet<Node>();
+            foreach (var n in this.nodes)
+            {
+                hs.Add(n);
+            }
+
+            return hs;
+        }
+
+        public int Degree(Node node)
+        {
+            if (this.nodes.Contains(node) == false)
+            {
+                return -1;
+            }
+            else
+            {
+                int deg = 0;
+                foreach (Edge e in this.edges)
+                {
+                    if (e.Nodes().Contains(node))
+                    {
+                        deg++;
+                    }
+                }
+
+                return deg;
+            }
+        }
+
         private void Init()
         {
             this.incidenceMap = new Dictionary<Node, HashSet<Edge>>();
@@ -190,14 +232,16 @@ namespace SharpGraph
             this.graphComponents = new Dictionary<string, GraphComponent>();
         }
 
-        public ReadOnlyCollection<Edge> GetEdgesAsReadOnly()
+        public void AddEdge(string node1, string node2)
         {
-            return new ReadOnlyCollection<Edge>(this.edges);
+            var n1 = new Node(node1);
+            var n2 = new Node(node2);
+            this.AddEdge(new Edge(n1, n2));
         }
 
-        public List<Edge> GetEdges()
+        public void AddEdge(Node node1, Node node2)
         {
-            return new List<Edge>(this.edges);
+            this.AddEdge(new Edge(node1, node2));
         }
 
         private void AddIncidence(Node node, Edge edge)
@@ -237,50 +281,6 @@ namespace SharpGraph
             {
                 return false;
             }
-        }
-
-        public HashSet<Node> GetNodes()
-        {
-            HashSet<Node> hs = new HashSet<Node>();
-            foreach (var n in this.nodes)
-            {
-                hs.Add(n);
-            }
-
-            return hs;
-        }
-
-        public int Degree(Node node)
-        {
-            if (this.nodes.Contains(node) == false)
-            {
-                return -1;
-            }
-            else
-            {
-                int deg = 0;
-                foreach (Edge e in this.edges)
-                {
-                    if (e.Nodes().Contains(node))
-                    {
-                        deg++;
-                    }
-                }
-
-                return deg;
-            }
-        }
-
-        public void AddEdge(string node1, string node2)
-        {
-            var n1 = new Node(node1);
-            var n2 = new Node(node2);
-            this.AddEdge(new Edge(n1, n2));
-        }
-
-        public void AddEdge(Node node1, Node node2)
-        {
-            this.AddEdge(new Edge(node1, node2));
         }
 
         /// <summary>
@@ -352,32 +352,6 @@ namespace SharpGraph
             return null;
         }
 
-        internal bool AddEdge(Edge edge)
-        {
-            if (this.GetEdges().Contains(edge))
-            {
-                return false;
-            }
-
-            if (this.edgeComponents.ContainsKey(edge))
-            {
-                return false;
-            }
-
-            var comps = new Dictionary<string, EdgeComponent>();
-            this.edgeComponents[edge] = comps;
-
-            this.edges.Add(edge);
-            var from = edge.From();
-            var to = edge.To();
-            this.AddNode(to);
-            this.AddNode(from);
-            this.AddIncidence(from, edge);
-            this.AddIncidence(to, edge);
-
-            return true;
-        }
-
         public Edge? GetEdge(string node1, string node2)
         {
             return this.GetEdge(new Node(node1), new Node(node2));
@@ -422,6 +396,32 @@ namespace SharpGraph
         public bool RemoveEdge(string fromNode, string toNode)
         {
             return this.RemoveEdge((new Node(fromNode), new Node(toNode)));
+        }
+
+        internal bool AddEdge(Edge edge)
+        {
+            if (this.GetEdges().Contains(edge))
+            {
+                return false;
+            }
+
+            if (this.edgeComponents.ContainsKey(edge))
+            {
+                return false;
+            }
+
+            var comps = new Dictionary<string, EdgeComponent>();
+            this.edgeComponents[edge] = comps;
+
+            this.edges.Add(edge);
+            var from = edge.From();
+            var to = edge.To();
+            this.AddNode(to);
+            this.AddNode(from);
+            this.AddIncidence(from, edge);
+            this.AddIncidence(to, edge);
+
+            return true;
         }
 
         public bool RemoveEdge((Node, Node) fromToNodes)

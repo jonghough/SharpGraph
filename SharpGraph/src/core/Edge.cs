@@ -57,16 +57,6 @@ namespace SharpGraph
             return this.to;
         }
 
-        internal Edge SetFrom(Node from)
-        {
-            return new Edge(from, this.to);
-        }
-
-        internal Edge SetTo(Node to)
-        {
-            return new Edge(this.from, to);
-        }
-
         public bool IsSame(Edge edge)
         {
             if (
@@ -112,6 +102,16 @@ namespace SharpGraph
             {
                 throw new Exception("Cannot get other node to a non-incident node edge pair.");
             }
+        }
+
+        internal Edge SetFrom(Node from)
+        {
+            return new Edge(from, this.to);
+        }
+
+        internal Edge SetTo(Node to)
+        {
+            return new Edge(this.from, to);
         }
 
         public override string ToString()

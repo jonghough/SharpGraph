@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Xunit;
+
 namespace SharpGraph
 {
     public class FordFulkersonTest
@@ -15,7 +16,6 @@ namespace SharpGraph
              */
             var nodes = new List<Node>(NodeGenerator.GenerateNodes(7));
 
-
             Edge e1 = new Edge(nodes[0], nodes[1]);
             Edge e2 = new Edge(nodes[0], nodes[3]);
 
@@ -28,8 +28,6 @@ namespace SharpGraph
             Edge e8 = new Edge(nodes[3], nodes[4]);
             Edge e9 = new Edge(nodes[4], nodes[6]);
             Edge e10 = new Edge(nodes[5], nodes[6]);
-
-
 
             List<Edge> edges = new List<Edge>();
             edges.Add(e1);
@@ -57,7 +55,6 @@ namespace SharpGraph
             g.AddComponent<EdgeCapacity>(e9).Capacity = 1;
             g.AddComponent<EdgeCapacity>(e10).Capacity = 9;
 
-
             g.FindMaxFlow(nodes[0], nodes[6]);
 
             Assert.Equal(2, g.GetComponent<EdgeCapacity>(e1).Flow, 0.001);
@@ -81,18 +78,15 @@ namespace SharpGraph
 
             Edge e1 = new Edge(n1, n2);
 
-
             List<Edge> edges = new List<Edge>();
             edges.Add(e1);
 
             var g = new Graph(edges);
             g.AddComponent<EdgeCapacity>(e1).Capacity = 3;
 
-
             g.FindMaxFlow(n1, n2);
 
             Assert.Equal(3, g.GetComponent<EdgeCapacity>(e1).Flow, 0.001);
-
         }
     }
 }

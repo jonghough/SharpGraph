@@ -6,7 +6,6 @@ using Xunit;
 
 namespace SharpGraph
 {
-
     public class JohnsonTest
     {
         [Fact]
@@ -14,8 +13,6 @@ namespace SharpGraph
         {
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(4);
             var g = GraphGenerator.CreateComplete(nodes);
-
-
 
             foreach (Edge e in g.GetEdges())
             {
@@ -27,7 +24,6 @@ namespace SharpGraph
 
             var minPath = g.FindShortestPaths();
 
-
             Assert.Equal(12, minPath.Count);
         }
 
@@ -35,7 +31,6 @@ namespace SharpGraph
         public void JohnsonTest2()
         {
             var g = GraphGenerator.GenerateCycle(7);
-
 
             var r = new Random();
             foreach (Edge e in g.GetEdges())
@@ -57,7 +52,6 @@ namespace SharpGraph
         {
             var g = GraphGenerator.CreateComplete(5);
 
-
             var r = new Random();
             // do not add direcitons
             foreach (Edge e in g.GetEdges())
@@ -67,14 +61,12 @@ namespace SharpGraph
             }
             // exception because no direction
             Assert.Throws<Exception>(() => g.FindShortestPaths());
-
         }
 
         [Fact]
         public void JohnsonExceptionTest2()
         {
             var g = GraphGenerator.CreateComplete(5);
-
 
             var r = new Random();
             // do not add weights
@@ -87,6 +79,5 @@ namespace SharpGraph
             // exception because no weights
             Assert.Throws<Exception>(() => g.FindShortestPaths());
         }
-
     }
 }

@@ -6,7 +6,6 @@ using Xunit;
 
 namespace SharpGraph
 {
-
     public class PlanarityTest
     {
         [Fact]
@@ -16,7 +15,6 @@ namespace SharpGraph
             var isPlanar = g.IsPlanar();
             Assert.True(isPlanar);
         }
-
 
         [Fact]
         public void PlanarityTestFailsForComplete5()
@@ -37,6 +35,7 @@ namespace SharpGraph
             var isPlanar = g.IsPlanar();
             Assert.False(isPlanar);
         }
+
         [Fact]
         public void PlanarityTestFailsForSuperGraphOfComplete5()
         {
@@ -57,8 +56,6 @@ namespace SharpGraph
 
             var isPlanar = g.IsPlanar();
             Assert.False(isPlanar);
-
-
         }
 
         [Fact]
@@ -88,7 +85,7 @@ namespace SharpGraph
             var isPlanar = g.IsPlanar();
             Assert.False(isPlanar);
 
-            //remove an edge 
+            //remove an edge
             g.RemoveEdge(new Edge("1", "2"));
             isPlanar = g.IsPlanar();
             Assert.False(isPlanar);

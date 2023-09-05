@@ -6,7 +6,6 @@ using Xunit;
 
 namespace SharpGraph
 {
-
     public class PathsTest
     {
         [Fact]

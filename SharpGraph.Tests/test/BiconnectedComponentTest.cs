@@ -31,7 +31,7 @@ namespace SharpGraph
             // bcc's are left complete, right complete, edge in middle.
             Assert.Equal(3, c.Count);
 
-            // add another edge 
+            // add another edge
             edges.Add(new Edge(new Node("A_1"), new Node("B_0")));
             var gn = new Graph(edges);
             var c2 = gn.FindBiconnectedComponents();

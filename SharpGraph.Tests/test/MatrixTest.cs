@@ -7,7 +7,6 @@ namespace SharpGraph
 {
     public class MatrixTest
     {
-
         [Fact]
         public void TestAdjacencyMatrixForK4()
         {
@@ -19,7 +18,6 @@ namespace SharpGraph
             Assert.Equal(1.0f, mat[0, 1]);
             Assert.Equal(1.0f, mat[2, 0]);
             Assert.Equal(1.0f, mat[3, 1]);
-
         }
 
         [Fact]
@@ -35,7 +33,6 @@ namespace SharpGraph
             {
                 Assert.Equal(3, rs);
             }
-
         }
 
         [Fact]
@@ -61,10 +58,6 @@ namespace SharpGraph
             var g = Graph.FromAdjacencyMatrix(mat);
             Assert.Equal(15, g.GetEdges().Count);
             Assert.Equal(expected: 6, g.GetNodes().Count);
-
-
         }
-
-
     }
 }

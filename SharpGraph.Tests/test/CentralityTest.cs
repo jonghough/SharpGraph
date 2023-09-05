@@ -8,7 +8,6 @@ namespace SharpGraph.Tests.test
 {
     public class CentralityTest
     {
-
         [Fact]
         public void TestCentralityOfCompleteGraph()
         {
@@ -35,7 +34,6 @@ namespace SharpGraph.Tests.test
 
             var dd = g.GetDegreeCentrality(new Node("D"));
             Assert.Equal(0.2f, dd);
-
         }
     }
 }

@@ -18,12 +18,10 @@ namespace SharpGraph
         {
             return _val;
         }
-
     }
 
     public class AStarTest
     {
-
         [Fact]
         public void AStarTest1()
         {
@@ -45,7 +43,6 @@ namespace SharpGraph
         [Fact]
         public void AStarTest2()
         {
-
             // A -> B -> F should be shortest path from A to F.
 
             Edge eAB = new Edge("A", "B");
@@ -76,15 +73,17 @@ namespace SharpGraph
 
             List<Node> path = g.FindMinPath(new Node("A"), new Node("F"), new TestHeuristic(5));
 
-            Assert.True(path.Contains(new Node("A")) && path.Contains(new Node("B")) &&
-                path.Contains(new Node("F")) && path.Count == 3);
-
+            Assert.True(
+                path.Contains(new Node("A"))
+                    && path.Contains(new Node("B"))
+                    && path.Contains(new Node("F"))
+                    && path.Count == 3
+            );
         }
 
         [Fact]
         public void AStarTest3()
         {
-
             // A -> F -> D -> H should be shortest path from A to H
             Node b1 = new Node("A");
             Node b2 = new Node("B");
@@ -132,21 +131,23 @@ namespace SharpGraph
             g.AddComponent<EdgeWeight>(eCE).Weight = 6.5f;
             List<Node> path = g.FindMinPath(b1, b8, new TestHeuristic(5));
 
-            Assert.True(path.Contains(b1) && path.Contains(b4) &&
-                path.Contains(b6) && path.Contains(b8) && path.Count == 4);
-
+            Assert.True(
+                path.Contains(b1)
+                    && path.Contains(b4)
+                    && path.Contains(b6)
+                    && path.Contains(b8)
+                    && path.Count == 4
+            );
         }
 
         [Fact]
         public void AStarTest4()
         {
-
             // A ->B should be shortest path from A to B
             Node b1 = new Node("A");
             Node b2 = new Node("B");
 
             Edge eAB = new Edge(b1, b2);
-
 
             List<Edge> list = new List<Edge>();
             list.Add(eAB);
@@ -156,7 +157,6 @@ namespace SharpGraph
             List<Node> path = g.FindMinPath(b1, b2, new TestHeuristic(5));
 
             Assert.True(path.Contains(b1) && path.Contains(b2) && path.Count == 2);
-
         }
 
         [Fact]
@@ -175,10 +175,7 @@ namespace SharpGraph
             List<Node> path = g.FindMinPath(b1, b2, new TestHeuristic(5));
 
             Assert.True(path.Count == 1);
-
         }
-
-
     }
 
     public class SimpleHeuristic : IAStarHeuristic

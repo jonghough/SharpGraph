@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 namespace SharpGraph
 {
-
     public class CompleteGraphTest
     {
         [Fact]
@@ -27,17 +26,18 @@ namespace SharpGraph
             const int width = 3;
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(nodeNum);
             var g = GraphGenerator.GenerateGrid(nodes, width);
-            Assert.Equal((width - 1) * (nodeNum / width) + width * (nodeNum / width - 1), g.GetEdges().Count);
+            Assert.Equal(
+                (width - 1) * (nodeNum / width) + width * (nodeNum / width - 1),
+                g.GetEdges().Count
+            );
         }
     }
-
 
     public class CycleTesting
     {
         [Fact]
         public void CycleTestComplete4()
         {
-
             // ------- There are 7 possible cycles in the complete graph K4. --------//
             HashSet<Node> nodes4 = NodeGenerator.GenerateNodes(4);
             var graph4 = GraphGenerator.CreateComplete(nodes4);
@@ -52,7 +52,6 @@ namespace SharpGraph
             HashSet<Node> nodes5 = NodeGenerator.GenerateNodes(5);
             var graph5 = GraphGenerator.CreateComplete(nodes5);
             Assert.Equal(37, graph5.FindSimpleCycles().Count);
-
         }
 
         [Fact]
@@ -62,8 +61,6 @@ namespace SharpGraph
             HashSet<Node> nodes6 = NodeGenerator.GenerateNodes(6);
             var graph6 = GraphGenerator.CreateComplete(nodes6);
             Assert.Equal(197, graph6.FindSimpleCycles().Count);
-
-
         }
 
         [Fact]
@@ -73,8 +70,6 @@ namespace SharpGraph
             HashSet<Node> nodes7 = NodeGenerator.GenerateNodes(7);
             var graph7 = GraphGenerator.CreateComplete(nodes7);
             Assert.Equal(1172, graph7.FindSimpleCycles().Count);
-
-
         }
 
         [Fact]
@@ -109,4 +104,3 @@ namespace SharpGraph
         }
     }
 }
-

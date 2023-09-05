@@ -23,7 +23,7 @@ namespace SharpGraph
         /// with no crossing edges. This method uses an implementation of the "left-right approach" to planarity testing,
         /// and is heavily based off the networkx implementation.
         /// This method will return true if the graph is planar, and false otherwise. No "proof": i.e. a counterexample or an example embedding are provided.
-        /// <see href="https://networkx.org/documentation/stable/_modules/networkx/algorithms/planarity.html#CheckPlanarity" networkx implementation.. </see>
+        /// <see href="https://networkx.org/documentation/stable/_modules/networkx/algorithms/planarity.html#CheckPlanarity" networkx implementation...... </see>
         /// <see href="https://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=70329F8449DE1E839C85438D379BE36C?doi=10.1.1.217.9208&rep=rep1&type=pdf">algorithm.</see>
         ///
         /// <returns></returns></summary>
@@ -35,7 +35,7 @@ namespace SharpGraph
 
         /// <summary>
         /// Checks whether the graph is planar. A bool result is returned in a tuple with a planar embedding if the graph is planar or null otherwise.
-        /// <see href="https://networkx.org/documentation/stable/_modules/networkx/algorithms/planarity.html#CheckPlanarity" networkx implementation.. </see>
+        /// <see href="https://networkx.org/documentation/stable/_modules/networkx/algorithms/planarity.html#CheckPlanarity" networkx implementation...... </see>
         /// <see href="https://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=70329F8449DE1E839C85438D379BE36C?doi=10.1.1.217.9208&rep=rep1&type=pdf">algorithm.</see>
         ///
         /// <returns></returns></summary>
@@ -409,6 +409,12 @@ namespace SharpGraph
             return this.Left.Equals(other.Left) && this.Right.Equals(other.Right);
         }
 
+        public override int GetHashCode()
+        {
+            var h = (this.Left.GetHashCode() ^ 38334421) + (this.Right.GetHashCode() * 97);
+            return h;
+        }
+
         internal void Swap()
         {
             var tmp = this.Left;
@@ -429,12 +435,6 @@ namespace SharpGraph
             }
 
             return System.Math.Min(pc.LowPt[this.Left.Low.Value], pc.LowPt[this.Right.Low.Value]);
-        }
-
-        public override int GetHashCode()
-        {
-            var h = (this.Left.GetHashCode() ^ 38334421) + (this.Right.GetHashCode() * 97);
-            return h;
         }
     }
 
@@ -464,21 +464,6 @@ namespace SharpGraph
             return this.Low == other.Low && this.High == other.High;
         }
 
-        internal bool Empty()
-        {
-            return this.Low == null && this.High == null;
-        }
-
-        internal Interval Copy()
-        {
-            return new Interval(this.Low, this.High); // TODO deep copy?
-        }
-
-        internal bool Conflicting((Node, Node) edge, PlanarityChecker pc)
-        {
-            return this.Empty() == false && pc.LowPt[this.High.Value] > pc.LowPt[edge];
-        }
-
         public override int GetHashCode()
         {
             var x = 38334421;
@@ -495,6 +480,21 @@ namespace SharpGraph
 
             var h = x + y;
             return h;
+        }
+
+        internal bool Empty()
+        {
+            return this.Low == null && this.High == null;
+        }
+
+        internal Interval Copy()
+        {
+            return new Interval(this.Low, this.High); // TODO deep copy?
+        }
+
+        internal bool Conflicting((Node, Node) edge, PlanarityChecker pc)
+        {
+            return this.Empty() == false && pc.LowPt[this.High.Value] > pc.LowPt[edge];
         }
     }
 

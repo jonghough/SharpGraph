@@ -7,7 +7,6 @@ using Xunit;
 
 namespace SharpGraph
 {
-
     public class GraphTest
     {
         [Fact]
@@ -44,7 +43,6 @@ namespace SharpGraph
 
             Assert.Equal(5, g.GetNodes().Count);
             Assert.True(g.IsConnected());
-
         }
 
         [Fact]
@@ -52,9 +50,7 @@ namespace SharpGraph
         {
             var g = new Graph();
 
-            Assert.Throws<Exception>(
-                () => g.AddEdge("A", "A"));
-
+            Assert.Throws<Exception>(() => g.AddEdge("A", "A"));
         }
 
         [Fact]
@@ -108,7 +104,6 @@ namespace SharpGraph
             g1.AddEdge("B", "E");
             g1.AddEdge("E", "F");
 
-
             Assert.Equal(5, g1.GetEdges().Count);
             g1.RemoveEdge("A", "B");
 
@@ -125,7 +120,6 @@ namespace SharpGraph
 
             Assert.Equal(edgeCount - 1, g1.GetEdges().Count);
         }
-
 
         [Fact]
         public void TestRemoveEdge3()
@@ -224,7 +218,9 @@ namespace SharpGraph
         [Fact]
         public void TestGraphConstructorRegex3()
         {
-            var g = new Graph("node1 ->node2, node3 -> node4, node5->node6, node6-> node7, node7->node5");
+            var g = new Graph(
+                "node1 ->node2, node3 -> node4, node5->node6, node6-> node7, node7->node5"
+            );
             Assert.True(g != null);
             Assert.True(g.GetNodes().Count == 7);
             for (int i = 1; i <= 7; i++)
@@ -260,9 +256,12 @@ namespace SharpGraph
         [Theory]
         [InlineData("a -> b", 1)]
         [InlineData("1 -> 2, 2 -> other, 2->NodethreeX", 3)]
-        [InlineData(@"n1 -> n2, n3 -> n4,n5->n6,n6->n7,n1->n5, 
+        [InlineData(
+            @"n1 -> n2, n3 -> n4,n5->n6,n6->n7,n1->n5, 
         n2->n5, n3-> n5, n4->n6, n6->n8,  
-        n4->n9,n6->n9", 11)]
+        n4->n9,n6->n9",
+            11
+        )]
         [InlineData("abc -> def, xyz -> ABC,def->ABC", 3)]
         public void TestGraphConstructorRegexTheory(string constructorArg, int edgeCount)
         {
@@ -270,7 +269,6 @@ namespace SharpGraph
             Assert.NotNull(g);
             Assert.True(g.GetEdges().Count == edgeCount);
         }
-
 
         [Theory]
         [InlineData("a -> b", new string[] { "a", "b" })]
@@ -297,7 +295,8 @@ namespace SharpGraph
                 throw new Exception("Null node component");
             if (nodeComponent is TestComponent)
                 (nodeComponent as TestComponent).Distance = Distance;
-            else throw new Exception("Type is not correct");
+            else
+                throw new Exception("Type is not correct");
         }
     }
 
@@ -315,8 +314,8 @@ namespace SharpGraph
                 (nodeComponent as TestComponent2).x = x;
                 (nodeComponent as TestComponent2).y = y;
             }
-            else throw new Exception("Type is not correct");
+            else
+                throw new Exception("Type is not correct");
         }
     }
-
 }

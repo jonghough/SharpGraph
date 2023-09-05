@@ -5,7 +5,6 @@ using Xunit;
 
 namespace SharpGraph
 {
-
     public class SpanningTreeTest
     {
         [Fact]
@@ -19,7 +18,6 @@ namespace SharpGraph
         [Fact]
         public void MinimumSpanningTreeTest1()
         {
-
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(8);
             List<Node> nodeList = new List<Node>(nodes);
             Edge wedge1 = new Edge(nodeList[0], nodeList[1]);
@@ -73,7 +71,6 @@ namespace SharpGraph
         [Fact]
         public void MinimumSpanningTreeTest2()
         {
-
             Node b1 = new Node("1");
             Node b2 = new Node("2");
             Node b3 = new Node("3");
@@ -99,7 +96,6 @@ namespace SharpGraph
         [Fact]
         public void MinimumSpanningTreeTest3()
         {
-
             Node b1 = new Node("1");
             Node b2 = new Node("2");
             Node b3 = new Node("3");
@@ -144,7 +140,9 @@ namespace SharpGraph
 
             var span = g.GenerateMinimumSpanningTree();
             Assert.Equal(2, span.Count);
-            Assert.Throws<MinimumSpanningTreeException>(() => g.GenerateMinimumSpanningTree(mustBeConnected: true));
+            Assert.Throws<MinimumSpanningTreeException>(
+                () => g.GenerateMinimumSpanningTree(mustBeConnected: true)
+            );
         }
 
         [Fact]
@@ -152,13 +150,14 @@ namespace SharpGraph
         {
             var g = GraphGenerator.GenerateCycle(5);
 
-            Assert.Throws<MinimumSpanningTreeException>(() => g.GenerateMinimumSpanningTree(mustBeConnected: false));
+            Assert.Throws<MinimumSpanningTreeException>(
+                () => g.GenerateMinimumSpanningTree(mustBeConnected: false)
+            );
         }
 
         [Fact]
         public void MinimumSpanningTreePrimTest3()
         {
-
             Node b1 = new Node("1");
             Node b2 = new Node("2");
             Node b3 = new Node("3");
@@ -196,7 +195,6 @@ namespace SharpGraph
         [Fact]
         public void MinimumSpanningTreePrimTest1()
         {
-
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(8);
             List<Node> nodeList = new List<Node>(nodes);
             Edge wedge1 = new Edge(nodeList[0], nodeList[1]);
@@ -250,7 +248,6 @@ namespace SharpGraph
         [Fact]
         public void MinimumSpanningTreePrimTest2()
         {
-
             Node b1 = new Node("1");
             Node b2 = new Node("2");
             Node b3 = new Node("3");
@@ -276,7 +273,6 @@ namespace SharpGraph
         [Fact]
         public void SpanningTreeTest1()
         {
-
             Node b1 = new Node("1");
             Node b2 = new Node("2");
             Node b3 = new Node("3");
@@ -296,7 +292,6 @@ namespace SharpGraph
         [Fact]
         public void SpanningTreeTestCyclic()
         {
-
             var g = GraphGenerator.GenerateCycle(10);
             var span = g.GenerateSpanningTree();
             Assert.Equal(9, span.Count);
@@ -305,7 +300,6 @@ namespace SharpGraph
         [Fact]
         public void SpanningTreeTestComplete()
         {
-
             var g = GraphGenerator.CreateComplete(15);
             var span = g.GenerateSpanningTree();
             Assert.Equal(14, span.Count);
@@ -314,7 +308,6 @@ namespace SharpGraph
         [Fact]
         public void SpanningTreeTestDisconnected()
         {
-
             var g = new Graph();
             g.AddEdge("A", "B");
             g.AddEdge("B", "C");

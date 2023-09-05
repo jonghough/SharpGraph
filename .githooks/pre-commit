@@ -1,9 +1,13 @@
-#!/usr/bin/env dotnet-script
-#load "command-line.csx"
-Console.WriteLine("pre-commit hook");
-var res = ExecuteCommand("dotnet format");
-if(res != 0){
-    Console.WriteLine("Format failed.");
-    Environment.Exit(res);
-}
-Environment.Exit(-1);
+#!/bin/sh
+
+echo "*** begin format ***"
+dotnet format
+res=$?
+
+if [ $res -ne 0 ] ; then
+    echo "dotnet format failed with result ${res}"
+    exit $res;
+fi 
+
+echo "*** finish format ***"
+exit 0;

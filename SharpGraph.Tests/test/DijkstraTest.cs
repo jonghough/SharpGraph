@@ -5,7 +5,6 @@ using Xunit;
 
 namespace SharpGraph
 {
-
     public class DijkstraTest
     {
         [Fact]
@@ -29,7 +28,6 @@ namespace SharpGraph
         [Fact]
         public void DijkstraTest2()
         {
-
             // A -> B -> F should be shortest path from A to F.
             Node b1 = new Node("A");
             Node b2 = new Node("B");
@@ -65,15 +63,14 @@ namespace SharpGraph
             g.AddComponent<EdgeWeight>(eDF).Weight = 6.5f;
             List<Node> path = g.FindMinPath(b1, b6);
 
-            Assert.True(path.Contains(b1) && path.Contains(b2) &&
-                path.Contains(b6) && path.Count == 3);
-
+            Assert.True(
+                path.Contains(b1) && path.Contains(b2) && path.Contains(b6) && path.Count == 3
+            );
         }
 
         [Fact]
         public void DijkstraTest3()
         {
-
             // A -> F -> D -> H should be shortest path from A to H
             Node b1 = new Node("A");
             Node b2 = new Node("B");
@@ -121,15 +118,18 @@ namespace SharpGraph
             g.AddComponent<EdgeWeight>(eCE).Weight = 6.5f;
             List<Node> path = g.FindMinPath(b1, b8);
 
-            Assert.True(path.Contains(b1) && path.Contains(b4) &&
-                path.Contains(b6) && path.Contains(b8) && path.Count == 4);
-
+            Assert.True(
+                path.Contains(b1)
+                    && path.Contains(b4)
+                    && path.Contains(b6)
+                    && path.Contains(b8)
+                    && path.Count == 4
+            );
         }
 
         [Fact]
         public void DijkstraTest4()
         {
-
             // A ->B should be shortest path from A to B
             Node b1 = new Node("A");
             Node b2 = new Node("B");
@@ -144,7 +144,6 @@ namespace SharpGraph
             List<Node> path = g.FindMinPath(b1, b2);
 
             Assert.True(path.Contains(b1) && path.Contains(b2) && path.Count == 2);
-
         }
 
         [Fact]
@@ -167,7 +166,6 @@ namespace SharpGraph
             List<Node> path = g.FindMinPath(b1, b2);
 
             Assert.True(path.Count == 2);
-
         }
     }
 }

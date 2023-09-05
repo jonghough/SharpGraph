@@ -6,10 +6,8 @@ using Xunit;
 
 namespace SharpGraph
 {
-
     public class MISTest
     {
-
         [Fact]
         public void Test1()
         {
@@ -21,7 +19,13 @@ namespace SharpGraph
         [Fact]
         public void Test2()
         {
-            var nodes = new List<Node> { new Node("A"), new Node("B"), new Node("C"), new Node("C") };
+            var nodes = new List<Node>
+            {
+                new Node("A"),
+                new Node("B"),
+                new Node("C"),
+                new Node("C")
+            };
             var g = new Graph(new List<Edge>(), nodes.ToHashSet());
             var sets = g.GetMaximallyIndependentSets();
             Assert.True(sets.Count == 1);

@@ -89,37 +89,6 @@ namespace SharpGraph
             return null;
         }
 
-        private KeyValuePair<string, NodeComponent> GetComponentKVP<T>(Node n)
-            where T : NodeComponent, new()
-        {
-            if (!this.nodeComponents.ContainsKey(n))
-            {
-                return default(KeyValuePair<string, NodeComponent>);
-            }
-
-            foreach (var kvp in this.nodeComponents[n])
-            {
-                if (kvp.Value is T)
-                {
-                    return kvp;
-                }
-            }
-
-            return default(KeyValuePair<string, NodeComponent>);
-        }
-
-        private T AddNodeComponent<T>(Node node)
-            where T : NodeComponent, new()
-        {
-            return this.AddComponent<T>(node);
-        }
-
-        private T AddEdgeComponent<T>(Edge edge)
-            where T : EdgeComponent, new()
-        {
-            return this.AddComponent<T>(edge);
-        }
-
         public bool HasComponent<T>(Edge e)
             where T : EdgeComponent, new()
         {
@@ -171,25 +140,6 @@ namespace SharpGraph
             }
         }
 
-        private KeyValuePair<string, EdgeComponent> GetComponentKVP<T>(Edge e)
-            where T : EdgeComponent, new()
-        {
-            if (!this.edgeComponents.ContainsKey(e))
-            {
-                return default(KeyValuePair<string, EdgeComponent>);
-            }
-
-            foreach (var kvp in this.edgeComponents[e])
-            {
-                if (kvp.Value is T)
-                {
-                    return kvp;
-                }
-            }
-
-            return default(KeyValuePair<string, EdgeComponent>);
-        }
-
         public T GetComponent<T>()
             where T : GraphComponent, new()
         {
@@ -199,6 +149,37 @@ namespace SharpGraph
             }
 
             return this.graphComponents[typeof(T).FullName] as T;
+        }
+
+        private KeyValuePair<string, NodeComponent> GetComponentKVP<T>(Node n)
+            where T : NodeComponent, new()
+        {
+            if (!this.nodeComponents.ContainsKey(n))
+            {
+                return default(KeyValuePair<string, NodeComponent>);
+            }
+
+            foreach (var kvp in this.nodeComponents[n])
+            {
+                if (kvp.Value is T)
+                {
+                    return kvp;
+                }
+            }
+
+            return default(KeyValuePair<string, NodeComponent>);
+        }
+
+        private T AddNodeComponent<T>(Node node)
+            where T : NodeComponent, new()
+        {
+            return this.AddComponent<T>(node);
+        }
+
+        private T AddEdgeComponent<T>(Edge edge)
+            where T : EdgeComponent, new()
+        {
+            return this.AddComponent<T>(edge);
         }
 
         public T AddComponent<T>()
@@ -277,6 +258,25 @@ namespace SharpGraph
             }
 
             return g;
+        }
+
+        private KeyValuePair<string, EdgeComponent> GetComponentKVP<T>(Edge e)
+            where T : EdgeComponent, new()
+        {
+            if (!this.edgeComponents.ContainsKey(e))
+            {
+                return default(KeyValuePair<string, EdgeComponent>);
+            }
+
+            foreach (var kvp in this.edgeComponents[e])
+            {
+                if (kvp.Value is T)
+                {
+                    return kvp;
+                }
+            }
+
+            return default(KeyValuePair<string, EdgeComponent>);
         }
     }
 }

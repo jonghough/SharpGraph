@@ -5,21 +5,17 @@ using System.Collections.Generic;
 
 namespace SharpGraph
 {
-
     public class MinCutTest
     {
-
         [Fact]
         public void TestMinCutOfComplete()
         {
-
             HashSet<Node> nodes = NodeGenerator.GenerateNodes(8);
             var g = GraphGenerator.CreateComplete(nodes);
 
             int cutEdges = g.FindMinCut();
             Assert.True(cutEdges >= 7);
         }
-
 
         [Fact]
         public void TestMinCutOfCycle()
@@ -44,7 +40,6 @@ namespace SharpGraph
             Assert.Equal(1, cutEdges);
         }
 
-
         [Fact]
         public void TestMinCutMultiRun()
         {
@@ -64,4 +59,3 @@ namespace SharpGraph
         }
     }
 }
-

@@ -5,7 +5,6 @@ using Xunit;
 
 namespace SharpGraph
 {
-
     public class TrainglesTest
     {
         [Fact]
