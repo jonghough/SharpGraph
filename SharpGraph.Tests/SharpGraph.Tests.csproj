@@ -24,9 +24,8 @@
     </PackageReference>
 
   </ItemGroup>
-  
   <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json" />
+    <AdditionalFiles Include="$(SolutionDir)\stylecop.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpGraph\SharpGraph.csproj" />
