@@ -1,14 +1,13 @@
-// <copyright file="Graph.Biconnectivity.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.Biconnectivity.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public partial class Graph
     {
         /// <summary>
@@ -27,7 +26,7 @@ namespace SharpGraph
         public HashSet<HashSet<Edge>> FindBiconnectedComponents()
         {
             var nodeDataMap = new Dictionary<Node, BCNodeData>();
-            foreach (Node node in this.nodes)
+            foreach (var node in this.nodes)
             {
                 var m = new BCNodeData();
                 nodeDataMap[node] = m;
@@ -37,7 +36,7 @@ namespace SharpGraph
             var edgeStack = new Stack<Edge>();
             var connectedSets = new HashSet<HashSet<Edge>>();
             var counter = new int[] { 0 };
-            foreach (Node node in this.nodes)
+            foreach (var node in this.nodes)
             {
                 if (!nodeDataMap[node].Visited)
                 {
@@ -46,6 +45,23 @@ namespace SharpGraph
             }
 
             return connectedSets;
+        }
+
+        private static HashSet<Edge> GatherBCNodes(Edge lastEdge, Stack<Edge> edgeStack)
+        {
+            var nl = new HashSet<Edge>();
+
+            while (true)
+            {
+                var edge = edgeStack.Pop();
+                nl.Add(edge);
+                if (lastEdge == edge)
+                {
+                    break;
+                }
+            }
+
+            return nl;
         }
 
         private void VisitNode_BC(
@@ -71,7 +87,7 @@ namespace SharpGraph
                     this.VisitNode_BC(nextNode, counter, edgeStack, connectedSets, nodeDataMap);
                     if (nodeDataMap[nextNode].Low >= m.Depth)
                     {
-                        connectedSets.Add(this.GatherBCNodes(nextEdge, edgeStack));
+                        connectedSets.Add(GatherBCNodes(nextEdge, edgeStack));
                     }
 
                     m.Low = Math.Min(nodeDataMap[nextNode].Low, m.Low);
@@ -82,23 +98,6 @@ namespace SharpGraph
                     m.Low = Math.Min(nodeDataMap[nextNode].Depth, m.Low);
                 }
             }
-        }
-
-        private HashSet<Edge> GatherBCNodes(Edge lastEdge, Stack<Edge> edgeStack)
-        {
-            HashSet<Edge> nl = new HashSet<Edge>();
-
-            while (true)
-            {
-                Edge edge = edgeStack.Pop();
-                nl.Add(edge);
-                if (lastEdge == edge)
-                {
-                    break;
-                }
-            }
-
-            return nl;
         }
     }
 

@@ -1,13 +1,14 @@
-// <copyright file="Graph.Boundary.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.Boundary.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public partial class Graph
     {
         /// <summary>
@@ -30,13 +31,13 @@ namespace SharpGraph
                 {
                     if (nodes.Contains(i.From()) && !nodes.Contains(i.To()))
                     {
-                        Node? res = (Node?)i.To();
+                        var res = (Node?)i.To();
                         return res;
                     }
 
                     if (!nodes.Contains(i.From()) && nodes.Contains(i.To()))
                     {
-                        Node? res = (Node?)i.From();
+                        var res = (Node?)i.From();
                         return res;
                     }
 
@@ -71,7 +72,7 @@ namespace SharpGraph
                         && direction.Direction != Direction.Backwards
                     )
                     {
-                        Node? res = (Node?)i.To();
+                        var res = (Node?)i.To();
                         return res;
                     }
 
@@ -81,7 +82,7 @@ namespace SharpGraph
                         && direction.Direction != Direction.Forwards
                     )
                     {
-                        Node? res = (Node?)i.From();
+                        var res = (Node?)i.From();
                         return res;
                     }
 
@@ -107,13 +108,13 @@ namespace SharpGraph
                 {
                     if (nodes.Contains(i.From()) && !nodes.Contains(i.To()))
                     {
-                        Edge? res = (Edge?)i;
+                        var res = (Edge?)i;
                         return res;
                     }
 
                     if (!nodes.Contains(i.From()) && nodes.Contains(i.To()))
                     {
-                        Edge? res = (Edge?)i;
+                        var res = (Edge?)i;
                         return res;
                     }
 

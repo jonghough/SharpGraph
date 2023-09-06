@@ -1,7 +1,9 @@
-using System.Configuration.Assemblies;
+﻿// <copyright file="JohnsonTest.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
+// </copyright>
+
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Xunit;
 
 namespace SharpGraph
@@ -11,10 +13,10 @@ namespace SharpGraph
         [Fact]
         public void JohnsonTest1()
         {
-            HashSet<Node> nodes = NodeGenerator.GenerateNodes(4);
+            var nodes = NodeGenerator.GenerateNodes(4);
             var g = GraphGenerator.CreateComplete(nodes);
 
-            foreach (Edge e in g.GetEdges())
+            foreach (var e in g.GetEdges())
             {
                 var a = g.AddComponent<EdgeWeight>(e);
                 a.Weight = 2;
@@ -33,7 +35,7 @@ namespace SharpGraph
             var g = GraphGenerator.GenerateCycle(7);
 
             var r = new Random();
-            foreach (Edge e in g.GetEdges())
+            foreach (var e in g.GetEdges())
             {
                 var a = g.AddComponent<EdgeWeight>(e);
                 a.Weight = r.NextSingle();
@@ -53,12 +55,14 @@ namespace SharpGraph
             var g = GraphGenerator.CreateComplete(5);
 
             var r = new Random();
+
             // do not add direcitons
-            foreach (Edge e in g.GetEdges())
+            foreach (var e in g.GetEdges())
             {
                 var a = g.AddComponent<EdgeWeight>(e);
                 a.Weight = r.NextSingle();
             }
+
             // exception because no direction
             Assert.Throws<Exception>(() => g.FindShortestPaths());
         }
@@ -69,8 +73,9 @@ namespace SharpGraph
             var g = GraphGenerator.CreateComplete(5);
 
             var r = new Random();
+
             // do not add weights
-            foreach (Edge e in g.GetEdges())
+            foreach (var e in g.GetEdges())
             {
                 var b = g.AddComponent<EdgeDirection>(e);
                 b.Direction = Direction.Both;

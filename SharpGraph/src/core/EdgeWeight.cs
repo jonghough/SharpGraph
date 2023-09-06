@@ -1,11 +1,12 @@
-﻿// <copyright file="EdgeWeight.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="EdgeWeight.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
 
 namespace SharpGraph
 {
-    using System;
-
     /// <summary>
     /// An EdgeComponent type that is used internally by various algorithms that require
     /// weights on edges of the graph.

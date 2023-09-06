@@ -1,6 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿// <copyright file="BiconnectedComponentTest.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
+// </copyright>
+
 using Xunit;
 
 namespace SharpGraph
@@ -28,6 +30,7 @@ namespace SharpGraph
             edges.Add(new Edge(new Node("A_0"), new Node("B_1")));
             var g = new Graph(edges);
             var c = g.FindBiconnectedComponents();
+
             // bcc's are left complete, right complete, edge in middle.
             Assert.Equal(3, c.Count);
 
@@ -35,8 +38,8 @@ namespace SharpGraph
             edges.Add(new Edge(new Node("A_1"), new Node("B_0")));
             var gn = new Graph(edges);
             var c2 = gn.FindBiconnectedComponents();
-            //now all biconnected
 
+            // now all biconnected
             Assert.Single(c2);
         }
 

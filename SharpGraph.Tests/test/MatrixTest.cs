@@ -1,7 +1,10 @@
-using System;
-using Xunit;
-using System.Collections;
+﻿// <copyright file="MatrixTest.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
+// </copyright>
+
 using System.Collections.Generic;
+using Xunit;
 
 namespace SharpGraph
 {
@@ -28,6 +31,7 @@ namespace SharpGraph
             Assert.Equal(6, mat.RowCount);
             Assert.Equal(6, mat.ColumnCount);
             var rowSums = mat.RowSums();
+
             // in K3_3 each node is adjacent to exactly 3 other nodes.
             foreach (var rs in rowSums)
             {

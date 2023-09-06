@@ -1,11 +1,12 @@
-﻿// <copyright file="Graph.BreadthFirstSearch.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.BreadthFirstSearch.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System.Collections.Generic;
 
 namespace SharpGraph
 {
-    using System.Collections.Generic;
-
     public partial class Graph
     {
         /// <summary>
@@ -35,12 +36,12 @@ namespace SharpGraph
         /// <param name="nextNodeFunction">Callback to perofmr task when a node is visited.</param>
         public void BFS(OnNextNode nextNodeFunction)
         {
-            Node current = default(Node);
-            bool currentSelected = false;
+            var current = default(Node);
+            var currentSelected = false;
             var nodeMemoryMap = new Dictionary<Node, NodeSearchMemory>();
 
             // find an initial node, and set all nodes to not visited.
-            foreach (Node node in this.GetNodes())
+            foreach (var node in this.GetNodes())
             {
                 if (!currentSelected)
                 {
@@ -51,7 +52,7 @@ namespace SharpGraph
                 nodeMemoryMap[node] = new NodeSearchMemory();
             }
 
-            Queue<Node> nodeQueue = new Queue<Node>();
+            var nodeQueue = new Queue<Node>();
             nodeQueue.Enqueue(current);
 
             // apply next node function to the initial node.
@@ -60,11 +61,11 @@ namespace SharpGraph
 
             while (nodeQueue.Count > 0)
             {
-                Node n = nodeQueue.Dequeue();
+                var n = nodeQueue.Dequeue();
 
                 // get all unvisited adjacent nodes.
-                List<Node> adjNodes = this.GetAdjacentUnvisited(n, nodeMemoryMap);
-                foreach (Node m in adjNodes)
+                var adjNodes = this.GetAdjacentUnvisited(n, nodeMemoryMap);
+                foreach (var m in adjNodes)
                 {
                     if (nodeMemoryMap[m].Visited)
                     {
@@ -83,12 +84,12 @@ namespace SharpGraph
         public void BFSEdge(OnNextEdge nextEdgeFunction)
         {
             Edge? current = null;
-            bool currentSelected = false;
+            var currentSelected = false;
 
             var edgeMemoryMap = new Dictionary<Edge, EdgeSearchMemory>();
 
             // find an initial node, and set all nodes to not visited.
-            foreach (Edge edge in this.GetEdges())
+            foreach (var edge in this.GetEdges())
             {
                 if (!currentSelected)
                 {
@@ -99,19 +100,19 @@ namespace SharpGraph
                 edgeMemoryMap[edge] = new EdgeSearchMemory();
             }
 
-            Queue<Edge> edgeQueue = new Queue<Edge>();
+            var edgeQueue = new Queue<Edge>();
             edgeQueue.Enqueue(current.GetValueOrDefault());
             nextEdgeFunction(this, current.GetValueOrDefault(), current.GetValueOrDefault());
             edgeMemoryMap[current.GetValueOrDefault()].Visited = true;
 
             while (edgeQueue.Count > 0)
             {
-                Edge e = edgeQueue.Dequeue();
+                var e = edgeQueue.Dequeue();
 
                 // get all unvisited adjacent nodes.
-                List<Edge> incEdges = this.GetIncidentEdges(e);
+                var incEdges = this.GetIncidentEdges(e);
 
-                foreach (Edge next in incEdges)
+                foreach (var next in incEdges)
                 {
                     if (edgeMemoryMap[next].Visited)
                     {

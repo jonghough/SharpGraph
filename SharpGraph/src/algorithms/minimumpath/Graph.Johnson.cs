@@ -1,13 +1,14 @@
-// <copyright file="Graph.Johnson.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.Johnson.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public partial class Graph
     {
         /// <summary>
@@ -75,14 +76,14 @@ namespace SharpGraph
             {
                 var nodes = kvp.Value;
                 float dist = 0;
-                for (int i = 0; i < nodes.Count - 1; i++)
+                for (var i = 0; i < nodes.Count - 1; i++)
                 {
                     if (nodes[i + 1] == q)
                     {
                         continue;
                     }
 
-                    Edge edge = g.GetEdge(nodes[i], nodes[i + 1]).Value;
+                    var edge = g.GetEdge(nodes[i], nodes[i + 1]).Value;
                     dist += g.GetComponent<EdgeWeight>(edge).Weight;
                 }
 
@@ -107,18 +108,14 @@ namespace SharpGraph
             g.nodes.Remove(q);
             var nl = g.nodes.ToList();
 
-            for (int i = 0; i < nl.Count - 1; i++)
+            for (var i = 0; i < nl.Count - 1; i++)
             {
                 var minPath = g.FindMinPathWithDistances(nl[i], nl[i + 1]);
 
                 foreach (var kvp in minPath.Item2)
                 {
                     var nodes = kvp.Value;
-                    Tuple<Node, Node, float> path = new Tuple<Node, Node, float>(
-                        nl[i],
-                        kvp.Key,
-                        kvp.Value.Distance
-                    );
+                    var path = new Tuple<Node, Node, float>(nl[i], kvp.Key, kvp.Value.Distance);
                     result.Add(path);
                 }
             }

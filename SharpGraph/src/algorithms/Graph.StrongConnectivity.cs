@@ -1,14 +1,14 @@
-// <copyright file="Graph.StrongConnectivity.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.StrongConnectivity.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public partial class Graph
     {
         /// <summary>
@@ -29,7 +29,7 @@ namespace SharpGraph
             var linkedList = new LinkedList<Node>();
             var visited = new HashSet<Node>();
 
-            foreach (Node node in this.nodes)
+            foreach (var node in this.nodes)
             {
                 if (!visited.Contains(node))
                 {
@@ -38,7 +38,7 @@ namespace SharpGraph
             }
 
             visited.Clear();
-            List<HashSet<Node>> comps = new List<HashSet<Node>>();
+            var comps = new List<HashSet<Node>>();
             while (linkedList.Count > 0)
             {
                 var first = linkedList.First.Value;
@@ -49,7 +49,7 @@ namespace SharpGraph
                 }
             }
 
-            List<Graph> gl = new List<Graph>();
+            var gl = new List<Graph>();
             gl.AddRange(comps.Select(hs => new Graph(this, hs)).ToList());
             return gl;
         }

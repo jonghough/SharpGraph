@@ -1,11 +1,12 @@
-﻿// <copyright file="CapacityEdge.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="CapacityEdge.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
 
 namespace SharpGraph
 {
-    using System;
-
     /// <summary>
     /// EdgeCapacity class extends the EdgeComponent class, and can be
     /// attached to each edge of a graph.
@@ -26,26 +27,26 @@ namespace SharpGraph
 
         public float Capacity
         {
-            get { return this.capacity; }
-            set { this.capacity = value; }
+            get => this.capacity;
+            set => this.capacity = value;
         }
 
         public float Flow
         {
-            get { return this.flow; }
-            set { this.flow = value; }
+            get => this.flow;
+            set => this.flow = value;
         }
 
         public float ReverseFlow
         {
-            get { return this.reverseFlow; }
-            set { this.reverseFlow = value; }
+            get => this.reverseFlow;
+            set => this.reverseFlow = value;
         }
 
         public Direction FlowDirection
         {
-            get { return this.flowDirection; }
-            set { this.flowDirection = value; }
+            get => this.flowDirection;
+            set => this.flowDirection = value;
         }
 
         public float GetResidualFlow()
@@ -69,7 +70,7 @@ namespace SharpGraph
 
             if (edgeComponent is EdgeCapacity)
             {
-                EdgeCapacity ec = edgeComponent as EdgeCapacity;
+                var ec = edgeComponent as EdgeCapacity;
                 ec.weight = this.weight;
                 ec.capacity = this.capacity;
                 ec.flow = this.flow;

@@ -1,14 +1,14 @@
-﻿// <copyright file="Graph.Cycles.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.Cycles.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public partial class Graph
     {
         /// <summary>
@@ -25,10 +25,10 @@ namespace SharpGraph
             this.nodes.ToList().ForEach(n => nodeDict[n] = new NodeSearchMemory());
             this.edges.ForEach(e => edgeDict[e] = new EdgeSearchMemory());
 
-            List<Graph> connectedSubgraphs = this.FindMaximallyConnectedSubgraphs();
+            var connectedSubgraphs = this.FindMaximallyConnectedSubgraphs();
 
-            List<List<Node>> cycleList = new List<List<Node>>();
-            foreach (Graph g in connectedSubgraphs)
+            var cycleList = new List<List<Node>>();
+            foreach (var g in connectedSubgraphs)
             {
                 cycleList.AddRange(g.FindAllCycles(nodeDict, edgeDict));
             }
@@ -54,7 +54,7 @@ namespace SharpGraph
             {
                 var hashSet = new HashSet<Node>(cycle);
                 var cycDict = new Dictionary<Node, int>();
-                for (int i = 0; i < cycle.Count; i++)
+                for (var i = 0; i < cycle.Count; i++)
                 {
                     cycDict[cycle[i]] = i;
                 }
@@ -80,10 +80,10 @@ namespace SharpGraph
 
         private static List<Node> ReorderList(List<Node> lst)
         {
-            int len = lst.Count;
-            int minIndex = 0;
-            int minHash = 0;
-            for (int i = 0; i < lst.Count; i++)
+            var len = lst.Count;
+            var minIndex = 0;
+            var minHash = 0;
+            for (var i = 0; i < lst.Count; i++)
             {
                 if (i == 0)
                 {
@@ -92,7 +92,7 @@ namespace SharpGraph
                 }
                 else
                 {
-                    int h = lst[i].GetHashCode();
+                    var h = lst[i].GetHashCode();
                     if (h < minHash)
                     {
                         minIndex = i;
@@ -111,8 +111,8 @@ namespace SharpGraph
             }
             else
             {
-                List<Node> rotateLst = new List<Node>();
-                for (int i = 0; i < lst.Count; i++)
+                var rotateLst = new List<Node>();
+                for (var i = 0; i < lst.Count; i++)
                 {
                     rotateLst.Add(lst[(i + minIndex) % lst.Count]);
                 }
@@ -129,16 +129,16 @@ namespace SharpGraph
             // Get the initial start node. Search for cycles from this node.
             // Because the graph is connected we will be able to find all possible
             // cycles.
-            Node first = this.nodes.First();
+            var first = this.nodes.First();
 
-            List<List<Node>> cycleList = new List<List<Node>>();
-            List<ListWrapper<Node>> wrappedCycleList = new List<ListWrapper<Node>>();
-            List<Node> adjacent = this.GetAdjacent(first);
+            var cycleList = new List<List<Node>>();
+            var wrappedCycleList = new List<ListWrapper<Node>>();
+            var adjacent = this.GetAdjacent(first);
 
             // begin the cycle search...
-            foreach (Node adj in adjacent)
+            foreach (var adj in adjacent)
             {
-                Stack<Node> path = new Stack<Node>();
+                var path = new Stack<Node>();
                 path.Push(first);
                 wrappedCycleList.AddRange(
                     this.AddToPath(first, adj, path, nodeMemDict, edgeMemDict)
@@ -146,13 +146,13 @@ namespace SharpGraph
             }
 
             wrappedCycleList.OrderBy(l => l.GetHashCode());
-            HashSet<ListWrapper<Node>> wrappedSet = new HashSet<ListWrapper<Node>>();
-            foreach (ListWrapper<Node> l in wrappedCycleList)
+            var wrappedSet = new HashSet<ListWrapper<Node>>();
+            foreach (var l in wrappedCycleList)
             {
                 wrappedSet.Add(l);
             }
 
-            foreach (ListWrapper<Node> w in wrappedSet)
+            foreach (var w in wrappedSet)
             {
                 cycleList.Add(w.Data);
             }
@@ -168,45 +168,45 @@ namespace SharpGraph
             Dictionary<Edge, EdgeSearchMemory> edgeMemDict
         )
         {
-            List<ListWrapper<Node>> cycleList = new List<ListWrapper<Node>>();
-            List<Node> pathList = new List<Node>(path);
+            var cycleList = new List<ListWrapper<Node>>();
+            var pathList = new List<Node>(path);
 
             // reverse the pathList because iterating is like popping for Lists derived from Stacks.
             pathList.Reverse();
 
-            for (int i = 0; i < pathList.Count - 1; i++)
+            for (var i = 0; i < pathList.Count - 1; i++)
             {
                 if (pathList[i].Equals(current))
                 {
-                    List<Node> cycle = new List<Node>();
+                    var cycle = new List<Node>();
 
-                    for (int j = i; j < pathList.Count; j++)
+                    for (var j = i; j < pathList.Count; j++)
                     {
                         cycle.Add(pathList[j]);
                     }
 
                     cycle = ReorderList(cycle);
-                    ListWrapper<Node> lw = new ListWrapper<Node>(cycle);
+                    var lw = new ListWrapper<Node>(cycle);
                     cycleList.Add(lw);
 
                     return cycleList;
                 }
             }
 
-            List<Edge> incident = this.GetIncidentEdges(current);
+            var incident = this.GetIncidentEdges(current);
 
             path.Push(current);
-            HashSet<Node> currentHS = new HashSet<Node>();
+            var currentHS = new HashSet<Node>();
             currentHS.Add(current);
-            foreach (Edge e in incident)
+            foreach (var e in incident)
             {
                 if (!edgeMemDict[e].Visited)
                 {
                     edgeMemDict[e].Visited = true;
-                    HashSet<Node> searchNodes = new HashSet<Node>(e.Nodes());
+                    var searchNodes = new HashSet<Node>(e.Nodes());
                     searchNodes.ExceptWith(currentHS);
 
-                    foreach (Node n in searchNodes)
+                    foreach (var n in searchNodes)
                     {
                         if (!n.Equals(previous))
                         {
@@ -218,7 +218,7 @@ namespace SharpGraph
                 }
             }
 
-            foreach (Edge e in incident)
+            foreach (var e in incident)
             {
                 edgeMemDict[e].Visited = false;
             }
@@ -239,9 +239,7 @@ namespace SharpGraph
 
         public override bool Equals(object obj)
         {
-            var other = obj as ListWrapper<T>;
-
-            if (other == null)
+            if (obj is not ListWrapper<T> other)
             {
                 return false;
             }
@@ -251,7 +249,7 @@ namespace SharpGraph
                 return false;
             }
 
-            for (int i = 0; i < this.Data.Count; i++)
+            for (var i = 0; i < this.Data.Count; i++)
             {
                 if (this.Data[i].GetHashCode() != other.Data[i].GetHashCode())
                 {
@@ -264,10 +262,10 @@ namespace SharpGraph
 
         public override int GetHashCode()
         {
-            int hash = 0;
-            for (int i = 0; i < this.Data.Count; i++)
+            var hash = 0;
+            for (var i = 0; i < this.Data.Count; i++)
             {
-                int sum = this.Data[i].GetHashCode();
+                var sum = this.Data[i].GetHashCode();
                 hash += sum;
             }
 

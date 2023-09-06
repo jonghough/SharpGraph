@@ -1,15 +1,13 @@
-﻿// <copyright file="GraphGenerator.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="GraphGenerator.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Xml.Linq;
-
     public static class GraphGenerator
     {
         /// <summary>
@@ -21,7 +19,7 @@ namespace SharpGraph
         public static Graph CreateComplete(uint size)
         {
             var hs = new HashSet<Node>();
-            for (int i = 0; i < size; i++)
+            for (var i = 0; i < size; i++)
             {
                 hs.Add(new Node(string.Empty + i));
             }
@@ -38,7 +36,7 @@ namespace SharpGraph
         public static Graph CreateComplete(params string[] args)
         {
             var hs = new HashSet<Node>();
-            for (int i = 0; i < args.Length; i++)
+            for (var i = 0; i < args.Length; i++)
             {
                 hs.Add(new Node(args[i]));
             }
@@ -54,60 +52,60 @@ namespace SharpGraph
         /// <returns>A complete graph.</returns>
         public static Graph CreateComplete(HashSet<Node> nodeSet)
         {
-            List<Node> nodeList = new List<Node>(nodeSet);
-            List<Edge> edgeList = new List<Edge>();
-            for (int i = 0; i < nodeList.Count - 1; i++)
+            var nodeList = new List<Node>(nodeSet);
+            var edgeList = new List<Edge>();
+            for (var i = 0; i < nodeList.Count - 1; i++)
             {
-                for (int j = i + 1; j < nodeList.Count; j++)
+                for (var j = i + 1; j < nodeList.Count; j++)
                 {
-                    Edge e = new Edge(nodeList[i], nodeList[j]);
+                    var e = new Edge(nodeList[i], nodeList[j]);
                     edgeList.Add(e);
                 }
             }
 
-            Graph graph = new Graph(edgeList);
+            var graph = new Graph(edgeList);
             return graph;
         }
 
         public static Graph CreateComplete(int size, string nodePrefix)
         {
             var nodes = new HashSet<Node>();
-            for (int i = 0; i < size; i++)
+            for (var i = 0; i < size; i++)
             {
                 var n = new Node(nodePrefix + string.Empty + i);
                 nodes.Add(n);
             }
 
             var nodeList = new List<Node>(nodes);
-            List<Edge> edgeList = new List<Edge>();
-            for (int i = 0; i < nodeList.Count - 1; i++)
+            var edgeList = new List<Edge>();
+            for (var i = 0; i < nodeList.Count - 1; i++)
             {
-                for (int j = i + 1; j < nodeList.Count; j++)
+                for (var j = i + 1; j < nodeList.Count; j++)
                 {
-                    Edge e = new Edge(nodeList[i], nodeList[j]);
+                    var e = new Edge(nodeList[i], nodeList[j]);
                     edgeList.Add(e);
                 }
             }
 
-            Graph graph = new Graph(edgeList);
+            var graph = new Graph(edgeList);
             return graph;
         }
 
         public static Graph GenerateRandomGraph(HashSet<Node> nodes, float edgeProb)
         {
-            float ep = edgeProb;
+            var ep = edgeProb;
             ep =
                 ep < 0
                     ? 0
                     : ep > 1.0f
                         ? 1.0f
                         : ep;
-            Graph compG = CreateComplete(nodes);
-            Random rand = new Random(Guid.NewGuid().GetHashCode());
+            var compG = CreateComplete(nodes);
+            var rand = new Random(Guid.NewGuid().GetHashCode());
 
-            for (int i = compG.GetEdges().Count - 1; i >= 0; i--)
+            for (var i = compG.GetEdges().Count - 1; i >= 0; i--)
             {
-                float r = (float)rand.NextDouble();
+                var r = (float)rand.NextDouble();
                 if (r > ep)
                 {
                     compG.GetEdges().RemoveAt(i);
@@ -124,12 +122,12 @@ namespace SharpGraph
         {
             var leftNodes = new HashSet<Node>();
             var rightNodes = new HashSet<Node>();
-            for (int i = 0; i < leftCount; i++)
+            for (var i = 0; i < leftCount; i++)
             {
                 leftNodes.Add(new Node(string.Empty + i));
             }
 
-            for (int i = 0; i < rightCount; i++)
+            for (var i = 0; i < rightCount; i++)
             {
                 rightNodes.Add(new Node(string.Empty + (i + leftCount)));
             }
@@ -150,8 +148,8 @@ namespace SharpGraph
             HashSet<Node> rightNodes
         )
         {
-            int ls = leftNodes.Count;
-            int rs = rightNodes.Count;
+            var ls = leftNodes.Count;
+            var rs = rightNodes.Count;
             if (ls < 1 || rs < 1)
             {
                 throw new Exception(
@@ -180,7 +178,7 @@ namespace SharpGraph
         public static Graph GenerateCycle(uint size)
         {
             var hs = new HashSet<Node>();
-            for (int i = 0; i < size; i++)
+            for (var i = 0; i < size; i++)
             {
                 hs.Add(new Node(string.Empty + i));
             }
@@ -196,12 +194,12 @@ namespace SharpGraph
         /// <returns>A cyclic graph.</returns>
         public static Graph GenerateCycle(HashSet<Node> nodeSet)
         {
-            int len = nodeSet.Count;
-            List<Node> nodeList = new List<Node>(nodeSet);
-            List<Edge> edges = new List<Edge>();
-            for (int i = 0; i < len - 1; i++)
+            var len = nodeSet.Count;
+            var nodeList = new List<Node>(nodeSet);
+            var edges = new List<Edge>();
+            for (var i = 0; i < len - 1; i++)
             {
-                Edge e = new Edge(nodeList[i], nodeList[i + 1]);
+                var e = new Edge(nodeList[i], nodeList[i + 1]);
                 edges.Add(e);
             }
 
@@ -224,13 +222,13 @@ namespace SharpGraph
             var gLeft = CreateComplete(leftSet);
             var gRight = CreateComplete(rightSet);
 
-            Node left = gLeft.GetEdges()[0].From();
-            Node right = gRight.GetEdges()[0].From();
+            var left = gLeft.GetEdges()[0].From();
+            var right = gRight.GetEdges()[0].From();
 
             // the bar edge.
-            Edge e = new Edge(left, right);
+            var e = new Edge(left, right);
 
-            List<Edge> allEdges = gLeft.GetEdges();
+            var allEdges = gLeft.GetEdges();
             allEdges.AddRange(gRight.GetEdges());
             allEdges.Add(e);
 
@@ -256,12 +254,12 @@ namespace SharpGraph
                 );
             }
 
-            List<Node> nodes = new List<Node>(NodeGenerator.GenerateNodes(leftSize + rightSize));
+            var nodes = new List<Node>(NodeGenerator.GenerateNodes(leftSize + rightSize));
 
             var left = new HashSet<Node>();
             var right = new HashSet<Node>();
 
-            for (int i = 0; i < leftSize + rightSize; i++)
+            for (var i = 0; i < leftSize + rightSize; i++)
             {
                 if (i < leftSize)
                 {
@@ -283,23 +281,23 @@ namespace SharpGraph
                 throw new Exception("Number of nodes must be a multiple of width.");
             }
 
-            int height = nodeSet.Count / width;
-            List<Edge> edgeList = new List<Edge>();
-            List<Node> nodeList = new List<Node>(nodeSet);
-            for (int i = 0; i < width; i++)
+            var height = nodeSet.Count / width;
+            var edgeList = new List<Edge>();
+            var nodeList = new List<Node>(nodeSet);
+            for (var i = 0; i < width; i++)
             {
-                for (int j = 0; j < height - 1; j++)
+                for (var j = 0; j < height - 1; j++)
                 {
-                    Edge e = new Edge(nodeList[i + (j * width)], nodeList[i + ((j + 1) * width)]);
+                    var e = new Edge(nodeList[i + (j * width)], nodeList[i + ((j + 1) * width)]);
                     edgeList.Add(e);
                 }
             }
 
-            for (int i = 0; i < width - 1; i++)
+            for (var i = 0; i < width - 1; i++)
             {
-                for (int j = 0; j < height; j++)
+                for (var j = 0; j < height; j++)
                 {
-                    Edge e = new Edge(nodeList[i + (j * width)], nodeList[i + (j * width) + 1]);
+                    var e = new Edge(nodeList[i + (j * width)], nodeList[i + (j * width) + 1]);
                     edgeList.Add(e);
                 }
             }
@@ -325,17 +323,17 @@ namespace SharpGraph
                 throw new Exception("Number of nodes must be a multiple of width * depth.");
             }
 
-            int height = nodeSet.Count / (width * depth);
+            var height = nodeSet.Count / (width * depth);
 
-            List<List<Edge>> edgeLists = new List<List<Edge>>();
-            List<Node> masterList = new List<Node>(nodeSet);
-            List<List<Node>> nodeLists = new List<List<Node>>();
-            int ctr = 0;
-            for (int i = 0; i < depth; i++)
+            var edgeLists = new List<List<Edge>>();
+            var masterList = new List<Node>(nodeSet);
+            var nodeLists = new List<List<Node>>();
+            var ctr = 0;
+            for (var i = 0; i < depth; i++)
             {
-                HashSet<Node> set2 = new HashSet<Node>();
-                List<Node> nl = new List<Node>();
-                for (int j = 0; j < width * height; j++)
+                var set2 = new HashSet<Node>();
+                var nl = new List<Node>();
+                for (var j = 0; j < width * height; j++)
                 {
                     set2.Add(masterList[(width * height * i) + j]);
 
@@ -348,12 +346,12 @@ namespace SharpGraph
                 nodeLists.Add(nl);
             }
 
-            List<Edge> edges = new List<Edge>();
+            var edges = new List<Edge>();
 
-            for (int i = 0; i < nodeLists.Count - 1; i++)
+            for (var i = 0; i < nodeLists.Count - 1; i++)
             {
                 edges.AddRange(edgeLists[i]);
-                for (int j = 0; j < nodeLists[i].Count; j++)
+                for (var j = 0; j < nodeLists[i].Count; j++)
                 {
                     edges.Add(new Edge(nodeLists[i][j], nodeLists[i + 1][j]));
                 }
@@ -382,7 +380,7 @@ namespace SharpGraph
                 );
             }
 
-            int c = 0;
+            var c = 0;
             var edges = new List<Edge>();
             var center = new Node("center");
             while (c++ < spokesCount)
@@ -405,26 +403,26 @@ namespace SharpGraph
         public static Graph GeneratePetersonGraph()
         {
             var nodes = new HashSet<Node>();
-            for (int i = 0; i < 5; i++)
+            for (var i = 0; i < 5; i++)
             {
                 var n = new Node(string.Empty + i);
                 nodes.Add(n);
             }
 
             var nodeList = new List<Node>(nodes);
-            List<Edge> edgeList = new List<Edge>();
-            for (int i = 0; i < nodeList.Count - 1; i++)
+            var edgeList = new List<Edge>();
+            for (var i = 0; i < nodeList.Count - 1; i++)
             {
-                for (int j = i + 2; j < nodeList.Count; j++)
+                for (var j = i + 2; j < nodeList.Count; j++)
                 {
-                    Edge e = new Edge(nodeList[i], nodeList[j]);
+                    var e = new Edge(nodeList[i], nodeList[j]);
                     edgeList.Add(e);
                 }
             }
 
-            for (int i = 0; i < nodeList.Count; i++)
+            for (var i = 0; i < nodeList.Count; i++)
             {
-                Edge outer = new Edge(nodeList[i], new Node(string.Empty + (i + 5)));
+                var outer = new Edge(nodeList[i], new Node(string.Empty + (i + 5)));
                 edgeList.Add(outer);
                 edgeList.Add(
                     new Edge(
@@ -434,7 +432,7 @@ namespace SharpGraph
                 );
             }
 
-            Graph graph = new Graph(edgeList);
+            var graph = new Graph(edgeList);
             return graph;
         }
 
@@ -501,13 +499,13 @@ namespace SharpGraph
         /// <param name="maxWeight">The maximum weight allowed.</param>
         public static void GenerateRandomWeights(Graph graph, float minWeight, float maxWeight)
         {
-            Random random = new Random(Guid.NewGuid().GetHashCode());
+            var random = new Random(Guid.NewGuid().GetHashCode());
 
             // visit all the edges and wrap them with a weighted edge.
-            foreach (Edge edge in graph.GetEdges())
+            foreach (var edge in graph.GetEdges())
             {
                 var ew = graph.AddComponent<EdgeWeight>(edge);
-                float weight = ((float)random.NextDouble() * (maxWeight - minWeight)) + minWeight;
+                var weight = ((float)random.NextDouble() * (maxWeight - minWeight)) + minWeight;
                 ew.Weight = weight;
             }
         }

@@ -1,15 +1,16 @@
-// <copyright file="Graph.Matrix.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.Matrix.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Single;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using MathNet.Numerics.LinearAlgebra;
-    using MathNet.Numerics.LinearAlgebra.Single;
-
     public class MatrixException : Exception
     {
         public MatrixException(string msg)
@@ -31,9 +32,9 @@ namespace SharpGraph
             var nodeCount = mat.RowCount;
             var nodes = NodeGenerator.GenerateNodes(nodeCount).ToList();
             var edges = new List<Edge>();
-            for (int i = 0; i < nodeCount; i++)
+            for (var i = 0; i < nodeCount; i++)
             {
-                for (int j = 0; j < nodeCount; j++)
+                for (var j = 0; j < nodeCount; j++)
                 {
                     if (i == j)
                     {
@@ -62,10 +63,10 @@ namespace SharpGraph
         {
             var nl = this.nodes.ToList().OrderBy(x => x.GetLabel()).ToList();
             var nc = nl.Count();
-            float[,] l = new float[nc, nc];
-            for (int i = 0; i < nc; i++)
+            var l = new float[nc, nc];
+            for (var i = 0; i < nc; i++)
             {
-                for (int j = 0; j < nc; j++)
+                for (var j = 0; j < nc; j++)
                 {
                     if (i == j)
                     {
@@ -86,11 +87,11 @@ namespace SharpGraph
         {
             var nl = this.nodes.ToList().OrderBy(x => x.GetLabel()).ToList();
             var nc = nl.Count();
-            float[,] l = new float[nc, nc];
+            var l = new float[nc, nc];
 
-            for (int i = 0; i < nc; i++)
+            for (var i = 0; i < nc; i++)
             {
-                for (int j = 0; j < nc; j++)
+                for (var j = 0; j < nc; j++)
                 {
                     if (i == j)
                     {
@@ -101,7 +102,7 @@ namespace SharpGraph
                     var hs = new HashSet<Node>();
                     hs.Add(nl[i]);
                     hs.Add(nl[j]);
-                    Edge? e = this.GetEdge(hs);
+                    var e = this.GetEdge(hs);
                     float w = 0;
                     if (e.HasValue)
                     {

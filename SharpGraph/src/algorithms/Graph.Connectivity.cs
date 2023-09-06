@@ -1,15 +1,14 @@
-﻿// <copyright file="Graph.Connectivity.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.Connectivity.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Runtime.CompilerServices;
-
     public partial class Graph
     {
         /// <summary>
@@ -18,7 +17,7 @@ namespace SharpGraph
         /// <returns>Returns <i>true</i> if the graph is connected, <i>false</i> otherwise.</returns>
         public bool IsConnected()
         {
-            int counter = 0;
+            var counter = 0;
             this.BFS(
                 (g, p, c) =>
                 {
@@ -35,13 +34,13 @@ namespace SharpGraph
         /// <returns>List of graphs, where eahc graph is a maximally connected subgraph.</returns>
         public List<Graph> FindMaximallyConnectedSubgraphs()
         {
-            List<Graph> graphList = new List<Graph>();
-            List<List<Node>> connectedNodes = this.GetConnectedComponents();
-            List<Edge> edges = this.GetEdges();
-            foreach (List<Node> nodeList in connectedNodes)
+            var graphList = new List<Graph>();
+            var connectedNodes = this.GetConnectedComponents();
+            _ = this.GetEdges();
+            foreach (var nodeList in connectedNodes)
             {
-                HashSet<Edge> edgeSet = new HashSet<Edge>();
-                foreach (Node node in nodeList)
+                var edgeSet = new HashSet<Edge>();
+                foreach (var node in nodeList)
                 {
                     edgeSet.UnionWith(this.GetIncidentEdges(node));
                 }
@@ -58,23 +57,23 @@ namespace SharpGraph
         /// <returns></returns>
         public List<List<Node>> GetConnectedComponents()
         {
-            List<List<Node>> connectedComponents = new List<List<Node>>();
+            var connectedComponents = new List<List<Node>>();
             var nodeDict = new Dictionary<Node, NodeSearchMemory>();
             foreach (var nd in this.nodes)
             {
                 nodeDict[nd] = new NodeSearchMemory();
             }
 
-            Node? nn = this.GetFirstUnvisitedNode(nodeDict);
+            var nn = this.GetFirstUnvisitedNode(nodeDict);
             if (nn == null)
             {
                 return connectedComponents; // nothing to do
             }
 
-            Node n = nn.GetValueOrDefault();
+            var n = nn.GetValueOrDefault();
             while (true)
             {
-                List<Node> conn = this.GetConnected(n, nodeDict);
+                var conn = this.GetConnected(n, nodeDict);
                 conn.Add(n);
 
                 connectedComponents.Add(conn);
@@ -110,7 +109,7 @@ namespace SharpGraph
                 low[node] = float.PositiveInfinity;
             }
 
-            int[] counter = new int[] { 1 };
+            var counter = new int[] { 1 };
             foreach (var node in this.nodes)
             {
                 if (!visited.Contains(node))
@@ -125,8 +124,8 @@ namespace SharpGraph
 
         private Node? GetFirstUnvisitedNode(Dictionary<Node, NodeSearchMemory> nodeDict)
         {
-            List<Node> nodeL = new List<Node>(this.nodes);
-            foreach (Node n in nodeL)
+            var nodeL = new List<Node>(this.nodes);
+            foreach (var n in nodeL)
             {
                 if (!nodeDict[n].Visited)
                 {
@@ -140,15 +139,15 @@ namespace SharpGraph
         private List<Node> GetConnected(Node node, Dictionary<Node, NodeSearchMemory> nodeDict)
         {
             nodeDict[node].Visited = true;
-            List<Node> connList = new List<Node>();
-            List<Node> adjNodes = this.GetAdjacentUnvisited(node, nodeDict);
+            var connList = new List<Node>();
+            var adjNodes = this.GetAdjacentUnvisited(node, nodeDict);
             connList.AddRange(adjNodes);
-            foreach (Node t in adjNodes)
+            foreach (var t in adjNodes)
             {
                 nodeDict[t].Visited = true;
             }
 
-            foreach (Node t in adjNodes)
+            foreach (var t in adjNodes)
             {
                 connList.AddRange(this.GetConnected(t, nodeDict));
             }
@@ -159,7 +158,7 @@ namespace SharpGraph
         private HashSet<Node> Assign(Node n, HashSet<Node> visited)
         {
             visited.Add(n);
-            List<Node> adjTrans = this.GetAdjacentTransposed(n);
+            var adjTrans = this.GetAdjacentTransposed(n);
             var hs = new HashSet<Node>();
             hs.Add(n);
             if (adjTrans.Count == 0)

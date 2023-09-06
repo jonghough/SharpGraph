@@ -1,19 +1,20 @@
-﻿// <copyright file="Node.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Node.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
 
 namespace SharpGraph
 {
-    using System;
-
     public struct Node : IEquatable<Node>
     {
-        private string label;
+        private readonly string label;
 
         public Node(string label)
         {
             this.label = label;
-            this.Init();
+            Init();
         }
 
         public static bool operator ==(Node lhs, Node rhs)
@@ -56,19 +57,19 @@ namespace SharpGraph
             return false;
         }
 
-        private void Init() { }
+        private static void Init() { }
     }
 
     public abstract class NodeComponent
     {
         private Node owner;
 
-        public NodeComponent() { }
+        protected NodeComponent() { }
 
         public Node Owner
         {
-            get { return this.owner; }
-            internal set { this.owner = value; }
+            get => this.owner;
+            internal set => this.owner = value;
         }
 
         public abstract void Copy(NodeComponent nodeComponent);

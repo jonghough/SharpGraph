@@ -1,13 +1,13 @@
-﻿// <copyright file="Graph.AStar.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.AStar.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-
     public partial class Graph
     {
         /// <summary>
@@ -33,21 +33,21 @@ namespace SharpGraph
             IAStarHeuristic heuristic
         )
         {
-            HashSet<Node> openSet = new HashSet<Node>();
-            HashSet<Node> closedSet = new HashSet<Node>();
+            var openSet = new HashSet<Node>();
+            var closedSet = new HashSet<Node>();
             var openPQ = new C5.IntervalHeap<Node>(new NodeComparer(heuristic, nodeS));
             openSet.Add(nodeS);
             openPQ.Add(nodeS);
-            List<Edge> allowedEdges = new List<Edge>(this.GetEdges());
+            var allowedEdges = new List<Edge>(this.GetEdges());
             Predicate<Edge> match = e => forbiddenEdges.Contains(e);
             allowedEdges.RemoveAll(match);
 
-            List<Node> shortestPath = new List<Node>();
+            var shortestPath = new List<Node>();
 
-            Dictionary<Node, float> gScoreMap = new Dictionary<Node, float>();
-            Dictionary<Node, float> fScoreMap = new Dictionary<Node, float>();
-            Dictionary<Node, RouteMemory> routeMemoryMap = new Dictionary<Node, RouteMemory>();
-            foreach (Node t in this.nodes)
+            var gScoreMap = new Dictionary<Node, float>();
+            var fScoreMap = new Dictionary<Node, float>();
+            var routeMemoryMap = new Dictionary<Node, RouteMemory>();
+            foreach (var t in this.nodes)
             {
                 routeMemoryMap[t] = new RouteMemory();
                 if (!nodeS.Equals(t))
@@ -63,7 +63,7 @@ namespace SharpGraph
             fScoreMap.Add(nodeS, 0f + heuristic.GetHeuristic(nodeS, nodeF)); // (f = g + heuristic)
             while (openPQ.Count > 0)
             {
-                Node current = openPQ.DeleteMin();
+                var current = openPQ.DeleteMin();
 
                 if (current.Equals(nodeF))
                 {
@@ -73,11 +73,11 @@ namespace SharpGraph
 
                 openSet.Remove(current);
                 closedSet.Add(current);
-                List<Edge> incident = this.GetIncidentEdges(current, match);
+                var incident = this.GetIncidentEdges(current, match);
 
-                foreach (Edge u in incident)
+                foreach (var u in incident)
                 {
-                    foreach (Node t in u.Nodes())
+                    foreach (var t in u.Nodes())
                     {
                         if (t.Equals(current))
                         {
@@ -89,8 +89,7 @@ namespace SharpGraph
                         }
                         else
                         {
-                            float tmp =
-                                gScoreMap[current] + this.GetComponent<EdgeWeight>(u).Weight;
+                            var tmp = gScoreMap[current] + this.GetComponent<EdgeWeight>(u).Weight;
                             if (openSet.Contains(t) == false)
                             {
                                 routeMemoryMap[t].Previous = current;
@@ -102,7 +101,7 @@ namespace SharpGraph
                             }
                             else
                             {
-                                float currentScore = gScoreMap[t];
+                                var currentScore = gScoreMap[t];
                                 if (currentScore > tmp)
                                 {
                                     routeMemoryMap[t].Previous = current;
@@ -117,7 +116,7 @@ namespace SharpGraph
             }
 
             routeMemoryMap[nodeF].Distance = gScoreMap[nodeF];
-            Node p = routeMemoryMap[nodeF].Previous.GetValueOrDefault();
+            var p = routeMemoryMap[nodeF].Previous.GetValueOrDefault();
             while (true)
             {
                 shortestPath.Add(p);
@@ -138,7 +137,7 @@ namespace SharpGraph
     internal class NodeComparer : IComparer<Node>
     {
         public IAStarHeuristic Func;
-        private Node src;
+        private readonly Node src;
 
         public NodeComparer(IAStarHeuristic h, Node s)
         {

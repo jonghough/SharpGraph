@@ -1,14 +1,13 @@
-// <copyright file="Graph.Centrality.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.Centrality.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public partial class Graph
     {
         /// <summary>
@@ -41,7 +40,7 @@ namespace SharpGraph
         /// <returns>Dictionary of node, float, where each pair gives a node and its centrality value.</returns>
         public Dictionary<Node, float> GetDegreeCentrality()
         {
-            List<float> l = new List<float>();
+            var l = new List<float>();
             if (this.nodes.Count == 0)
             {
                 return new Dictionary<Node, float>();

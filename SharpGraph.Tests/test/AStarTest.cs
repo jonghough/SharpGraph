@@ -1,41 +1,30 @@
-﻿using System;
-using System.Collections;
+﻿// <copyright file="AStarTest.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
+// </copyright>
+
 using System.Collections.Generic;
 using Xunit;
 
 namespace SharpGraph
 {
-    class TestHeuristic : IAStarHeuristic
-    {
-        private float _val;
-
-        public TestHeuristic(float val)
-        {
-            _val = val;
-        }
-
-        public float GetHeuristic(Node t, Node goal)
-        {
-            return _val;
-        }
-    }
-
     public class AStarTest
     {
         [Fact]
         public void AStarTest1()
         {
-            HashSet<Node> nodes = NodeGenerator.GenerateNodes(10);
+            var nodes = NodeGenerator.GenerateNodes(10);
             var graph = GraphGenerator.GenerateRandomGraph(nodes, 0.6f);
 
             GraphGenerator.GenerateRandomWeights(graph, 0, 10);
-            Graph g = graph;
-            List<Node> list = new List<Node>(nodes);
-            Node n1 = list[0];
-            Node n2 = list[1];
+            var g = graph;
+            var list = new List<Node>(nodes);
+            var n1 = list[0];
+            var n2 = list[1];
 
-            List<Node> minPath = g.FindMinPath(n1, n2, new SimpleHeuristic());
-            HashSet<Node> minPathSet = new HashSet<Node>(minPath);
+            var minPath = g.FindMinPath(n1, n2, new SimpleHeuristic());
+            var minPathSet = new HashSet<Node>(minPath);
+
             //----assert there are no loops ---
             Assert.Equal(minPath.Count, minPathSet.Count);
         }
@@ -44,16 +33,15 @@ namespace SharpGraph
         public void AStarTest2()
         {
             // A -> B -> F should be shortest path from A to F.
+            var eAB = new Edge("A", "B");
+            var eAC = new Edge("A", "C");
+            var eCD = new Edge("C", "D");
+            var eDE = new Edge("D", "E");
+            var eAF = new Edge("A", "F");
+            var eBF = new Edge("B", "F");
+            var eDF = new Edge("D", "F");
 
-            Edge eAB = new Edge("A", "B");
-            Edge eAC = new Edge("A", "C");
-            Edge eCD = new Edge("C", "D");
-            Edge eDE = new Edge("D", "E");
-            Edge eAF = new Edge("A", "F");
-            Edge eBF = new Edge("B", "F");
-            Edge eDF = new Edge("D", "F");
-
-            List<Edge> list = new List<Edge>();
+            var list = new List<Edge>();
             list.Add(eAB);
             list.Add(eAC);
             list.Add(eCD);
@@ -62,7 +50,7 @@ namespace SharpGraph
             list.Add(eBF);
             list.Add(eDF);
 
-            Graph g = new Graph(list);
+            var g = new Graph(list);
             g.AddComponent<EdgeWeight>(eAB).Weight = 3;
             g.AddComponent<EdgeWeight>(eAC).Weight = 6;
             g.AddComponent<EdgeWeight>(eCD).Weight = 1;
@@ -71,7 +59,7 @@ namespace SharpGraph
             g.AddComponent<EdgeWeight>(eBF).Weight = 3.5f;
             g.AddComponent<EdgeWeight>(eDF).Weight = 6.5f;
 
-            List<Node> path = g.FindMinPath(new Node("A"), new Node("F"), new TestHeuristic(5));
+            var path = g.FindMinPath(new Node("A"), new Node("F"), new TestHeuristic(5));
 
             Assert.True(
                 path.Contains(new Node("A"))
@@ -85,27 +73,27 @@ namespace SharpGraph
         public void AStarTest3()
         {
             // A -> F -> D -> H should be shortest path from A to H
-            Node b1 = new Node("A");
-            Node b2 = new Node("B");
-            Node b3 = new Node("C");
-            Node b4 = new Node("D");
-            Node b5 = new Node("E");
-            Node b6 = new Node("F");
-            Node b7 = new Node("G");
-            Node b8 = new Node("H");
+            var b1 = new Node("A");
+            var b2 = new Node("B");
+            var b3 = new Node("C");
+            var b4 = new Node("D");
+            var b5 = new Node("E");
+            var b6 = new Node("F");
+            var b7 = new Node("G");
+            var b8 = new Node("H");
 
-            Edge eAB = new Edge(b1, b2);
-            Edge eAG = new Edge(b1, b7);
-            Edge eCD = new Edge(b3, b4);
-            Edge eDH = new Edge(b4, b8);
-            Edge eAF = new Edge(b1, b6);
-            Edge eBF = new Edge(b2, b6);
-            Edge eDF = new Edge(b4, b6);
-            Edge eCG = new Edge(b3, b7);
-            Edge eBC = new Edge(b2, b3);
-            Edge eCE = new Edge(b3, b5);
+            var eAB = new Edge(b1, b2);
+            var eAG = new Edge(b1, b7);
+            var eCD = new Edge(b3, b4);
+            var eDH = new Edge(b4, b8);
+            var eAF = new Edge(b1, b6);
+            var eBF = new Edge(b2, b6);
+            var eDF = new Edge(b4, b6);
+            var eCG = new Edge(b3, b7);
+            var eBC = new Edge(b2, b3);
+            var eCE = new Edge(b3, b5);
 
-            List<Edge> list = new List<Edge>();
+            var list = new List<Edge>();
             list.Add(eAB);
             list.Add(eAG);
             list.Add(eCD);
@@ -117,7 +105,7 @@ namespace SharpGraph
             list.Add(eBC);
             list.Add(eCE);
 
-            Graph g = new Graph(list);
+            var g = new Graph(list);
 
             g.AddComponent<EdgeWeight>(eAB).Weight = 10;
             g.AddComponent<EdgeWeight>(eAG).Weight = 14;
@@ -129,7 +117,7 @@ namespace SharpGraph
             g.AddComponent<EdgeWeight>(eCG).Weight = 11.5f;
             g.AddComponent<EdgeWeight>(eBC).Weight = 6.5f;
             g.AddComponent<EdgeWeight>(eCE).Weight = 6.5f;
-            List<Node> path = g.FindMinPath(b1, b8, new TestHeuristic(5));
+            var path = g.FindMinPath(b1, b8, new TestHeuristic(5));
 
             Assert.True(
                 path.Contains(b1)
@@ -144,17 +132,17 @@ namespace SharpGraph
         public void AStarTest4()
         {
             // A ->B should be shortest path from A to B
-            Node b1 = new Node("A");
-            Node b2 = new Node("B");
+            var b1 = new Node("A");
+            var b2 = new Node("B");
 
-            Edge eAB = new Edge(b1, b2);
+            var eAB = new Edge(b1, b2);
 
-            List<Edge> list = new List<Edge>();
+            var list = new List<Edge>();
             list.Add(eAB);
 
-            Graph g = new Graph(list);
+            var g = new Graph(list);
             g.AddComponent<EdgeWeight>(eAB).Weight = 10;
-            List<Node> path = g.FindMinPath(b1, b2, new TestHeuristic(5));
+            var path = g.FindMinPath(b1, b2, new TestHeuristic(5));
 
             Assert.True(path.Contains(b1) && path.Contains(b2) && path.Count == 2);
         }
@@ -163,16 +151,16 @@ namespace SharpGraph
         public void AStarTest5()
         {
             // A ->B path does not exist
-            Node b1 = new Node("A");
-            Node b2 = new Node("B");
-            HashSet<Node> nodeSet = new HashSet<Node>();
+            var b1 = new Node("A");
+            var b2 = new Node("B");
+            var nodeSet = new HashSet<Node>();
             nodeSet.Add(b1);
             nodeSet.Add(b2);
 
-            List<Edge> list = new List<Edge>();
+            var list = new List<Edge>();
 
-            Graph g = new Graph(list, nodeSet);
-            List<Node> path = g.FindMinPath(b1, b2, new TestHeuristic(5));
+            var g = new Graph(list, nodeSet);
+            var path = g.FindMinPath(b1, b2, new TestHeuristic(5));
 
             Assert.True(path.Count == 1);
         }
@@ -183,6 +171,21 @@ namespace SharpGraph
         public float GetHeuristic(Node t, Node goal)
         {
             return 2;
+        }
+    }
+
+    internal class TestHeuristic : IAStarHeuristic
+    {
+        private readonly float val;
+
+        public TestHeuristic(float val)
+        {
+            this.val = val;
+        }
+
+        public float GetHeuristic(Node t, Node goal)
+        {
+            return this.val;
         }
     }
 }

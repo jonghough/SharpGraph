@@ -1,7 +1,9 @@
-using System;
-using System.Collections;
+﻿// <copyright file="CliqueTest.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
+// </copyright>
+
 using System.Collections.Generic;
-using System.Reflection;
 using Xunit;
 
 namespace SharpGraph
@@ -9,17 +11,17 @@ namespace SharpGraph
     public class CliqueTest
     {
         [Fact]
-        public void cliqueTest2()
+        public void CliqueTest2()
         {
             var nodes = new List<Node>(NodeGenerator.GenerateNodes(6));
 
-            Edge e1 = new Edge(nodes[4], nodes[1]);
-            Edge e2 = new Edge(nodes[4], nodes[0]);
-            Edge e3 = new Edge(nodes[0], nodes[1]);
-            Edge e4 = new Edge(nodes[1], nodes[2]);
-            Edge e5 = new Edge(nodes[2], nodes[3]);
-            Edge e6 = new Edge(nodes[3], nodes[4]);
-            Edge e7 = new Edge(nodes[3], nodes[5]);
+            var e1 = new Edge(nodes[4], nodes[1]);
+            var e2 = new Edge(nodes[4], nodes[0]);
+            var e3 = new Edge(nodes[0], nodes[1]);
+            var e4 = new Edge(nodes[1], nodes[2]);
+            var e5 = new Edge(nodes[2], nodes[3]);
+            var e6 = new Edge(nodes[3], nodes[4]);
+            var e7 = new Edge(nodes[3], nodes[5]);
 
             var edges = new List<Edge>();
             edges.Add(e1);

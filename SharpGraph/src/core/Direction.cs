@@ -1,11 +1,10 @@
-﻿// <copyright file="Direction.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Direction.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
 
 namespace SharpGraph
 {
-    using System;
-
     /// <summary>
     /// Edge Direction enum. Given an edge with an attached. <code>EdgeDirection</code>
     /// component, this enum defines the direction of the edge.

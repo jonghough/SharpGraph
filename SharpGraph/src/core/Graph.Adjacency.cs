@@ -1,14 +1,14 @@
-// <copyright file="Graph.Adjacency.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.Adjacency.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public partial class Graph
     {
         public List<Edge> GetIncidentEdges(Node node)
@@ -57,13 +57,13 @@ namespace SharpGraph
         /// <returns></returns>
         public List<Node> GetAdjacent(Node node, bool isDirected = false)
         {
-            HashSet<Node> adjacent = new HashSet<Node>();
+            var adjacent = new HashSet<Node>();
             HashSet<Edge> edgeSet;
             if (this.incidenceMap.TryGetValue(node, out edgeSet))
             {
-                foreach (Edge e in edgeSet)
+                foreach (var e in edgeSet)
                 {
-                    EdgeDirection ed = this.GetComponent<EdgeDirection>(e);
+                    var ed = this.GetComponent<EdgeDirection>(e);
                     if (!isDirected || ed == null)
                     {
                         adjacent.UnionWith(e.Nodes());
@@ -95,13 +95,13 @@ namespace SharpGraph
 
         public List<Node> GetAdjacentTransposed(Node node)
         {
-            HashSet<Node> adjacent = new HashSet<Node>();
+            var adjacent = new HashSet<Node>();
             HashSet<Edge> edgeSet;
             if (this.incidenceMap.TryGetValue(node, out edgeSet))
             {
-                foreach (Edge e in edgeSet)
+                foreach (var e in edgeSet)
                 {
-                    EdgeDirection ed = this.GetComponent<EdgeDirection>(e);
+                    var ed = this.GetComponent<EdgeDirection>(e);
                     if (ed == null)
                     {
                         adjacent.UnionWith(e.Nodes());
@@ -139,7 +139,7 @@ namespace SharpGraph
         /// <returns></returns>
         public bool IsAdjacent(Node t1, Node t2)
         {
-            foreach (Edge e in this.GetEdges())
+            foreach (var e in this.GetEdges())
             {
                 if (e.Nodes().Contains(t1) && e.Nodes().Contains(t2) && t1 != t2)
                 {
@@ -161,8 +161,8 @@ namespace SharpGraph
         /// <returns></returns>
         public List<Edge> GetIncidentEdges(Edge edge, bool isDirected = false)
         {
-            HashSet<Edge> filtered = new HashSet<Edge>();
-            foreach (Edge e in this.edges)
+            var filtered = new HashSet<Edge>();
+            foreach (var e in this.edges)
             {
                 var dir = this.GetComponent<EdgeDirection>(e);
                 if (e.Nodes().Contains(edge.From()))
@@ -210,8 +210,8 @@ namespace SharpGraph
             bool isDirected = false
         )
         {
-            List<Edge> filtered = new List<Edge>();
-            foreach (Edge e in this.edges)
+            var filtered = new List<Edge>();
+            foreach (var e in this.edges)
             {
                 if (memory[e].Visited)
                 {
@@ -249,8 +249,8 @@ namespace SharpGraph
             bool isDirected = false
         )
         {
-            Dictionary<Node, float> adj = new Dictionary<Node, float>();
-            foreach (Edge e in this.GetEdges())
+            var adj = new Dictionary<Node, float>();
+            foreach (var e in this.GetEdges())
             {
                 var dir = this.GetComponent<EdgeDirection>(e);
 

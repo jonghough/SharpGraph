@@ -1,13 +1,13 @@
-﻿// <copyright file="Graph.BellmanFord.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Graph.BellmanFord.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-
     /// <summary>
     /// Exception class for Negative cycles found while performing Bellman-Ford algorithm.
     /// The existence of negative cycles means Bellman-Ford must fail, and throw this exception.
@@ -30,14 +30,14 @@ namespace SharpGraph
         /// <returns>A list of nodes representing the shortest path from the start node to the finish node.</returns>
         public List<Node> FindMinPathBF(Node nodeS, Node nodeF)
         {
-            List<Node> path = new List<Node>();
-            List<Node> nodes = new List<Node>(this.GetNodes());
+            var path = new List<Node>();
+            var nodes = new List<Node>(this.GetNodes());
 
             // set the initial conditions. The start node (start) has a temp
             // distance of 0
             // and all other nodes have a temp distance of max possible.
-            Dictionary<Node, RouteMemory> routeMemoryMap = new Dictionary<Node, RouteMemory>();
-            foreach (Node t in this.nodes)
+            var routeMemoryMap = new Dictionary<Node, RouteMemory>();
+            foreach (var t in this.nodes)
             {
                 var rm = new RouteMemory();
                 routeMemoryMap[t] = rm;
@@ -46,11 +46,11 @@ namespace SharpGraph
                 rm.Visited = false;
             }
 
-            for (int i = 1; i < nodes.Count; i++)
+            for (var i = 1; i < nodes.Count; i++)
             {
-                foreach (Edge edge in this.GetEdges())
+                foreach (var edge in this.GetEdges())
                 {
-                    float tmp =
+                    var tmp =
                         routeMemoryMap[edge.From()].Distance
                         + this.GetComponent<EdgeWeight>(edge).Weight;
                     if (tmp < routeMemoryMap[edge.To()].Distance)
@@ -62,9 +62,9 @@ namespace SharpGraph
             }
 
             // check there are no negative-weight cycles.
-            foreach (Edge edge in this.GetEdges())
+            foreach (var edge in this.GetEdges())
             {
-                float tmp =
+                var tmp =
                     routeMemoryMap[edge.From()].Distance
                     + this.GetComponent<EdgeWeight>(edge).Weight;
                 if (tmp < routeMemoryMap[edge.To()].Distance)
@@ -75,7 +75,7 @@ namespace SharpGraph
                 }
             }
 
-            Node p = routeMemoryMap[nodeF].Previous.GetValueOrDefault();
+            var p = routeMemoryMap[nodeF].Previous.GetValueOrDefault();
             path.Add(nodeF);
             while (true)
             {

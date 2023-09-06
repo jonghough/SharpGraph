@@ -1,17 +1,18 @@
-﻿// <copyright file="Edge.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="Edge.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
 // </copyright>
+
+using System;
+using System.Collections.Generic;
 
 namespace SharpGraph
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-
     public struct Edge : IEquatable<Edge>
     {
-        private Node from;
-        private Node to;
+        private readonly Node from;
+
+        private readonly Node to;
 
         public Edge(Node from, Node to)
         {
@@ -104,16 +105,6 @@ namespace SharpGraph
             }
         }
 
-        internal Edge SetFrom(Node from)
-        {
-            return new Edge(from, this.to);
-        }
-
-        internal Edge SetTo(Node to)
-        {
-            return new Edge(this.from, to);
-        }
-
         public override string ToString()
         {
             return "(" + this.from + ", " + this.to + ")";
@@ -139,6 +130,16 @@ namespace SharpGraph
             var h = (this.from.GetHashCode() ^ 38334421) + (this.to.GetHashCode() * 11);
             return h;
         }
+
+        internal Edge SetFrom(Node from)
+        {
+            return new Edge(from, this.to);
+        }
+
+        internal Edge SetTo(Node to)
+        {
+            return new Edge(this.from, to);
+        }
     }
 
     public abstract class EdgeComponent
@@ -147,8 +148,8 @@ namespace SharpGraph
 
         public Edge Owner
         {
-            get { return this.owner; }
-            internal set { this.owner = value; }
+            get => this.owner;
+            internal set => this.owner = value;
         }
 
         public abstract void Copy(EdgeComponent edgeComponent);

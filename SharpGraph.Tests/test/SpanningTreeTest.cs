@@ -1,5 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿// <copyright file="SpanningTreeTest.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
+// </copyright>
+
 using System.Collections.Generic;
 using Xunit;
 
@@ -10,7 +13,7 @@ namespace SharpGraph
         [Fact]
         public void CompleteGraphSpanningTreeTest()
         {
-            HashSet<Node> nodes = NodeGenerator.GenerateNodes(10);
+            var nodes = NodeGenerator.GenerateNodes(10);
             var g = GraphGenerator.CreateComplete(nodes);
             Assert.Equal(9, g.GenerateSpanningTree().Count);
         }
@@ -18,21 +21,21 @@ namespace SharpGraph
         [Fact]
         public void MinimumSpanningTreeTest1()
         {
-            HashSet<Node> nodes = NodeGenerator.GenerateNodes(8);
-            List<Node> nodeList = new List<Node>(nodes);
-            Edge wedge1 = new Edge(nodeList[0], nodeList[1]);
-            Edge wedge2 = new Edge(nodeList[0], nodeList[2]);
-            Edge wedge3 = new Edge(nodeList[0], nodeList[7]);
-            Edge wedge4 = new Edge(nodeList[1], nodeList[2]);
-            Edge wedge5 = new Edge(nodeList[1], nodeList[3]);
-            Edge wedge6 = new Edge(nodeList[1], nodeList[5]);
-            Edge wedge7 = new Edge(nodeList[2], nodeList[4]);
-            Edge wedge8 = new Edge(nodeList[2], nodeList[5]);
-            Edge wedge9 = new Edge(nodeList[2], nodeList[6]);
-            Edge wedge10 = new Edge(nodeList[3], nodeList[5]);
-            Edge wedge11 = new Edge(nodeList[4], nodeList[6]);
-            Edge wedge12 = new Edge(nodeList[5], nodeList[6]);
-            Edge wedge13 = new Edge(nodeList[6], nodeList[7]);
+            var nodes = NodeGenerator.GenerateNodes(8);
+            var nodeList = new List<Node>(nodes);
+            var wedge1 = new Edge(nodeList[0], nodeList[1]);
+            var wedge2 = new Edge(nodeList[0], nodeList[2]);
+            var wedge3 = new Edge(nodeList[0], nodeList[7]);
+            var wedge4 = new Edge(nodeList[1], nodeList[2]);
+            var wedge5 = new Edge(nodeList[1], nodeList[3]);
+            var wedge6 = new Edge(nodeList[1], nodeList[5]);
+            var wedge7 = new Edge(nodeList[2], nodeList[4]);
+            var wedge8 = new Edge(nodeList[2], nodeList[5]);
+            var wedge9 = new Edge(nodeList[2], nodeList[6]);
+            var wedge10 = new Edge(nodeList[3], nodeList[5]);
+            var wedge11 = new Edge(nodeList[4], nodeList[6]);
+            var wedge12 = new Edge(nodeList[5], nodeList[6]);
+            var wedge13 = new Edge(nodeList[6], nodeList[7]);
             var edges = new List<Edge>();
             edges.Add(wedge1);
             edges.Add(wedge2);
@@ -71,12 +74,12 @@ namespace SharpGraph
         [Fact]
         public void MinimumSpanningTreeTest2()
         {
-            Node b1 = new Node("1");
-            Node b2 = new Node("2");
-            Node b3 = new Node("3");
-            Edge wedge1 = new Edge(b1, b2);
-            Edge wedge2 = new Edge(b1, b3);
-            Edge wedge3 = new Edge(b2, b3);
+            var b1 = new Node("1");
+            var b2 = new Node("2");
+            var b3 = new Node("3");
+            var wedge1 = new Edge(b1, b2);
+            var wedge2 = new Edge(b1, b3);
+            var wedge3 = new Edge(b2, b3);
             var edges = new List<Edge>();
             edges.Add(wedge1);
             edges.Add(wedge2);
@@ -89,22 +92,22 @@ namespace SharpGraph
             g.AddComponent<EdgeWeight>(wedge3).Weight = 3.5f;
             var span = g.GenerateMinimumSpanningTree();
 
-            //minimum spanning tree should contain only edges 1 and 2, not edge 3.
+            // minimum spanning tree should contain only edges 1 and 2, not edge 3.
             Assert.True(span.Contains(wedge1) && span.Contains(wedge2) && !span.Contains(wedge3));
         }
 
         [Fact]
         public void MinimumSpanningTreeTest3()
         {
-            Node b1 = new Node("1");
-            Node b2 = new Node("2");
-            Node b3 = new Node("3");
-            Node b4 = new Node("4");
-            Edge wedge1 = new Edge(b1, b2);
-            Edge wedge2 = new Edge(b1, b3);
-            Edge wedge3 = new Edge(b2, b3);
-            Edge wedge4 = new Edge(b2, b4);
-            Edge wedge5 = new Edge(b3, b4);
+            var b1 = new Node("1");
+            var b2 = new Node("2");
+            var b3 = new Node("3");
+            var b4 = new Node("4");
+            var wedge1 = new Edge(b1, b2);
+            var wedge2 = new Edge(b1, b3);
+            var wedge3 = new Edge(b2, b3);
+            var wedge4 = new Edge(b2, b4);
+            var wedge5 = new Edge(b3, b4);
 
             var edges = new List<Edge>();
             edges.Add(wedge1);
@@ -123,9 +126,11 @@ namespace SharpGraph
 
             var span = g.GenerateMinimumSpanningTree();
             Assert.Equal(3, span.Count);
-            //minimum spanning tree should contain only edges 1 and 2
+
+            // minimum spanning tree should contain only edges 1 and 2
             Assert.True(span.Contains(wedge1) && span.Contains(wedge2));
-            //only contains one of edge 3,4,5
+
+            // only contains one of edge 3,4,5
             Assert.True(span.Contains(wedge3) ^ span.Contains(wedge4) ^ span.Contains(wedge5));
         }
 
@@ -158,15 +163,15 @@ namespace SharpGraph
         [Fact]
         public void MinimumSpanningTreePrimTest3()
         {
-            Node b1 = new Node("1");
-            Node b2 = new Node("2");
-            Node b3 = new Node("3");
-            Node b4 = new Node("4");
-            Edge wedge1 = new Edge(b1, b2);
-            Edge wedge2 = new Edge(b1, b3);
-            Edge wedge3 = new Edge(b2, b3);
-            Edge wedge4 = new Edge(b2, b4);
-            Edge wedge5 = new Edge(b3, b4);
+            var b1 = new Node("1");
+            var b2 = new Node("2");
+            var b3 = new Node("3");
+            var b4 = new Node("4");
+            var wedge1 = new Edge(b1, b2);
+            var wedge2 = new Edge(b1, b3);
+            var wedge3 = new Edge(b2, b3);
+            var wedge4 = new Edge(b2, b4);
+            var wedge5 = new Edge(b3, b4);
 
             var edges = new List<Edge>();
             edges.Add(wedge1);
@@ -186,30 +191,32 @@ namespace SharpGraph
             var span = g.GenerateMinimumSpanningTree(SpanningTreeAlgorithm.Prim);
 
             Assert.Equal(3, span.Count);
-            //minimum spanning tree should contain only edges 1 and 2
+
+            // minimum spanning tree should contain only edges 1 and 2
             Assert.True(span.Contains(wedge1) && span.Contains(wedge2));
-            //only contains one of edge 3,4,5
+
+            // only contains one of edge 3,4,5
             Assert.True(span.Contains(wedge3) ^ span.Contains(wedge4) ^ span.Contains(wedge5));
         }
 
         [Fact]
         public void MinimumSpanningTreePrimTest1()
         {
-            HashSet<Node> nodes = NodeGenerator.GenerateNodes(8);
-            List<Node> nodeList = new List<Node>(nodes);
-            Edge wedge1 = new Edge(nodeList[0], nodeList[1]);
-            Edge wedge2 = new Edge(nodeList[0], nodeList[2]);
-            Edge wedge3 = new Edge(nodeList[0], nodeList[7]);
-            Edge wedge4 = new Edge(nodeList[1], nodeList[2]);
-            Edge wedge5 = new Edge(nodeList[1], nodeList[3]);
-            Edge wedge6 = new Edge(nodeList[1], nodeList[5]);
-            Edge wedge7 = new Edge(nodeList[2], nodeList[4]);
-            Edge wedge8 = new Edge(nodeList[2], nodeList[5]);
-            Edge wedge9 = new Edge(nodeList[2], nodeList[6]);
-            Edge wedge10 = new Edge(nodeList[3], nodeList[5]);
-            Edge wedge11 = new Edge(nodeList[4], nodeList[6]);
-            Edge wedge12 = new Edge(nodeList[5], nodeList[6]);
-            Edge wedge13 = new Edge(nodeList[6], nodeList[7]);
+            var nodes = NodeGenerator.GenerateNodes(8);
+            var nodeList = new List<Node>(nodes);
+            var wedge1 = new Edge(nodeList[0], nodeList[1]);
+            var wedge2 = new Edge(nodeList[0], nodeList[2]);
+            var wedge3 = new Edge(nodeList[0], nodeList[7]);
+            var wedge4 = new Edge(nodeList[1], nodeList[2]);
+            var wedge5 = new Edge(nodeList[1], nodeList[3]);
+            var wedge6 = new Edge(nodeList[1], nodeList[5]);
+            var wedge7 = new Edge(nodeList[2], nodeList[4]);
+            var wedge8 = new Edge(nodeList[2], nodeList[5]);
+            var wedge9 = new Edge(nodeList[2], nodeList[6]);
+            var wedge10 = new Edge(nodeList[3], nodeList[5]);
+            var wedge11 = new Edge(nodeList[4], nodeList[6]);
+            var wedge12 = new Edge(nodeList[5], nodeList[6]);
+            var wedge13 = new Edge(nodeList[6], nodeList[7]);
             var edges = new List<Edge>();
             edges.Add(wedge1);
             edges.Add(wedge2);
@@ -248,12 +255,12 @@ namespace SharpGraph
         [Fact]
         public void MinimumSpanningTreePrimTest2()
         {
-            Node b1 = new Node("1");
-            Node b2 = new Node("2");
-            Node b3 = new Node("3");
-            Edge wedge1 = new Edge(b1, b2);
-            Edge wedge2 = new Edge(b1, b3);
-            Edge wedge3 = new Edge(b2, b3);
+            var b1 = new Node("1");
+            var b2 = new Node("2");
+            var b3 = new Node("3");
+            var wedge1 = new Edge(b1, b2);
+            var wedge2 = new Edge(b1, b3);
+            var wedge3 = new Edge(b2, b3);
             var edges = new List<Edge>();
             edges.Add(wedge1);
             edges.Add(wedge2);
@@ -266,19 +273,19 @@ namespace SharpGraph
             g.AddComponent<EdgeWeight>(wedge3).Weight = 3.5f;
             var span = g.GenerateMinimumSpanningTree(SpanningTreeAlgorithm.Prim);
 
-            //minimum spanning tree should contain only edges 1 and 2, not edge 3.
+            // minimum spanning tree should contain only edges 1 and 2, not edge 3.
             Assert.True(span.Contains(wedge1) && span.Contains(wedge2) && !span.Contains(wedge3));
         }
 
         [Fact]
         public void SpanningTreeTest1()
         {
-            Node b1 = new Node("1");
-            Node b2 = new Node("2");
-            Node b3 = new Node("3");
-            Edge wedge1 = new Edge(b1, b2);
-            Edge wedge2 = new Edge(b1, b3);
-            Edge wedge3 = new Edge(b2, b3);
+            var b1 = new Node("1");
+            var b2 = new Node("2");
+            var b3 = new Node("3");
+            var wedge1 = new Edge(b1, b2);
+            var wedge2 = new Edge(b1, b3);
+            var wedge3 = new Edge(b2, b3);
             var edges = new List<Edge>();
             edges.Add(wedge1);
             edges.Add(wedge2);

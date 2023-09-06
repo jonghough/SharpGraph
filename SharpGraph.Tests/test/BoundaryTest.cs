@@ -1,5 +1,10 @@
-using System.Linq;
+﻿// <copyright file="BoundaryTest.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
+// </copyright>
+
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace SharpGraph
@@ -40,6 +45,7 @@ namespace SharpGraph
             hs.Add(nodes[2]);
             hs.Add(nodes[3]);
             bdry = g.EdgeBoundary(hs);
+
             // all edges to nodes 4,5. So 8 edges.
             Assert.Equal(8, bdry.Count);
         }

@@ -1,8 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿// <copyright file="ColoringTest.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
+// </copyright>
+
 using System.Linq;
-using System.Reflection;
 using Xunit;
 
 namespace SharpGraph
