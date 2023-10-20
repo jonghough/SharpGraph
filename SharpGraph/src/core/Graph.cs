@@ -67,6 +67,15 @@ namespace SharpGraph
             }
         }
 
+        public Graph(params Node[] nodes)
+            : this()
+        {
+            foreach (var node in nodes)
+            {
+                this.AddNode(node);
+            }
+        }
+
         public Graph(string fromToString)
             : this()
         {
