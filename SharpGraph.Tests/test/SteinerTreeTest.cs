@@ -1,8 +1,14 @@
+// <copyright file="SteinerTreeTest.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license.
+// See LICENSE file in the samples root for full license information.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace SharpGraph.Tests.test
+namespace SharpGraph.Tests.Test
 {
     public class SteinerTreeTest
     {
@@ -236,7 +242,7 @@ namespace SharpGraph.Tests.test
             var treeSet = new HashSet<Node>();
             var nsList = new List<Node>(ns);
             treeSet.Add(nsList[0]);
-            treeSet.Add(nsList[7 * 3 * 3 - 1]);
+            treeSet.Add(nsList[(7 * 3 * 3) - 1]);
             var tree = g.GenerateMinimalSpanningSteinerTree(treeSet);
             System.Console.WriteLine(tree.GetNodes().Count);
             Assert.True(tree.GetNodes().Count == 11); // 7 down + 2 across + 2 deep

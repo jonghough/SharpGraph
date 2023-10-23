@@ -1,3 +1,9 @@
+// <copyright file="Graph.FloydWarshall.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license.
+// See LICENSE file in the samples root for full license information.
+// </copyright>
+
 using System;
 using System.Collections.Generic;
 
@@ -7,7 +13,7 @@ namespace SharpGraph
     {
         /// <summary>
         /// Calculates pairwise distances between all nodes of the graph, using the
-        /// <i>Floyd-Warshall</i> algorithm. The algorithm has a runtime complexity of
+        /// <i>Floyd-Warshall</i> algorithm. The algorithm has a runtime complexity of.
         /// <i>O(N^3). The method returns a dictionary, where keys are pairs of nodes
         /// and values are the distances between those nodes.
         /// </summary>
@@ -51,10 +57,10 @@ namespace SharpGraph
                     {
                         if (this.IsAdjacent(nodeList[i], nodeList[j]))
                         {
-                            var edge = GetEdge(
+                            var edge = this.GetEdge(
                                 new HashSet<Node>() { nodeList[i], nodeList[j] }
                             ).Value;
-                            var dist = GetComponent<EdgeWeight>(edge).Weight;
+                            var dist = this.GetComponent<EdgeWeight>(edge).Weight;
                             distances[(nodeList[i], nodeList[j])] = dist;
                             path[(nodeList[i], nodeList[j])] = nodeList[j];
                         }
@@ -66,18 +72,28 @@ namespace SharpGraph
                     }
                 }
             }
+
             for (int k = 0; k < n; k++)
             {
                 for (int i = 0; i < n; i++)
                 {
                     if (i == k)
+                    {
                         continue;
+                    }
+
                     for (int j = 0; j < n; j++)
                     {
                         if (i == j)
+                        {
                             continue;
+                        }
+
                         if (k == j)
+                        {
                             continue;
+                        }
+
                         var dij = distances[(nodeList[i], nodeList[j])];
                         var dik = distances[(nodeList[i], nodeList[k])];
                         var dkj = distances[(nodeList[k], nodeList[j])];
@@ -86,10 +102,12 @@ namespace SharpGraph
                             dij = dik + dkj;
                             path[(nodeList[i], nodeList[j])] = path[(nodeList[i], nodeList[k])];
                         }
+
                         distances[(nodeList[i], nodeList[j])] = dij;
                     }
                 }
             }
+
             return (distances, path);
         }
     }

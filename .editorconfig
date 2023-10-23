@@ -140,7 +140,7 @@
 
 # # IDE0073: File header
 # dotnet_diagnostic.IDE0073.severity = warning
-# file_header_template = Copyright (c) Jonathan Hough.  All Rights Reserved.  Licensed under the MIT license.  See LICENSE in the project root for license information.
+file_header_template = Copyright (c) Jonathan Hough.  All Rights Reserved.  Licensed under the MIT license.  See LICENSE in the project root for license information.
 
 # # IDE0035: Remove unreachable code
 # dotnet_diagnostic.IDE0035.severity = warning

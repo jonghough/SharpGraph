@@ -1,6 +1,7 @@
 ﻿// <copyright file="Graph.Planarity.cs" company="Jonathan Hough">
 // Copyright (C) 2023 Jonathan Hough.
-// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
+// Copyright Licensed under the MIT license.
+// See LICENSE file in the samples root for full license information.
 // </copyright>
 
 using System;
@@ -24,7 +25,7 @@ namespace SharpGraph
         /// with no crossing edges. This method uses an implementation of the "left-right approach" to planarity testing,
         /// and is heavily based off the networkx implementation.
         /// This method will return true if the graph is planar, and false otherwise. No "proof": i.e. a counterexample or an example embedding are provided.
-        /// <see href="https://networkx.org/documentation/stable/_modules/networkx/algorithms/planarity.html#CheckPlanarity" networkx implementation................. </see>
+        /// <see href="https://networkx.org/documentation/stable/_modules/networkx/algorithms/planarity.html#CheckPlanarity" networkx implementation..................... </see>
         /// <see href="https://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=70329F8449DE1E839C85438D379BE36C?doi=10.1.1.217.9208&rep=rep1&type=pdf">algorithm.</see>
         ///
         /// <returns></returns></summary>
@@ -36,7 +37,7 @@ namespace SharpGraph
 
         /// <summary>
         /// Checks whether the graph is planar. A bool result is returned in a tuple with a planar embedding if the graph is planar or null otherwise.
-        /// <see href="https://networkx.org/documentation/stable/_modules/networkx/algorithms/planarity.html#CheckPlanarity" networkx implementation................. </see>
+        /// <see href="https://networkx.org/documentation/stable/_modules/networkx/algorithms/planarity.html#CheckPlanarity" networkx implementation..................... </see>
         /// <see href="https://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=70329F8449DE1E839C85438D379BE36C?doi=10.1.1.217.9208&rep=rep1&type=pdf">algorithm.</see>
         ///
         /// <returns></returns></summary>
