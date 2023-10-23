@@ -1,6 +1,7 @@
 ﻿// <copyright file="Graph.cs" company="Jonathan Hough">
 // Copyright (C) 2023 Jonathan Hough.
-// Copyright Licensed under the MIT license. See LICENSE file in the samples root for full license information.
+// Copyright Licensed under the MIT license.
+// See LICENSE file in the samples root for full license information.
 // </copyright>
 
 using System;
@@ -64,6 +65,15 @@ namespace SharpGraph
             foreach (var nodeLabel in nodes)
             {
                 this.AddNode(nodeLabel);
+            }
+        }
+
+        public Graph(params Node[] nodes)
+            : this()
+        {
+            foreach (var node in nodes)
+            {
+                this.AddNode(node);
             }
         }
 
@@ -383,16 +393,6 @@ namespace SharpGraph
             return true;
         }
 
-        private void Init()
-        {
-            this.incidenceMap = new Dictionary<Node, HashSet<Edge>>();
-            this.edges = new List<Edge>();
-            this.nodes = new HashSet<Node>();
-            this.nodeComponents = new Dictionary<Node, Dictionary<string, NodeComponent>>();
-            this.edgeComponents = new Dictionary<Edge, Dictionary<string, EdgeComponent>>();
-            this.graphComponents = new Dictionary<string, GraphComponent>();
-        }
-
         public Graph MergeWith(Graph graph2)
         {
             var edges1 = this.GetEdges();
@@ -428,6 +428,16 @@ namespace SharpGraph
             this.AddIncidence(to, edge);
 
             return true;
+        }
+
+        private void Init()
+        {
+            this.incidenceMap = new Dictionary<Node, HashSet<Edge>>();
+            this.edges = new List<Edge>();
+            this.nodes = new HashSet<Node>();
+            this.nodeComponents = new Dictionary<Node, Dictionary<string, NodeComponent>>();
+            this.edgeComponents = new Dictionary<Edge, Dictionary<string, EdgeComponent>>();
+            this.graphComponents = new Dictionary<string, GraphComponent>();
         }
 
         private void AddIncidence(Node node, Edge edge)

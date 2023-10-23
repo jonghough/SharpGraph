@@ -1,8 +1,16 @@
 {
     "tasks": [{
-        "name": "Run csharpier",
-        "command": "dotnet",
-        "args": ["csharpier", "${staged}"],
-        "include": ["**/*.cs"]
-    }]
+            "name": "dotnet format",
+            "group": "pre-commit",
+            "command": "dotnet",
+            "args": ["format", "--include", "${staged}"],
+            "include": ["**/*.cs"]
+        },
+        {
+            "name": "Run csharpier",
+            "command": "dotnet",
+            "args": ["csharpier", "${staged}"],
+            "include": ["**/*.cs"]
+        }
+    ]
 }
