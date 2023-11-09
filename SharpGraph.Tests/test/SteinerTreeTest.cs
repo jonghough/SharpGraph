@@ -244,7 +244,6 @@ namespace SharpGraph.Tests.Test
             treeSet.Add(nsList[0]);
             treeSet.Add(nsList[(7 * 3 * 3) - 1]);
             var tree = g.GenerateMinimalSpanningSteinerTree(treeSet);
-            System.Console.WriteLine(tree.GetNodes().Count);
             Assert.True(tree.GetNodes().Count == 11); // 7 down + 2 across + 2 deep
             Assert.True(tree.FindSimpleCycles().Count == 0);
         }

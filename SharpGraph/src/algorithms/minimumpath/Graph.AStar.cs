@@ -36,7 +36,7 @@ namespace SharpGraph
         {
             var openSet = new HashSet<Node>();
             var closedSet = new HashSet<Node>();
-            var openPQ = new C5.IntervalHeap<Node>(new NodeComparer(heuristic, nodeS));
+            var openPQ = new C5.IntervalHeap<Node>(new NodeComparer(heuristic, nodeF));
             openSet.Add(nodeS);
             openPQ.Add(nodeS);
             var allowedEdges = new List<Edge>(this.GetEdges());
@@ -51,21 +51,18 @@ namespace SharpGraph
             foreach (var t in this.nodes)
             {
                 routeMemoryMap[t] = new RouteMemory();
-                if (!nodeS.Equals(t))
-                {
-                    gScoreMap.Add(t, float.MaxValue);
-                    fScoreMap.Add(t, 0f);
-                    routeMemoryMap[t].Previous = t;
-                }
+
+                gScoreMap.Add(t, float.PositiveInfinity);
+                fScoreMap.Add(t, float.PositiveInfinity);
+                routeMemoryMap[t].Previous = t;
             }
 
-            gScoreMap.Add(nodeS, 0f);
+            gScoreMap[nodeS] = 0;
             routeMemoryMap[nodeS].Previous = nodeS;
-            fScoreMap.Add(nodeS, 0f + heuristic.GetHeuristic(nodeS, nodeF)); // (f = g + heuristic)
+            fScoreMap[nodeS] = 0f + heuristic.GetHeuristic(nodeS, nodeF); // (f = g + heuristic)
             while (openPQ.Count > 0)
             {
                 var current = openPQ.DeleteMin();
-
                 if (current.Equals(nodeF))
                 {
                     shortestPath.Add(current);
@@ -84,31 +81,21 @@ namespace SharpGraph
                         {
                             continue;
                         }
-                        else if (closedSet.Contains(t))
-                        {
-                            continue;
-                        }
                         else
                         {
                             var tmp = gScoreMap[current] + this.GetComponent<EdgeWeight>(u).Weight;
-                            if (openSet.Contains(t) == false)
+                            var currentScore = gScoreMap[t];
+                            if (currentScore > tmp)
                             {
                                 routeMemoryMap[t].Previous = current;
-                                openSet.Add(t);
-                                openPQ.Add(t);
+
                                 gScoreMap[t] = tmp;
                                 fScoreMap[t] = gScoreMap[t] + heuristic.GetHeuristic(t, nodeF);
                                 routeMemoryMap[t].Distance = tmp;
-                            }
-                            else
-                            {
-                                var currentScore = gScoreMap[t];
-                                if (currentScore > tmp)
+                                if (openSet.Contains(t) == false)
                                 {
-                                    routeMemoryMap[t].Previous = current;
-                                    gScoreMap[t] = tmp;
-                                    fScoreMap[t] = gScoreMap[t] + heuristic.GetHeuristic(t, nodeF);
-                                    routeMemoryMap[t].Distance = tmp;
+                                    openSet.Add(t);
+                                    openPQ.Add(t);
                                 }
                             }
                         }
