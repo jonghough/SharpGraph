@@ -212,6 +212,11 @@ namespace SharpGraph
             return hs;
         }
 
+        public Node? GetNode(string label)
+        {
+            return this.nodes.Where(n => n.GetLabel() == label).FirstOrDefault();
+        }
+
         public int Degree(Node node)
         {
             if (this.nodes.Contains(node) == false)
