@@ -80,7 +80,7 @@ namespace SharpGraph
         public Graph(string fromToString)
             : this()
         {
-            var nodeListMatcher = Regex.Match(fromToString, "^(\\d+)\\s*..\\s*(\\d+)$");
+            var nodeListMatcher = Regex.Match(fromToString, "(\\d+)\\s*..\\s*(\\d+)$");
             var edgeArrowMatcher = Regex.Match(fromToString, "(\\w+)\\s*->\\s*(\\w+)");
 
             if (nodeListMatcher.Success)

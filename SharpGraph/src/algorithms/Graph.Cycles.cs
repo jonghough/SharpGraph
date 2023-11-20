@@ -79,6 +79,65 @@ namespace SharpGraph
             return true;
         }
 
+        /// <summary>
+        /// Gives the <i>Girth</i> of the graph, which must be assume dto be undirected. The girth is defined to be the size of the smallest
+        /// non0directed cycle in the graph.
+        /// </summary>
+        /// <returns></returns>
+        public int Girth()
+        {
+            if (this.nodes.Count == 0)
+            {
+                return -1;
+            }
+
+            if (this.edges.Count == 0)
+            {
+                return -1;
+            }
+
+            var searchNeighbors = new Dictionary<Node, int>();
+            var minCycleLength = int.MaxValue;
+            this.DFS(
+                (graph, previous, current) =>
+                {
+                    if (previous == current)
+                    {
+                        searchNeighbors = new Dictionary<Node, int>();
+                        searchNeighbors[current] = 1;
+                        return;
+                    }
+
+                    var adjSet = new HashSet<Node>(graph.GetAdjacent(current));
+                    adjSet.IntersectWith(searchNeighbors.Keys);
+                    var didRemove = adjSet.Remove(previous);
+                    if (didRemove && adjSet.Count > 0)
+                    {
+                        Node prev = new List<Node>(adjSet)
+                            .OrderBy(i => searchNeighbors[previous] - searchNeighbors[i])
+                            .First();
+                        int v = searchNeighbors[prev];
+                        int size = searchNeighbors[previous];
+                        var l1 = size - v;
+                        var l2 = 2;
+                        if (l1 + l2 < minCycleLength)
+                        {
+                            minCycleLength = l1 + l2;
+                        }
+                    }
+
+                    searchNeighbors[current] = searchNeighbors[previous] + 1;
+                }
+            );
+
+            if (minCycleLength == int.MaxValue)
+            {
+                return -1;
+            }
+
+            return minCycleLength;
+        }
+
         private static List<Node> ReorderList(List<Node> lst)
         {
             var len = lst.Count;

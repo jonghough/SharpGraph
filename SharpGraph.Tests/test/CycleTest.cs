@@ -106,5 +106,65 @@ namespace SharpGraph
 
             Assert.False(chords);
         }
+
+        [Fact]
+        public void TestK5GraphGirth()
+        {
+            var nodes5 = GraphGenerator.CreateComplete(5);
+            var girth = nodes5.Girth();
+            Assert.True(girth == 3);
+        }
+
+        [Fact]
+        public void TestC5GraphGirth()
+        {
+            var nodes5 = NodeGenerator.GenerateNodes(5);
+            var cycleGraph = GraphGenerator.GenerateCycle(nodes5);
+            var girth = cycleGraph.Girth();
+            Assert.True(girth == 5);
+        }
+
+        [Fact]
+        public void TestGraphGirth3()
+        {
+            var g = new Graph("A->B, A->C, B->D, D->E, E->F, F->A, C->E");
+            var girth = g.Girth();
+            Assert.True(girth == 4);
+        }
+
+        [Fact]
+        public void TestPetersonGraphGirth()
+        {
+            var g = GraphGenerator.GeneratePetersonGraph();
+            var girth = g.Girth();
+            Assert.True(girth == 5);
+        }
+
+        [Fact]
+        public void TestBarbellGirth()
+        {
+            var g = GraphGenerator.GenerateBarbell(5, 4);
+            var girth = g.Girth();
+
+            Assert.True(girth == 3);
+        }
+
+        [Fact]
+        public void TestTreeGirth()
+        {
+            var g = new Graph("A->B, B->C, C->D, A->E, E->F, F->G, E->H, H->I, I->J, D->K");
+            var girth = g.Girth();
+            Assert.True(girth == -1);
+        }
+
+        [Fact]
+        public void TestTwoNodeGraphGirth()
+        {
+            // graph has no edges. Just two nodes.
+            var g = new Graph("1..2");
+            var girth = g.Girth();
+
+            Assert.True(girth == -1);
+        }
     }
 }
