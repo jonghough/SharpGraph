@@ -12,6 +12,7 @@ namespace SharpGraph
 {
     public enum SpanningTreeAlgorithm
     {
+        Boruvka,
         Kruskal,
         Prim,
     }
@@ -67,6 +68,8 @@ namespace SharpGraph
 
             switch (spanningTreeAlgorithm)
             {
+                case SpanningTreeAlgorithm.Boruvka:
+                    return this.GenerateMinimumSpanningTreeBoruvka();
                 case SpanningTreeAlgorithm.Kruskal:
                     return this.GenerateMinimumSpanningTreeKruskal();
                 case SpanningTreeAlgorithm.Prim:
@@ -94,19 +97,22 @@ namespace SharpGraph
             var edges = this.GetEdges();
             _ = new List<Edge>(edges);
             var stEdges = new List<Edge>();
-            var ds = new List<DisjointSet>();
-            var nodeIndexDict = new Dictionary<Node, int>();
+            var ds = new Dictionary<Node, DisjointSet>();
             var nodeList = this.nodes.ToList();
-            for (var i = 0; i < nodeList.Count; i++)
-            {
-                ds.Add(new DisjointSet(i, 0));
-                nodeIndexDict[nodeList[i]] = i;
-            }
 
             foreach (var edge in edges)
             {
-                var x = this.Find(ds, nodeIndexDict[edge.From()]);
-                var y = this.Find(ds, nodeIndexDict[edge.To()]);
+                var (x, b1) = this.Find(ds, edge.From());
+                var (y, b2) = this.Find(ds, edge.To());
+                if (!b1)
+                {
+                    ds[x] = new DisjointSet(x, 0);
+                }
+
+                if (!b2)
+                {
+                    ds[y] = new DisjointSet(y, 0);
+                }
 
                 if (x != y)
                 {
@@ -118,31 +124,40 @@ namespace SharpGraph
             return stEdges;
         }
 
-        internal int Find(List<DisjointSet> subsets, int node)
+        internal (Node, bool) Find(Dictionary<Node, DisjointSet> subsets, Node node)
         {
-            if (subsets[node].Parent != node)
+            if (!subsets.ContainsKey(node))
             {
-                subsets[node].Parent = this.Find(subsets, subsets[node].Parent);
+                return (node, false);
             }
 
-            return subsets[node].Parent;
+            if (subsets[node].Parent != node)
+            {
+                var a = this.Find(subsets, subsets[node].Parent);
+                if (a.Item2)
+                {
+                    subsets[node].Parent = a.Item1;
+                }
+            }
+
+            return (subsets[node].Parent, true);
         }
 
-        internal void Union(List<DisjointSet> subsets, int a, int b)
+        internal void Union(Dictionary<Node, DisjointSet> subsets, Node a, Node b)
         {
             var rootA = this.Find(subsets, a);
             var rootB = this.Find(subsets, b);
 
-            if (subsets[rootA].Rank < subsets[rootB].Rank)
+            if (subsets[rootA.Item1].Rank < subsets[rootB.Item1].Rank)
             {
-                subsets[rootA].Parent = rootB;
+                subsets[rootA.Item1].Parent = rootB.Item1;
             }
             else
             {
-                subsets[rootB].Parent = rootA;
-                if (subsets[rootB].Rank == subsets[rootA].Rank)
+                subsets[rootB.Item1].Parent = rootA.Item1;
+                if (subsets[rootB.Item1].Rank == subsets[rootA.Item1].Rank)
                 {
-                    subsets[rootA].Rank++;
+                    subsets[rootA.Item1].Rank++;
                 }
             }
         }
@@ -150,7 +165,69 @@ namespace SharpGraph
         /// <summary>
         /// Generates a minimum spanning tree on the graph. The weight is defined using the.
         /// <code>EdgeWeight</code> component's. <code>Weight</code> value.
-        /// The algorithm uses <i>Kruskal's Algorithm</i>.
+        /// The algorithm uses <i>Boruvka's Algorithm</i>. The time complexity is
+        /// ~O(E log N), where E is number of edges, N is number of nodes.
+        /// </summary>
+        /// <returns>Minimum spanning tree, as a list of edges.</returns>
+        private List<Edge> GenerateMinimumSpanningTreeBoruvka()
+        {
+            var ds = new Dictionary<Node, DisjointSet>();
+            var nodeList = this.nodes.ToList();
+            var stEdges = new List<Edge>();
+            var minimumEdges = new Dictionary<Node, float>();
+
+            var nTrees = 0;
+
+            while (nTrees < nodeList.Count - 1)
+            {
+                foreach (var edge in this.edges)
+                {
+                    var (x, b1) = this.Find(ds, edge.From());
+                    var (y, b2) = this.Find(ds, edge.To());
+                    if (!b1)
+                    {
+                        ds[x] = new DisjointSet(x, 0);
+                    }
+
+                    if (!b2)
+                    {
+                        ds[y] = new DisjointSet(y, 0);
+                    }
+
+                    if (x != y)
+                    {
+                        var edgeWeight = this.GetComponent<EdgeWeight>(edge).Weight;
+                        if (
+                            (minimumEdges.ContainsKey(x) && edgeWeight <= minimumEdges[x])
+                            || !minimumEdges.ContainsKey(x)
+                        )
+                        {
+                            minimumEdges[x] = edgeWeight;
+                        }
+
+                        if (
+                            (minimumEdges.ContainsKey(y) && edgeWeight <= minimumEdges[y])
+                            || !minimumEdges.ContainsKey(y)
+                        )
+                        {
+                            minimumEdges[y] = edgeWeight;
+                        }
+
+                        stEdges.Add(edge);
+                        nTrees++;
+                        this.Union(ds, x, y);
+                    }
+                }
+            }
+
+            return stEdges;
+        }
+
+        /// <summary>
+        /// Generates a minimum spanning tree on the graph. The weight is defined using the.
+        /// <code>EdgeWeight</code> component's. <code>Weight</code> value.
+        /// The algorithm uses <i>Kruskal's Algorithm</i>. The time complexity is
+        /// ~O(E log N), where E is number of edges, N is number of nodes.
         /// </summary>
         /// <returns>Minimum spanning tree, as a list of edges.</returns>
         private List<Edge> GenerateMinimumSpanningTreeKruskal()
@@ -163,21 +240,22 @@ namespace SharpGraph
                         .Weight.CompareTo(this.GetComponent<EdgeWeight>(y).Weight);
                 }
             );
-            var gcopy = new List<Edge>(edges);
             var stEdges = new List<Edge>();
-            var ds = new List<DisjointSet>();
-            var nodeIndexDict = new Dictionary<Node, int>();
-            var nodeList = this.nodes.ToList();
-            for (var i = 0; i < nodeList.Count; i++)
-            {
-                ds.Add(new DisjointSet(i, 0));
-                nodeIndexDict[nodeList[i]] = i;
-            }
+            var ds = new Dictionary<Node, DisjointSet>();
 
             foreach (var edge in edges)
             {
-                var x = this.Find(ds, nodeIndexDict[edge.From()]);
-                var y = this.Find(ds, nodeIndexDict[edge.To()]);
+                var (x, b1) = this.Find(ds, edge.From());
+                var (y, b2) = this.Find(ds, edge.To());
+                if (!b1)
+                {
+                    ds[x] = new DisjointSet(x, 0);
+                }
+
+                if (!b2)
+                {
+                    ds[y] = new DisjointSet(y, 0);
+                }
 
                 if (x != y)
                 {
@@ -192,7 +270,8 @@ namespace SharpGraph
         /// <summary>
         /// Generates a minimum spanning tree on the graph. The weight is defined using the.
         /// <code>EdgeWeight</code> component's. <code>Weight</code> value.
-        /// The algorithm uses <i>Prim's Algorithm</i>.
+        /// The algorithm uses <i>Prim's Algorithm</i>. The time complexity is
+        /// ~O(E log N), where E is number of edges, N is number of nodes.
         /// </summary>
         /// <returns>Minimum spanning tree, as a list of edges.</returns>
         private List<Edge> GenerateMinimumSpanningTreePrim()
