@@ -9,12 +9,22 @@ namespace SharpGraph
     /// <summary>
     /// Disjoint set.
     /// </summary>
+    // internal class DisjointSet
+    // {
+    //     internal int Parent;
+    //     internal int Rank;
+    // internal DisjointSet(int parent, int rank)
+    //     {
+    //         this.Parent = parent;
+    //         this.Rank = rank;
+    //     }
+    // }
     internal class DisjointSet
     {
-        internal int Parent;
+        internal Node Parent;
         internal int Rank;
 
-        internal DisjointSet(int parent, int rank)
+        internal DisjointSet(Node parent, int rank)
         {
             this.Parent = parent;
             this.Rank = rank;
