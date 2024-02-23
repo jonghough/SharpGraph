@@ -1,4 +1,4 @@
-﻿// <copyright file="4f84a_CycleTest.cs" company="Jonathan Hough">
+﻿// <copyright file="CycleTest.cs" company="Jonathan Hough">
 // Copyright (C) 2023 Jonathan Hough.
 // Copyright Licensed under the MIT license.
 // See LICENSE file in the samples root for full license information.
@@ -92,7 +92,7 @@ namespace SharpGraph
         }
 
         [Fact]
-        public void CycleTest1()
+        public void CycleTestWithSingleCycle()
         {
             Graph g = new();
             g.AddEdge("a", "b");
@@ -110,7 +110,7 @@ namespace SharpGraph
         }
 
         [Fact]
-        public void CycleTest2()
+        public void CycleTestWithTwoCycles()
         {
             Graph g = new();
             g.AddEdge("a", "b");
