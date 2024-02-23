@@ -1,9 +1,16 @@
-﻿// <copyright file="CycleTest.cs" company="Jonathan Hough">
+﻿// <copyright file="4f84a_CycleTest.cs" company="Jonathan Hough">
 // Copyright (C) 2023 Jonathan Hough.
 // Copyright Licensed under the MIT license.
 // See LICENSE file in the samples root for full license information.
 // </copyright>
 
+using System;
+
+// <copyright file="CycleTest.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license.
+// See LICENSE file in the samples root for full license information.
+// </copyright>
 using Xunit;
 
 namespace SharpGraph
@@ -82,6 +89,40 @@ namespace SharpGraph
             var nodes5 = NodeGenerator.GenerateNodes(5);
             var cycleGraph = GraphGenerator.GenerateCycle(nodes5);
             Assert.Single(cycleGraph.FindSimpleCycles());
+        }
+
+        [Fact]
+        public void CycleTest1()
+        {
+            Graph g = new();
+            g.AddEdge("a", "b");
+            g.AddEdge("1", "2");
+            g.AddEdge("2", "3");
+            g.AddEdge("3", "4");
+            g.AddEdge("4", "1");
+            var cycles = g.FindSimpleCycles();
+            var c = cycles.Count;
+            Assert.True(c == 1);
+            Assert.Contains(new Node("1"), cycles[0]);
+            Assert.Contains(new Node("2"), cycles[0]);
+            Assert.Contains(new Node("3"), cycles[0]);
+            Assert.Contains(new Node("4"), cycles[0]);
+        }
+
+        [Fact]
+        public void CycleTest2()
+        {
+            Graph g = new();
+            g.AddEdge("a", "b");
+            g.AddEdge("b", "c");
+            g.AddEdge("c", "a");
+            g.AddEdge("1", "2");
+            g.AddEdge("2", "3");
+            g.AddEdge("3", "4");
+            g.AddEdge("4", "1");
+            var cycles = g.FindSimpleCycles();
+            var c = cycles.Count;
+            Assert.True(c == 2);
         }
 
         [Fact]
