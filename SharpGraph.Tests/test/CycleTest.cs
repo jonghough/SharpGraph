@@ -5,7 +5,6 @@
 // </copyright>
 
 using System;
-
 // <copyright file="CycleTest.cs" company="Jonathan Hough">
 // Copyright (C) 2023 Jonathan Hough.
 // Copyright Licensed under the MIT license.
@@ -32,14 +31,10 @@ namespace SharpGraph
         [Fact]
         public void CompleteGenerationTest()
         {
-            const int nodeNum = 15;
-            const int width = 3;
-            var nodes = NodeGenerator.GenerateNodes(nodeNum);
-            var g = GraphGenerator.GenerateGrid(nodes, width);
-            Assert.Equal(
-                ((width - 1) * (nodeNum / width)) + (width * ((nodeNum / width) - 1)),
-                g.GetEdges().Count
-            );
+            int width = 3;
+            int height = 5;
+            var g = GraphGenerator.GenerateGrid(width, height);
+            Assert.Equal(((width - 1) * height) + (width * (height - 1)), g.GetEdges().Count);
         }
     }
 

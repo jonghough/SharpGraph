@@ -5,7 +5,10 @@
 // </copyright>
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Schema;
 
 namespace SharpGraph
 {
@@ -53,6 +56,18 @@ namespace SharpGraph
         /// <returns>A complete graph.</returns>
         public static Graph CreateComplete(HashSet<Node> nodeSet)
         {
+            if (nodeSet.Count == 0)
+            {
+                throw new ArgumentException(
+                    $"Size of node set is {nodeSet.Count}, but must be at least 1."
+                );
+            }
+
+            if (nodeSet.Count == 1)
+            {
+                return new Graph(nodeSet);
+            }
+
             var nodeList = new List<Node>(nodeSet);
             var edgeList = new List<Edge>();
             for (var i = 0; i < nodeList.Count - 1; i++)
@@ -70,6 +85,18 @@ namespace SharpGraph
 
         public static Graph CreateComplete(int size, string nodePrefix)
         {
+            if (size == 0)
+            {
+                throw new ArgumentException($"Size of node set is {size}, but must be at least 1.");
+            }
+
+            if (size == 1)
+            {
+                var nodeSet = new HashSet<Node> { new Node(nodePrefix + "0") };
+
+                return new Graph(nodeSet);
+            }
+
             var nodes = new HashSet<Node>();
             for (var i = 0; i < size; i++)
             {
@@ -96,11 +123,9 @@ namespace SharpGraph
         {
             var ep = edgeProb;
             ep =
-                ep < 0
-                    ? 0
-                    : ep > 1.0f
-                        ? 1.0f
-                        : ep;
+                ep < 0 ? 0
+                : ep > 1.0f ? 1.0f
+                : ep;
             var compG = CreateComplete(nodes);
             var rand = new Random(Guid.NewGuid().GetHashCode());
 
@@ -171,6 +196,28 @@ namespace SharpGraph
         }
 
         /// <summary>
+        /// Generates the complete bipartite graph with left sdie having. <code>leftNodeCount</code> nodes and
+        /// the right side having. <code>rightNodeCount</code> nodes. Each node on left side is adjacent to each and only the
+        /// nodes on the right side, and vice versa.
+        /// </summary>
+        /// <param name="leftNodeCount">nodes for the left side.</param>
+        /// <param name="rightNodeCount">nodes for the right side.</param>
+        /// <returns>Complete bipartite graph.</returns>
+        public static Graph GenerateBipartiteComplete(int leftNodeCount, int rightNodeCount)
+        {
+            var leftNodes = Enumerable
+                .Range(0, leftNodeCount)
+                .Select(i => new Node("L" + i.ToString()))
+                .ToHashSet();
+            var rightNodes = Enumerable
+                .Range(0, rightNodeCount)
+                .Select(i => new Node("R" + i.ToString()))
+                .ToHashSet();
+
+            return GenerateBipartiteComplete(leftNodes, rightNodes);
+        }
+
+        /// <summary>
         /// Creates a cyclic graph on n vertices, where n is the given arguemtn positive integer.
         ///
         /// </summary>
@@ -223,8 +270,8 @@ namespace SharpGraph
             var gLeft = CreateComplete(leftSet);
             var gRight = CreateComplete(rightSet);
 
-            var left = gLeft.GetEdges()[0].From();
-            var right = gRight.GetEdges()[0].From();
+            var left = new List<Node>(gLeft.GetNodes())[0];
+            var right = new List<Node>(gRight.GetNodes())[0];
 
             // the bar edge.
             var e = new Edge(left, right);
@@ -236,8 +283,7 @@ namespace SharpGraph
             return new Graph(allEdges);
         }
 
-        ///
-        /// <returns></returns><summary>
+        /// <summary>
         /// Creates a barbell graph, which is defined as two complete graphs connected by a single edge.
         /// The <i>leftSize</i> and. <i>rightSize>\i? arguments give the number of nodes of the two generated complete graphs.
         ///
@@ -275,21 +321,24 @@ namespace SharpGraph
             return GenerateBarbell(left, right);
         }
 
-        public static Graph GenerateGrid(HashSet<Node> nodeSet, int width)
+        public static Graph GenerateGrid(int width, int height, string nodePrefix = "")
         {
-            if (nodeSet.Count % width != 0)
+            if (width < 1 || height < 1)
             {
-                throw new Exception("Number of nodes must be a multiple of width.");
+                throw new NonPositiveArgumentException(
+                    $"Non positive argument in width and height: {width}, {height}."
+                );
             }
 
-            var height = nodeSet.Count / width;
             var edgeList = new List<Edge>();
-            var nodeList = new List<Node>(nodeSet);
             for (var i = 0; i < width; i++)
             {
                 for (var j = 0; j < height - 1; j++)
                 {
-                    var e = new Edge(nodeList[i + (j * width)], nodeList[i + ((j + 1) * width)]);
+                    var e = new Edge(
+                        new Node($"{nodePrefix}{i}_{j}"),
+                        new Node($"{nodePrefix}{i}_{j + 1}")
+                    );
                     edgeList.Add(e);
                 }
             }
@@ -298,18 +347,25 @@ namespace SharpGraph
             {
                 for (var j = 0; j < height; j++)
                 {
-                    var e = new Edge(nodeList[i + (j * width)], nodeList[i + (j * width) + 1]);
+                    var e = new Edge(
+                        new Node($"{nodePrefix}{i}_{j}"),
+                        new Node($"{nodePrefix}{i + 1}_{j}")
+                    );
                     edgeList.Add(e);
                 }
             }
 
-            return new Graph(edgeList);
+            var g = new Graph(edgeList);
+
+            // in case no edges, we still have a solitary node.
+            g.AddNode($"{nodePrefix}0_0");
+            return g;
         }
 
         /// <summary>
         /// Generates a 3D grid (lattice) of nodes where each node is adjacent to the nearest nodes in
         /// the cardinal directions (left,right, up,down, front,back). The dimensions (in terms of nodes)
-        /// of the resulting graph will be width x depth x height, where height is calcualted as
+        /// of the resulting graph will be width x depth x height, where height is calculated as
         /// the number of nodes in the nodeSet divided by (width x depth).
         /// This means the number of nodes in nodeSet must be a multiple of widthxdepth.
         /// </summary>
@@ -317,57 +373,42 @@ namespace SharpGraph
         /// <param name="width">width of the graph in terms of nodes.</param>
         /// <param name="depth">depth of the graph in terms of nodes.</param>
         /// <returns>3D grid.</returns>
-        public static Graph Generate3DGrid(HashSet<Node> nodeSet, int width, int depth)
+        public static Graph Generate3DGrid(int width, int height, int depth)
         {
-            if (nodeSet.Count % (width * depth) != 0)
+            if (width < 1 || height < 1 || depth < 1)
             {
-                throw new Exception("Number of nodes must be a multiple of width * depth.");
+                throw new NonPositiveArgumentException(
+                    $"Non positive argument in width and height and depth: {width}, {height}, {depth}."
+                );
             }
 
-            var height = nodeSet.Count / (width * depth);
-
-            var edgeLists = new List<List<Edge>>();
-            var masterList = new List<Node>(nodeSet);
-            var nodeLists = new List<List<Node>>();
-            var ctr = 0;
-            for (var i = 0; i < depth; i++)
+            var grid0 = GenerateGrid(width, height, "0_");
+            var g = new Graph();
+            g = g.MergeWith(grid0);
+            for (int i = 1; i < depth; i++)
             {
-                var set2 = new HashSet<Node>();
-                var nl = new List<Node>();
-                for (var j = 0; j < width * height; j++)
+                var grid = GenerateGrid(width, height, $"{i}_");
+                g = g.MergeWith(grid);
+                for (int j = 0; j < width; j++)
                 {
-                    set2.Add(masterList[(width * height * i) + j]);
-
-                    nl.Add(masterList[(width * height * i) + j]);
-                    ctr++;
-                }
-
-                var g = GenerateGrid(set2, width);
-                edgeLists.Add(g.GetEdges());
-                nodeLists.Add(nl);
-            }
-
-            var edges = new List<Edge>();
-
-            for (var i = 0; i < nodeLists.Count - 1; i++)
-            {
-                edges.AddRange(edgeLists[i]);
-                for (var j = 0; j < nodeLists[i].Count; j++)
-                {
-                    edges.Add(new Edge(nodeLists[i][j], nodeLists[i + 1][j]));
+                    for (int k = 0; k < height; k++)
+                    {
+                        var e = new Edge(new Node($"{i - 1}_{j}_{k}"), new Node($"{i}_{j}_{k}"));
+                        g.AddEdge(e);
+                    }
                 }
             }
 
-            edges.AddRange(edgeLists[edgeLists.Count - 1]);
-            return new Graph(edges);
+            return g;
         }
 
         /// <summary>
         /// Creates a <i>wheel graph</i> with the given number of spokes.
-        ///
+        /// Note that the number of nodes of the generated graph will be equal to then number
+        /// of spokes +1.
         /// <see href="https://en.wikipedia.org/wiki/Wheel_graph">Wheel Graph definition.</see>.
         /// </summary>
-        /// <param name="spokesCount">Number of spokes of the graph. Mus tbe at least 3.</param>
+        /// <param name="spokesCount">Number of spokes of the graph. Must be at least 3.</param>
         /// <returns>Wheel graph.</returns>
         public static Graph GenerateWheelGraph(int spokesCount)
         {
@@ -384,7 +425,7 @@ namespace SharpGraph
             var c = 0;
             var edges = new List<Edge>();
             var center = new Node("center");
-            while (c++ < spokesCount)
+            while (c < spokesCount)
             {
                 var edge = new Edge(
                     string.Format("{0}", c),
@@ -392,49 +433,26 @@ namespace SharpGraph
                 );
                 edges.Add(edge);
                 edges.Add(new Edge(center.GetLabel(), string.Format("{0}", c)));
+                c++;
             }
 
             return new Graph(edges);
         }
 
         /// <summary>
-        /// Creates the. <i>Peterson Graph</i>
+        /// Creates the. <i>Petersen Graph</i>
         /// </summary>
-        /// <returns>A copy of the Peterson Graph.</returns>
-        public static Graph GeneratePetersonGraph()
+        /// <returns>A copy of the Petersen Graph.</returns>
+        public static Graph GeneratePetersenGraph(string nodePrefix = "")
         {
-            var nodes = new HashSet<Node>();
-            for (var i = 0; i < 5; i++)
-            {
-                var n = new Node(string.Empty + i);
-                nodes.Add(n);
-            }
+            var g = new Graph(
+                $@"
+            {nodePrefix}0->{nodePrefix}2,{nodePrefix}0->{nodePrefix}3,{nodePrefix}1->{nodePrefix}3,{nodePrefix}1->{nodePrefix}4,{nodePrefix}2->{nodePrefix}4,
+            {nodePrefix}0->{nodePrefix}5,{nodePrefix}1->{nodePrefix}6,{nodePrefix}2->{nodePrefix}7,{nodePrefix}3->{nodePrefix}8,{nodePrefix}4->{nodePrefix}9,
+            {nodePrefix}5->{nodePrefix}6,{nodePrefix}6->{nodePrefix}7,{nodePrefix}7->{nodePrefix}8,{nodePrefix}8->{nodePrefix}9,{nodePrefix}9->{nodePrefix}0"
+            );
 
-            var nodeList = new List<Node>(nodes);
-            var edgeList = new List<Edge>();
-            for (var i = 0; i < nodeList.Count - 1; i++)
-            {
-                for (var j = i + 2; j < nodeList.Count; j++)
-                {
-                    var e = new Edge(nodeList[i], nodeList[j]);
-                    edgeList.Add(e);
-                }
-            }
-
-            for (var i = 0; i < nodeList.Count; i++)
-            {
-                var outer = new Edge(nodeList[i], new Node(string.Empty + (i + 5)));
-                edgeList.Add(outer);
-                edgeList.Add(
-                    new Edge(
-                        new Node(string.Empty + (i + 5)),
-                        new Node(string.Empty + ((i + 6) % 10))
-                    )
-                );
-            }
-
-            var graph = new Graph(edgeList);
-            return graph;
+            return g;
         }
 
         /// <summary>
@@ -464,7 +482,7 @@ namespace SharpGraph
                 {
                     if (i + j > n)
                     {
-                        goto COMPLETE;
+                        return g;
                     }
 
                     part.Add(i + j);
@@ -484,8 +502,6 @@ namespace SharpGraph
 
                 i += r;
             }
-
-            COMPLETE: { }
 
             return g;
         }
@@ -509,6 +525,30 @@ namespace SharpGraph
                 var weight = ((float)random.NextDouble() * (maxWeight - minWeight)) + minWeight;
                 ew.Weight = weight;
             }
+        }
+
+        public static Graph GeneratePath(uint nodeCount, string nodePrefix = "Node")
+        {
+            var nodeNames = Enumerable
+                .Range(0, ((int)nodeCount) - 1)
+                .Select(i => $"{nodePrefix}{i}->{nodePrefix}{i + 1}");
+            var constructorString = string.Join(",", nodeNames);
+            return new Graph(constructorString);
+        }
+
+        public static Graph GenerateLadderGraph(uint pathNodeCount)
+        {
+            var path1 = GeneratePath(pathNodeCount, "A");
+            var path2 = GeneratePath(pathNodeCount, "B");
+
+            var nodes1 = path1.GetNodes().Select(n => n.GetLabel()).OrderBy(s => s).ToList();
+            var nodes2 = path2.GetNodes().Select(n => n.GetLabel()).OrderBy(s => s).ToList();
+            var zip = nodes1.Zip(nodes2, (a, b) => new { First = a, Second = b });
+            var edges = zip.Select(z => z.First + "->" + z.Second).ToList();
+            var edgeString = string.Join(",", edges);
+            var g = path1.MergeWith(path2);
+            g.AddEdges(edgeString);
+            return g;
         }
     }
 }

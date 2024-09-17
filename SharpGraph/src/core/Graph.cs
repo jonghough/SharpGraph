@@ -59,6 +59,15 @@ namespace SharpGraph
             }
         }
 
+        public Graph(HashSet<Node> nodes)
+            : this()
+        {
+            foreach (var node in nodes)
+            {
+                this.AddNode(node);
+            }
+        }
+
         public Graph(params string[] nodes)
             : this()
         {
@@ -159,8 +168,8 @@ namespace SharpGraph
         public Graph(Graph g, HashSet<Node> nodes)
         {
             this.Init();
-            var filteredEdges = g.edges
-                .Where(e => nodes.Contains(e.From()) && nodes.Contains(e.To()))
+            var filteredEdges = g
+                .edges.Where(e => nodes.Contains(e.From()) && nodes.Contains(e.To()))
                 .ToList();
             foreach (var e in filteredEdges)
             {
@@ -283,6 +292,15 @@ namespace SharpGraph
                     this.AddEdge(nodes[0], nodes[1]);
                     edgeArrowMatcher = edgeArrowMatcher.NextMatch();
                 }
+            }
+        }
+
+        public void AddEdges(string edgesString)
+        {
+            var edges = edgesString.Split(',');
+            foreach (var e in edges)
+            {
+                this.AddEdge(e);
             }
         }
 

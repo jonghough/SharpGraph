@@ -178,27 +178,6 @@ namespace SharpGraph
         }
 
         [Fact]
-        public void TestGeneratingTuranGraph1()
-        {
-            var g = GraphGenerator.GenerateTuranGraph(5, 2);
-            Assert.True(g.GetNodes().Count == 5);
-            Assert.True(g.GetEdges().Count == 8);
-            Assert.True(g.GetEdge("1", "2") != null);
-            Assert.True(g.GetEdge("1", "0") == null);
-        }
-
-        [Fact]
-        public void TestGeneratingTuranGraph2()
-        {
-            var g = GraphGenerator.GenerateTuranGraph(10, 3);
-            Assert.True(g.GetNodes().Count == 10);
-            Assert.True(g.GetEdges().Count == 36);
-            Assert.True(g.GetEdge("1", "2") == null);
-            Assert.True(g.GetEdge("3", "4") == null);
-            Assert.True(g.GetEdge("1", "8") != null);
-        }
-
-        [Fact]
         public void TestGraphConstructorRegex1()
         {
             var g = new Graph("1..10");
