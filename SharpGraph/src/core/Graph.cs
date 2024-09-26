@@ -429,9 +429,12 @@ namespace SharpGraph
 
         internal bool AddEdge(Edge edge)
         {
-            if (this.GetEdges().Contains(edge))
+            foreach (var e in this.edges)
             {
-                return false;
+                if (e == edge)
+                {
+                    return false;
+                }
             }
 
             if (this.edgeComponents.ContainsKey(edge))
