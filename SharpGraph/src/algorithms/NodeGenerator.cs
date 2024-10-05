@@ -6,6 +6,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SharpGraph
 {
@@ -44,6 +46,22 @@ namespace SharpGraph
             }
 
             return nodes;
+        }
+
+        public static HashSet<Node> GenerateNodes(Collection<string> nodeCollection)
+        {
+            if (nodeCollection.Count < 1)
+            {
+                throw new Exception(
+                    string.Format(
+                        "argument 'number' must be a positive integer. Value given {0}",
+                        nodeCollection.Count
+                    )
+                );
+            }
+
+            var nodes = new HashSet<Node>();
+            return nodeCollection.Select(s => new Node(s)).ToHashSet();
         }
     }
 }
