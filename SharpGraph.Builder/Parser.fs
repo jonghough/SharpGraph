@@ -1,15 +1,10 @@
 ﻿namespace SharpGraph.Builder
 
-
 module Parser =
-    open FParsec
-    open System
+    open FParsec 
 
-    type GraphForm =
-        | Graph
-        | NodeIdentifier
-
-    and NodeIdentifier =
+    
+    type NodeIdentifier =
         | NamedNode of IdentifierName
         | NumberedNode of int
 
@@ -33,27 +28,10 @@ module Parser =
         | BinaryOperatorExp of BinaryOperator * Expression * Expression
 
 
-    let ws = spaces
-    let str_ws s = pstring s >>. ws
-
-    let followedByStringsWithWs strings =
-        let parsers = strings |> List.map (fun s -> attempt (spaces .>> pstring s))
-        followedBy (choice parsers)
-
-    let followedByStringsP p strings = p .>> followedByStringsWithWs strings
-
-    let notFollowedByStringsWithWs strings =
-        let parsers = strings |> List.map (fun s -> attempt (spaces >>. pstring s))
-        notFollowedByL (choice parsers) "unexpected string"
-
-    let notFollowedByStringsP p strings =
-        p .>> notFollowedByStringsWithWs strings
+    let ws = spaces 
 
     let stringLiteral: Parser<IdentifierName, unit> =
         between (pchar ''') (pchar ''') (manyChars (noneOf "'")) |>> IdentifierName
-
-    let dotsOrArrow: Parser<'a, unit> =
-        attempt (pstring "..") <|> attempt (pstring "->")
 
     let pNamedNode: Parser<NodeIdentifier, unit> = stringLiteral |>> NamedNode
 
@@ -70,12 +48,6 @@ module Parser =
         attempt (between (pchar '(') (pchar ')') rangeContent) <|> rangeContent
 
 
-    let pBinaryOperator: Parser<BinaryOperator, unit> =
-        choice
-            [ stringReturn "#" BipartiteComplete
-              stringReturn "->" Edge
-              stringReturn "," Aggregate ]
-
     let pExpression, pExpressionRef = createParserForwardedToRef<Expression, unit> ()
 
     let pSimpleExpression: Parser<Expression, unit> =
@@ -89,12 +61,7 @@ module Parser =
                   <|> (between (pchar '(' >>. spaces) (spaces >>. pchar ')') pNodeIdentifier)
                   |>> NodeIdentifierExp
               ) ]
-
-    let pParenthesizedExpression: Parser<Expression, unit> =
-        let parenthesized =
-            between (pchar '(' >>. spaces) (spaces >>. pchar ')') pExpression
-
-        attempt parenthesized
+ 
 
     let opp = new OperatorPrecedenceParser<Expression, unit, unit>()
 
