@@ -14,7 +14,9 @@ This is a .NET library containing an assortment of graph algorithms.
 dotnet add package SharpGraphLib --version 1.0.1
 ```
 
-#### Some currently implemented algorithms:
+#### Some currently implemented algorithms 
+
+Some of the implemented algorithms and functions are shown below.
 
 | Algorithm                             | Usage                                                                                                                                       |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -23,8 +25,11 @@ dotnet add package SharpGraphLib --version 1.0.1
 | Cycle finding                         | find all cycles on a given graph. Find Hamiltonian cycles.                                                                                  |
 | Bellman-Ford                          | for finding shortest path between two nodes on a connected, weighted graph with positive or negative weights, and no negative weight cycles |
 | Spanning Tree                         | finds the minimum spanning tree for a connected, weighted graph                                                                             |
+| Steiner Tree                          | find minimal steiner tree   |
+| Line Graph                            | find line graph transform of a graph |
+| Matrix conversion                     | convert graph to adjacency matrix |
 | Connected subgraphs                   | find all maximally connected subgraphs of a graph                                                                                           |
-| bionnected subgraphs                  | find all biconnected subgraphs of a graph                                                                                                   |
+| Biconnected subgraphs                 | find all biconnected subgraphs of a graph                                                                                                   |
 | General DFS and BFS search algorithms | For graph searching                                                                                                                         |
 | Find minimum cut of a graph           | Necessary edges to keep the graph connected                                                                                                 |
 | Maximum Flow                          | Find max flow in a flow network                                                                                                             |
@@ -232,8 +237,8 @@ Syntax
 
 | term | meaning                                                                                    | example  |
 | ---- | ------------------------------------------------------------------------------------------ | -------- |
-| a    | named node, will produce a grpah of single node, labeled "a"                               | a        |
-| 1..4 | builds a graph of nodes labeled 1,2,3, with no edges                                       |
+| 'a'    | named node, will produce a grpah of single node, labeled "a"                               | 'a'        |
+| 1..4 | builds a graph of nodes labeled 1,2,3, with no edges                                       | 3..5
 | !    | build complete graph                                                                       | 4!       |
 | \*   | build cyclic graph                                                                         | (1..6)\* |
 | ->   | builds edges by connecting all nodes on the left graph, with all nodes on the right graph. |
