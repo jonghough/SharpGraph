@@ -30,7 +30,7 @@ namespace SharpGraph
 
             Assert.Equal(e1, e2);
             Assert.True(e1 == e2);
-            Assert.True(e3 != e4);
+            Assert.True(e3 == e4);
             Assert.True(e3.From() == e4.To());
         }
 
@@ -132,13 +132,11 @@ namespace SharpGraph
 
             Assert.Equal(15, g1.GetEdges().Count);
             var success = g1.RemoveEdge("3", "1");
-            Assert.False(success, "the edge with from=3, to=1 does not exist");
+            Assert.True(success, "the edge with from=3, to=1 does not exist");
 
-            Assert.Equal(15, g1.GetEdges().Count);
+            Assert.Equal(14, g1.GetEdges().Count);
 
-            var nodes = new HashSet<Node>();
-            nodes.Add(new Node("3"));
-            nodes.Add(new Node("1"));
+            var nodes = new HashSet<Node> { new Node("3"), new Node("1") };
             g1.RemoveEdge(nodes);
             Assert.Equal(14, g1.GetEdges().Count);
         }

@@ -113,7 +113,8 @@ namespace SharpGraph
 
         public bool Equals(Edge other)
         {
-            return this.from == other.from && this.to == other.to;
+            return (this.from == other.from && this.to == other.to)
+                || (this.from == other.to && this.to == other.from);
         }
 
         public override bool Equals(object obj)
@@ -128,7 +129,10 @@ namespace SharpGraph
 
         public override int GetHashCode()
         {
-            var h = (this.from.GetHashCode() ^ 38334421) + (this.to.GetHashCode() * 11);
+            var x = this.from.GetHashCode() * this.to.GetHashCode();
+            var h = (this.from.GetHashCode() ^ 38334421) + (this.to.GetHashCode() ^ 43220011);
+            h = h * ((this.from.GetHashCode() ^ 43220011) + (this.to.GetHashCode() ^ 38334421));
+            h = h ^ (x * 43487273);
             return h;
         }
 

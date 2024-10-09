@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: dotnet tool restore
       - name: Unit test
-        run: dotnet test --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
+        run: dotnet test SharpGraph.sln --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
       - name: Upload dotnet test results
         uses: actions/upload-artifact@v3
         with:

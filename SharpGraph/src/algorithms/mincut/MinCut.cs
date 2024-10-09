@@ -48,8 +48,8 @@ namespace SharpGraph
                 nCount = modGraph.GetNodes().Count;
             }
 
-            var sum = modGraph.edges
-                .Select(e => modGraph.GetComponent<MultiplicityComponent>(e).Multiplicity)
+            var sum = modGraph
+                .edges.Select(e => modGraph.GetComponent<MultiplicityComponent>(e).Multiplicity)
                 .Sum();
             return sum;
         }
@@ -100,19 +100,19 @@ namespace SharpGraph
                         dict[rex] += mult;
                     }
 
-                    var rexi = new Edge(e.To(), newNode);
+                    // var rexi = new Edge(e.To(), newNode);
 
-                    if (this.edges.Contains(rexi))
-                    {
-                        if (!toRemove.Contains(rexi))
-                        {
-                            toRemove.Add(rexi);
-                            if (dict.ContainsKey(rexi))
-                            {
-                                dict[rex] += dict[rexi];
-                            }
-                        }
-                    }
+                    // if (this.edges.Contains(rexi))
+                    // {
+                    //     if (!toRemove.Contains(rexi))
+                    //     {
+                    //         toRemove.Add(rexi);
+                    //         if (dict.ContainsKey(rexi))
+                    //         {
+                    //             dict[rex] += dict[rexi];
+                    //         }
+                    //     }
+                    // }
                 }
                 else if (e.To() == edge.To())
                 {
@@ -129,19 +129,19 @@ namespace SharpGraph
                         dict[rex] += mult;
                     }
 
-                    var rexi = new Edge(newNode, e.From());
+                    // var rexi = new Edge(newNode, e.From());
 
-                    if (this.edges.Contains(rexi))
-                    {
-                        if (!toRemove.Contains(rexi))
-                        {
-                            toRemove.Add(rexi);
-                            if (dict.ContainsKey(rexi))
-                            {
-                                dict[rex] += dict[rexi];
-                            }
-                        }
-                    }
+                    // if (this.edges.Contains(rexi))
+                    // {
+                    //     if (!toRemove.Contains(rexi))
+                    //     {
+                    //         toRemove.Add(rexi);
+                    //         if (dict.ContainsKey(rexi))
+                    //         {
+                    //             dict[rex] += dict[rexi];
+                    //         }
+                    //     }
+                    // }
                 }
             }
 

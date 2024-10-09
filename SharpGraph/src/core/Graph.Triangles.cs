@@ -122,56 +122,40 @@ namespace SharpGraph
                 for (var j = i + 1; j < this.edges.Count - 1; j++)
                 {
                     var e2 = this.edges[j];
-                    if (e1.From() == e2.From())
+                    if (e1.From() == e2.From() && e1 != e2)
                     {
                         var ep1 = new Edge(e1.To(), e2.To());
-                        var ep2 = new Edge(e2.To(), e1.To());
-                        if (
-                            (this.edges.Contains(ep1) && !dic.ContainsKey(ep1))
-                            || (this.edges.Contains(ep2) && !dic.ContainsKey(ep2))
-                        )
+                        if (this.edges.Contains(ep1) && !dic.ContainsKey(ep1))
                         {
                             var l = new Tuple<Node, Node, Node>(e1.From(), e1.To(), e2.To());
                             dic[e2] = j;
                             result.Add(l);
                         }
                     }
-                    else if (e1.From() == e2.To())
+                    else if (e1.From() == e2.To() && e1 != e2)
                     {
                         var ep1 = new Edge(e1.To(), e2.From());
-                        var ep2 = new Edge(e2.From(), e1.To());
-                        if (
-                            (this.edges.Contains(ep1) && !dic.ContainsKey(ep1))
-                            || (this.edges.Contains(ep2) && !dic.ContainsKey(ep2))
-                        )
+                        if (this.edges.Contains(ep1) && !dic.ContainsKey(ep1))
                         {
                             var l = new Tuple<Node, Node, Node>(e1.From(), e1.To(), e2.From());
                             dic[e2] = j;
                             result.Add(l);
                         }
                     }
-                    else if (e1.To() == e2.To())
+                    else if (e1.To() == e2.To() && e1 != e2)
                     {
                         var ep1 = new Edge(e1.From(), e2.From());
-                        var ep2 = new Edge(e2.From(), e1.From());
-                        if (
-                            (this.edges.Contains(ep1) && !dic.ContainsKey(ep1))
-                            || (this.edges.Contains(ep2) && !dic.ContainsKey(ep2))
-                        )
+                        if (this.edges.Contains(ep1) && !dic.ContainsKey(ep1))
                         {
                             var l = new Tuple<Node, Node, Node>(e1.To(), e1.From(), e2.From());
                             dic[e2] = j;
                             result.Add(l);
                         }
                     }
-                    else if (e1.To() == e2.From())
+                    else if (e1.To() == e2.From() && e1 != e2)
                     {
                         var ep1 = new Edge(e1.From(), e2.To());
-                        var ep2 = new Edge(e2.To(), e1.From());
-                        if (
-                            (this.edges.Contains(ep1) && !dic.ContainsKey(ep1))
-                            || (this.edges.Contains(ep2) && !dic.ContainsKey(ep2))
-                        )
+                        if (this.edges.Contains(ep1) && !dic.ContainsKey(ep1))
                         {
                             var l = new Tuple<Node, Node, Node>(e1.To(), e1.From(), e2.To());
                             dic[e2] = j;

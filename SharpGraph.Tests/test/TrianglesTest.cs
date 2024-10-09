@@ -4,6 +4,7 @@
 // See LICENSE file in the samples root for full license information.
 // </copyright>
 
+using System;
 using Xunit;
 
 namespace SharpGraph
@@ -57,6 +58,7 @@ namespace SharpGraph
 
             g.AddEdge("1", "4");
             triangles = g.FindTriangles();
+
             Assert.Equal(3, triangles.Count);
         }
 

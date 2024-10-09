@@ -63,6 +63,9 @@ let ``Test Parsing Graphs`` (expression: string, expectedResult) =
 [<InlineData("1,1,1", 1, 0, 1)>]
 [<InlineData("1,1,(1)", 1, 0, 1)>]
 [<InlineData("'a'->'b'", 2, 1, 1)>]
+[<InlineData("1..4", 3, 0, 3)>]
+[<InlineData("1..4,4..10", 9, 0, 9)>]
+[<InlineData("1..4->4..10", 9, 18, 1)>] // bipartite k3,6
 [<InlineData("(1 -> 2), (2 -> 'other'), (2->'NodethreeX')", 4, 3, 1)>]
 [<InlineData("(('A node'->'B node')!)->((1..4)!)", 5, 10, 1)>]
 [<InlineData("('A','B','C','D','E')!", 5, 10, 1)>]
