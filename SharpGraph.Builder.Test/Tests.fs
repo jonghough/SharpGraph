@@ -27,6 +27,7 @@ open SharpGraph.Builder.Compiler
 [<InlineData("->", false)>]
 [<InlineData("1->", false)>]
 [<InlineData("->1", false)>]
+[<InlineData("'node 1'->'node 2", false)>]
 [<InlineData("'a' 'b'", false)>]
 [<InlineData("'a',->'b'", false)>]
 [<InlineData("\t2\t->(\r\n5\r\n,6)", true)>]
@@ -79,7 +80,8 @@ let ``Test Parsing Graphs`` (expression: string, expectedResult) =
 [<InlineData("0..100**", 100, 100, 1)>]
 [<InlineData("'日本語の名前'->'&%$$'", 2, 1, 1)>]
 [<InlineData("(1->2->3->4->5->6),7", 7, 15, 2)>]
-[<InlineData("'node1'->3->4->'node1'", 3, 5, 1)>] // two way edge
+[<InlineData("'node1'->3->4->'node1'", 3, 3, 1)>] 
+[<InlineData("'node1'->'node2'->'node3'->'node4'->'node5'->'node6'->'node7'->'node1'", 7, 21, 1)>]   
 [<InlineData("(0..4!),(4..10*),(10..20|)", 20, 21, 3)>]
 [<InlineData(" 0..4! ,(4..10*),(10..20|)", 20, 21, 3)>]
 [<InlineData(" 0..4! , 4..10* ,(10..20|)", 20, 21, 3)>]

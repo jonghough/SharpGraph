@@ -196,3 +196,5 @@ FakesAssemblies/
 *.opt
 
 .fake
+
+scratch.txt
