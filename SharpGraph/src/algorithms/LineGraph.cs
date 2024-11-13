@@ -61,6 +61,10 @@ namespace SharpGraph
             );
         }
 
+        // public static Graph GenerateInverseLineGraph(Graph g)
+        // {
+
+        // }
         internal class EdgeComparer : IEqualityComparer<Edge>
         {
             public bool Equals(Edge x, Edge y)

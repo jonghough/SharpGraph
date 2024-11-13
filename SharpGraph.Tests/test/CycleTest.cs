@@ -4,6 +4,12 @@
 // See LICENSE file in the samples root for full license information.
 // </copyright>
 
+using System;
+// <copyright file="CycleTest.cs" company="Jonathan Hough">
+// Copyright (C) 2023 Jonathan Hough.
+// Copyright Licensed under the MIT license.
+// See LICENSE file in the samples root for full license information.
+// </copyright>
 using Xunit;
 
 namespace SharpGraph
@@ -25,14 +31,10 @@ namespace SharpGraph
         [Fact]
         public void CompleteGenerationTest()
         {
-            const int nodeNum = 15;
-            const int width = 3;
-            var nodes = NodeGenerator.GenerateNodes(nodeNum);
-            var g = GraphGenerator.GenerateGrid(nodes, width);
-            Assert.Equal(
-                ((width - 1) * (nodeNum / width)) + (width * ((nodeNum / width) - 1)),
-                g.GetEdges().Count
-            );
+            int width = 3;
+            int height = 5;
+            var g = GraphGenerator.GenerateGrid(width, height);
+            Assert.Equal(((width - 1) * height) + (width * (height - 1)), g.GetEdges().Count);
         }
     }
 
@@ -82,6 +84,40 @@ namespace SharpGraph
             var nodes5 = NodeGenerator.GenerateNodes(5);
             var cycleGraph = GraphGenerator.GenerateCycle(nodes5);
             Assert.Single(cycleGraph.FindSimpleCycles());
+        }
+
+        [Fact]
+        public void CycleTestWithSingleCycle()
+        {
+            Graph g = new();
+            g.AddEdge("a", "b");
+            g.AddEdge("1", "2");
+            g.AddEdge("2", "3");
+            g.AddEdge("3", "4");
+            g.AddEdge("4", "1");
+            var cycles = g.FindSimpleCycles();
+            var c = cycles.Count;
+            Assert.True(c == 1);
+            Assert.Contains(new Node("1"), cycles[0]);
+            Assert.Contains(new Node("2"), cycles[0]);
+            Assert.Contains(new Node("3"), cycles[0]);
+            Assert.Contains(new Node("4"), cycles[0]);
+        }
+
+        [Fact]
+        public void CycleTestWithTwoCycles()
+        {
+            Graph g = new();
+            g.AddEdge("a", "b");
+            g.AddEdge("b", "c");
+            g.AddEdge("c", "a");
+            g.AddEdge("1", "2");
+            g.AddEdge("2", "3");
+            g.AddEdge("3", "4");
+            g.AddEdge("4", "1");
+            var cycles = g.FindSimpleCycles();
+            var c = cycles.Count;
+            Assert.True(c == 2);
         }
 
         [Fact]

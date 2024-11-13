@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+<PropertyGroup> 
+    <PackageId>SharpGraphLib.Builder</PackageId>
+    <TargetFramework>net8.0</TargetFramework> 
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Version>1.0.3</Version>
+    <Authors>Jonathan Hough</Authors>
+    <Company>Jonathan Hough</Company>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup> 
+
+  <ItemGroup>
+    <Compile Include="Parser.fs" />
+    <Compile Include="Compiler.fs" />
+  </ItemGroup>
+<ItemGroup>
+  <ProjectReference Include="..\SharpGraph\SharpGraph.csproj" />
+</ItemGroup>
+  <ItemGroup>
+  <None Include="./README.md" Pack="true" PackagePath="\" />
+    <PackageReference Include="FParsec" Version="1.1.1" />
+  </ItemGroup>
+
+</Project>

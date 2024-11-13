@@ -214,13 +214,12 @@ namespace SharpGraph.Tests.Test
         [Fact]
         public void TestSteinerTreeForGrid1()
         {
-            var ns = NodeGenerator.GenerateNodes(5 * 5 * 2);
-            var g = GraphGenerator.Generate3DGrid(ns, 5, 2);
+            var g = GraphGenerator.Generate3DGrid(5, 5, 2);
             var rand = new Random();
             g.GetEdges().ForEach(e => g.AddComponent<EdgeWeight>(e).Weight = rand.Next(1000));
 
             var treeSet = new HashSet<Node>();
-            var nsList = new List<Node>(ns);
+            var nsList = new List<Node>(g.GetNodes());
             treeSet.Add(nsList[0]);
             treeSet.Add(nsList[10]);
             treeSet.Add(nsList[20]);
@@ -234,17 +233,13 @@ namespace SharpGraph.Tests.Test
         [Fact]
         public void TestSteinerTreeForGrid2()
         {
-            var ns = NodeGenerator.GenerateNodes(7 * 3 * 3);
-            var g = GraphGenerator.Generate3DGrid(ns, 3, 3);
+            var g = GraphGenerator.Generate3DGrid(7, 3, 3);
             var rand = new Random();
             g.GetEdges().ForEach(e => g.AddComponent<EdgeWeight>(e).Weight = 1);
 
-            var treeSet = new HashSet<Node>();
-            var nsList = new List<Node>(ns);
-            treeSet.Add(nsList[0]);
-            treeSet.Add(nsList[(7 * 3 * 3) - 1]);
+            var treeSet = new HashSet<Node> { new Node("0_0_0"), new Node("2_6_2") };
             var tree = g.GenerateMinimalSpanningSteinerTree(treeSet);
-            Assert.True(tree.GetNodes().Count == 11); // 7 down + 2 across + 2 deep
+            Assert.Equal(11, tree.GetNodes().Count); // 7 across + 2 down + 2 deep
             Assert.True(tree.FindSimpleCycles().Count == 0);
         }
     }

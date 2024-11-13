@@ -59,6 +59,15 @@ namespace SharpGraph
             }
         }
 
+        public Graph(HashSet<Node> nodes)
+            : this()
+        {
+            foreach (var node in nodes)
+            {
+                this.AddNode(node);
+            }
+        }
+
         public Graph(params string[] nodes)
             : this()
         {
@@ -159,8 +168,8 @@ namespace SharpGraph
         public Graph(Graph g, HashSet<Node> nodes)
         {
             this.Init();
-            var filteredEdges = g.edges
-                .Where(e => nodes.Contains(e.From()) && nodes.Contains(e.To()))
+            var filteredEdges = g
+                .edges.Where(e => nodes.Contains(e.From()) && nodes.Contains(e.To()))
                 .ToList();
             foreach (var e in filteredEdges)
             {
@@ -286,6 +295,15 @@ namespace SharpGraph
             }
         }
 
+        public void AddEdges(string edgesString)
+        {
+            var edges = edgesString.Split(',');
+            foreach (var e in edges)
+            {
+                this.AddEdge(e);
+            }
+        }
+
         public Edge? GetEdge(HashSet<Node> nodes)
         {
             if (nodes.Count != 2)
@@ -368,7 +386,13 @@ namespace SharpGraph
         public bool RemoveEdge((Node, Node) fromToNodes)
         {
             var edge = new Edge(fromToNodes.Item1, fromToNodes.Item2);
-            return this.RemoveEdge(edge);
+            var res = this.RemoveEdge(edge);
+            if (!res)
+            {
+                return this.RemoveEdge(new Edge(fromToNodes.Item2, fromToNodes.Item1));
+            }
+
+            return res;
         }
 
         public bool RemoveEdge(Edge edge)
@@ -411,9 +435,12 @@ namespace SharpGraph
 
         internal bool AddEdge(Edge edge)
         {
-            if (this.GetEdges().Contains(edge))
+            foreach (var e in this.edges)
             {
-                return false;
+                if (e == edge)
+                {
+                    return false;
+                }
             }
 
             if (this.edgeComponents.ContainsKey(edge))

@@ -30,7 +30,7 @@ namespace SharpGraph
 
             Assert.Equal(e1, e2);
             Assert.True(e1 == e2);
-            Assert.True(e3 != e4);
+            Assert.True(e3 == e4);
             Assert.True(e3.From() == e4.To());
         }
 
@@ -132,13 +132,11 @@ namespace SharpGraph
 
             Assert.Equal(15, g1.GetEdges().Count);
             var success = g1.RemoveEdge("3", "1");
-            Assert.False(success, "the edge with from=3, to=1 does not exist");
+            Assert.True(success, "the edge with from=3, to=1 does not exist");
 
-            Assert.Equal(15, g1.GetEdges().Count);
+            Assert.Equal(14, g1.GetEdges().Count);
 
-            var nodes = new HashSet<Node>();
-            nodes.Add(new Node("3"));
-            nodes.Add(new Node("1"));
+            var nodes = new HashSet<Node> { new Node("3"), new Node("1") };
             g1.RemoveEdge(nodes);
             Assert.Equal(14, g1.GetEdges().Count);
         }
@@ -175,27 +173,6 @@ namespace SharpGraph
                 Assert.Equal(12f, a.X);
                 Assert.Equal(200f, a.Y);
             }
-        }
-
-        [Fact]
-        public void TestGeneratingTuranGraph1()
-        {
-            var g = GraphGenerator.GenerateTuranGraph(5, 2);
-            Assert.True(g.GetNodes().Count == 5);
-            Assert.True(g.GetEdges().Count == 8);
-            Assert.True(g.GetEdge("1", "2") != null);
-            Assert.True(g.GetEdge("1", "0") == null);
-        }
-
-        [Fact]
-        public void TestGeneratingTuranGraph2()
-        {
-            var g = GraphGenerator.GenerateTuranGraph(10, 3);
-            Assert.True(g.GetNodes().Count == 10);
-            Assert.True(g.GetEdges().Count == 36);
-            Assert.True(g.GetEdge("1", "2") == null);
-            Assert.True(g.GetEdge("3", "4") == null);
-            Assert.True(g.GetEdge("1", "8") != null);
         }
 
         [Fact]

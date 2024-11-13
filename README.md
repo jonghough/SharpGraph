@@ -1,37 +1,40 @@
- 
 # SharpGraph
- 
- A C# Library Package for `.Net 6` and above, for the purpose of working with graphs and  graph algorithms.
 
+A C# Library Package for `.Net 6` and above, for the purpose of working with graphs and graph algorithms.
 
 ![unit test workflow](https://github.com/jonghough/SharpGraph/actions/workflows/unit-test.yaml/badge.svg?branch=master)
- 
+
 ## Project
+
 This is a .NET library containing an assortment of graph algorithms.
 
 ## Nuget
+
 ```
 dotnet add package SharpGraphLib --version 1.0.1
 ```
 
-#### Some currently implemented algorithms:
+#### Some currently implemented algorithms 
 
+Some of the implemented algorithms and functions are shown below.
 
-| Algorithm | Usage |
-|---------------------------------|----------------------------------------------------|
-|Dijkstra | for finding shortest path between two nodes on a connected weighted graph, with non-negative weights|
-|A-Star | for finding shortest path between two nodes on a connected weighted graph, with non-negative weights - usually faster than Dijkstra|
-|Cycle finding | find all cycles on a given graph. Find Hamiltonian cycles.|
-|Bellman-Ford | for finding shortest path between two nodes on a connected, weighted graph with positive or negative weights, and no negative weight cycles|
-|Spanning Tree | finds the minimum spanning tree for a connected, weighted graph|
-|Connected subgraphs | find all maximally connected subgraphs of a graph|
-|bionnected subgraphs | find all biconnected subgraphs of a graph|
-|General DFS and BFS search algorithms | For graph searching |
-|Find minimum cut of a graph | Necessary edges to keep the graph connected|
-|Maximum Flow | Find max flow in a flow network |
-|Planarity testing | Checks if a graph is planar |
+| Algorithm                             | Usage                                                                                                                                       |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dijkstra                              | for finding shortest path between two nodes on a connected weighted graph, with non-negative weights                                        |
+| A-Star                                | for finding shortest path between two nodes on a connected weighted graph, with non-negative weights - usually faster than Dijkstra         |
+| Cycle finding                         | find all cycles on a given graph. Find Hamiltonian cycles.                                                                                  |
+| Bellman-Ford                          | for finding shortest path between two nodes on a connected, weighted graph with positive or negative weights, and no negative weight cycles |
+| Spanning Tree                         | finds the minimum spanning tree for a connected, weighted graph                                                                             |
+| Steiner Tree                          | find minimal steiner tree   |
+| Line Graph                            | find line graph transform of a graph |
+| Matrix conversion                     | convert graph to adjacency matrix |
+| Connected subgraphs                   | find all maximally connected subgraphs of a graph                                                                                           |
+| Biconnected subgraphs                 | find all biconnected subgraphs of a graph                                                                                                   |
+| General DFS and BFS search algorithms | For graph searching                                                                                                                         |
+| Find minimum cut of a graph           | Necessary edges to keep the graph connected                                                                                                 |
+| Maximum Flow                          | Find max flow in a flow network                                                                                                             |
+| Planarity testing                     | Checks if a graph is planar                                                                                                                 |
 
- 
 ## Example usage
 
 We can create a graph by specifying the edges and labeling nodes as below.
@@ -40,10 +43,10 @@ We can create a graph by specifying the edges and labeling nodes as below.
 Edge eAB = new Edge ("A","B");
 Edge eAC = new Edge ("A","C");
 Edge eCD = new Edge ("C","D");
-Edge eDE = new Edge ("D","E"); 
-Edge eAF = new Edge ("A","F"); 
-Edge eBF = new Edge ("B","F"); 
-Edge eDF = new Edge ("D","F"); 
+Edge eDE = new Edge ("D","E");
+Edge eAF = new Edge ("A","F");
+Edge eBF = new Edge ("B","F");
+Edge eDF = new Edge ("D","F");
 
 List<Edge> list = new List<Edge> ();
 list.Add (eAB);
@@ -54,7 +57,7 @@ list.Add (eAF);
 list.Add (eBF);
 list.Add (eDF);
 
-Graph g = new Graph (list); 
+Graph g = new Graph (list);
 ```
 
 ### create a complete graph (graph where all nodes are connected to each other)
@@ -77,8 +80,10 @@ for(int i = 0; i < 10;i++){
 }
 g.IsConnected(); //true
 ```
+
 As another exampler, we can generate a complete graph on 10 nodes and check if it is connected. We can also
 find biconnected components of the graph.
+
 ```csharp
 var g = GraphGenerator.CreateComplete(NodeGenerator.GenerateNodes(10)); // generate complete graph
 g.IsConnected(); //true
@@ -89,9 +94,9 @@ g.FindBiconnectedComponents (); // complete graph so only 1 biconnected componen
 ### find minimum spanning tree of a connected weighted graph
 
 ```csharp
-Node b1 = new Node ("1"); 
-Node b2 = new Node ("2"); 
-Node b3 = new Node ("3"); 
+Node b1 = new Node ("1");
+Node b2 = new Node ("2");
+Node b3 = new Node ("3");
 
 Edge wedge1 = new Edge (b1, b2);
 Edge wedge2 = new Edge (b1, b3);
@@ -113,6 +118,7 @@ var span = g.GenerateMinimumSpanningTree ();
 ### find ALL cycles in a graph (this algorithm is very slow, don't use for big graphs)
 
 #### example
+
 ![cycles](/graph_cycles.png)
 
 In the above graph there are 3 basic cycles. This is easily calculated. For more complicated graphs the
@@ -120,16 +126,16 @@ calculation can be quite complex. For example, for the complete graph on 8 nodes
 
 ```csharp
 HashSet<Node> nodes7 = NodeGenerator.GenerateNodes(7);
-var graph7 = GraphGenerator.CreateComplete(nodes7); 
+var graph7 = GraphGenerator.CreateComplete(nodes7);
 var cycles = graph7.FindSimpleCycles();
 // number of cycles should be 1172
 ```
 
-### find shortest path between two nodes on a *weighted graph*
+### find shortest path between two nodes on a _weighted graph_
 
-We can find the minimum distance path between any two nodes on a connected graph using `Dijkstra's Algorithm`. 
+We can find the minimum distance path between any two nodes on a connected graph using `Dijkstra's Algorithm`.
 
-```csharp 
+```csharp
 Edge eAB = new Edge ("A", "B");
 Edge eAG = new Edge ("A", "G");
 Edge eCD = new Edge ("C", "D");
@@ -170,45 +176,54 @@ List<Node> path = g.FindMinPath (b1, b8);
 
 ```
 
-### find shortest path between two nodes on a *weighted graph* with A-Star
+### find shortest path between two nodes on a _weighted graph_ with A-Star
 
 For a faster algorithm, we can use the `A-star algorithm` to find the minimum path on the same graph as above.
 
-```csharp 
+```csharp
 List<Node> path = g.FindMinPath (b1, b6, new TestHeuristic (5));
 
 ```
- 
+
 ## Design
 
 There are four main objects:
 
-### Graph 
-an object which contains collections of *edges* and *nodes*. Most algorithms and functionality are Graph methods in this design. Graphs can be copied and merged.
+### Graph
 
-### Edge 
-contains pairs of *Nodes*. Can be associated with any number of *EdgeComponent*s. Comparison of Edges is based on whether their nodes are identical.
+an object which contains collections of _edges_ and _nodes_. Most algorithms and functionality are Graph methods in this design. Graphs can be copied and merged.
+
+### Edge
+
+contains pairs of _Nodes_. Can be associated with any number of *EdgeComponent*s. Comparison of Edges is based on whether their nodes are identical.
+
 ### Node
-In a given graph, a node (or *vertex*) must have a unique name, a label, that defines it.  
+
+In a given graph, a node (or _vertex_) must have a unique name, a label, that defines it.
 
 ### Components
-Edges and Nodes share a similar *Component* architecture, where a given edge may have attached to it multiple `EdgeComponent` subclass instances. Similarly, Nodes can have multiple
+
+Edges and Nodes share a similar _Component_ architecture, where a given edge may have attached to it multiple `EdgeComponent` subclass instances. Similarly, Nodes can have multiple
 `NodeComponent` subclass instances attached to them.
 
-In  this way, we can define weight edges as a new component `MyEdgeWeight`, which can contain a `float` value (the weight), and attach this component to each edge of our graph. This is simpler than having a subclass of `Edge`, `WeightedEdge` and having  web of generics in the library. It is also very flexible and allows pretty much any type of `Node` or `Edge` type without creating subclasses. Just define our component and attach it to each edge / node. 
+In this way, we can define weight edges as a new component `MyEdgeWeight`, which can contain a `float` value (the weight), and attach this component to each edge of our graph. This is simpler than having a subclass of `Edge`, `WeightedEdge` and having web of generics in the library. It is also very flexible and allows pretty much any type of `Node` or `Edge` type without creating subclasses. Just define our component and attach it to each edge / node.
 
-For example, a *Directed Graph* is just a graph with a *DirectionComponent* attached to each edge in the graph. 
+For example, a _Directed Graph_ is just a graph with a _DirectionComponent_ attached to each edge in the graph.
+
+ 
 
 ## testing
 
 In the base directory
+
 ```
 dotnet test ./
 ```
 
-
 ## building
+
 see [dotnet link](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-build)
+
 ```
 dotnet build --configuration Release
 ```
