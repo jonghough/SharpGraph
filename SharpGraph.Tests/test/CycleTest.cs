@@ -3,13 +3,6 @@
 // Copyright Licensed under the MIT license.
 // See LICENSE file in the samples root for full license information.
 // </copyright>
-
-using System;
-// <copyright file="CycleTest.cs" company="Jonathan Hough">
-// Copyright (C) 2023 Jonathan Hough.
-// Copyright Licensed under the MIT license.
-// See LICENSE file in the samples root for full license information.
-// </copyright>
 using Xunit;
 
 namespace SharpGraph

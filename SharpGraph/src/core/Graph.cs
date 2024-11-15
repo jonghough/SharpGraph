@@ -353,7 +353,7 @@ namespace SharpGraph
             if (incidentEdges != null)
             {
                 this.edges.RemoveAll(e => incidentEdges.Contains(e));
-                incidentEdges.RemoveWhere(e => incidentEdges.Contains(e));
+                incidentEdges.RemoveWhere(e => e.Equals(e));
             }
 
             this.nodes.Remove(node);
@@ -407,13 +407,13 @@ namespace SharpGraph
             var fromIncidentEdges = this.incidenceMap[f];
             if (fromIncidentEdges != null)
             {
-                fromIncidentEdges.RemoveWhere(e => e.Equals(edge));
+                int i = fromIncidentEdges.RemoveWhere(e => e.Equals(edge));
             }
 
             var toIncidentEdges = this.incidenceMap[t];
             if (toIncidentEdges != null)
             {
-                toIncidentEdges.RemoveWhere(e => e.Equals(edge));
+                int i = toIncidentEdges.RemoveWhere(e => e.Equals(edge));
             }
 
             this.edgeComponents.Remove(edge);

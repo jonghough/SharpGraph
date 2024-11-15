@@ -1,8 +1,9 @@
 namespace SharpGraph.Builder
 
-///
-///
-///
+///<summary>
+/// Compiler module to compiel expressions representing graphs into
+/// graph objects.
+///</summary>
 module Compiler =
     open SharpGraph
     open Microsoft.FSharp.Collections
@@ -121,28 +122,19 @@ module Compiler =
         | UnaryExp(e, op) -> HandleUnaryExp e op
         | BinaryOperatorExp(op, e1, e2) -> BinaryOperatorExp op e1 e2
 
-    ///
-    ///
-    ///
+     
     let Parse code =
-        System.Diagnostics.Debug.WriteLine("BEGIN PARSING")
 
-        match runParserOnString (pExpression .>> eof) () "Tokamak reaction stream" code with
+        match runParserOnString (pExpression .>> eof) () "Graph compile stream" code with
         | Success(result, _, _) ->
-            System.Diagnostics.Debug.WriteLine("FINISH PARSING")
             result
         | Failure(msg, _, _) ->
-            System.Diagnostics.Debug.WriteLine("Error  " + msg + "Reactor core containment failed!")
             failwith msg
 
+    ///<summary>
+    /// Compiles the given string into a Graph object.
+    ///</summary>
+    ///<param name="code">The input string to build the graph</param>
+    ///<returns>Graph object</returns>
     let Compile (text: string) =
-        let result = HandleExpression(Parse text)
-
-        System.Console.WriteLine(
-            "graph number of nodes "
-            + string (result.GetNodes().Count)
-            + " and edges: "
-            + string (result.GetEdges().Count)
-        )
-
-        result
+        HandleExpression(Parse text)
