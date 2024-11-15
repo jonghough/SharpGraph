@@ -3,7 +3,7 @@
     <PackageId>SharpGraphLib.Builder</PackageId>
     <TargetFramework>net8.0</TargetFramework> 
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Authors>Jonathan Hough</Authors>
     <Company>Jonathan Hough</Company>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
