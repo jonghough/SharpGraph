@@ -31,7 +31,7 @@ namespace SharpGraph
     {
         private List<Edge> edges;
         private HashSet<Node> nodes;
-        private Dictionary<Node, HashSet<Edge>> incidenceMap;
+        public Dictionary<Node, HashSet<Edge>> IncidenceMap;
         private Dictionary<Node, Dictionary<string, NodeComponent>> nodeComponents;
         private Dictionary<Edge, Dictionary<string, EdgeComponent>> edgeComponents;
         private Dictionary<string, GraphComponent> graphComponents;
@@ -349,11 +349,11 @@ namespace SharpGraph
                 return false;
             }
 
-            var incidentEdges = this.incidenceMap[node];
+            var incidentEdges = this.IncidenceMap[node];
             if (incidentEdges != null)
             {
                 this.edges.RemoveAll(e => incidentEdges.Contains(e));
-                incidentEdges.RemoveWhere(e => incidentEdges.Contains(e));
+                incidentEdges.RemoveWhere(e => e.Equals(e));
             }
 
             this.nodes.Remove(node);
@@ -404,16 +404,16 @@ namespace SharpGraph
 
             var f = edge.From();
             var t = edge.To();
-            var fromIncidentEdges = this.incidenceMap[f];
+            var fromIncidentEdges = this.IncidenceMap[f];
             if (fromIncidentEdges != null)
             {
-                fromIncidentEdges.RemoveWhere(e => e.Equals(edge));
+                int i = fromIncidentEdges.RemoveWhere(e => e.Equals(edge));
             }
 
-            var toIncidentEdges = this.incidenceMap[t];
+            var toIncidentEdges = this.IncidenceMap[t];
             if (toIncidentEdges != null)
             {
-                toIncidentEdges.RemoveWhere(e => e.Equals(edge));
+                int i = toIncidentEdges.RemoveWhere(e => e.Equals(edge));
             }
 
             this.edgeComponents.Remove(edge);
@@ -464,7 +464,7 @@ namespace SharpGraph
 
         private void Init()
         {
-            this.incidenceMap = new Dictionary<Node, HashSet<Edge>>();
+            this.IncidenceMap = new Dictionary<Node, HashSet<Edge>>();
             this.edges = new List<Edge>();
             this.nodes = new HashSet<Node>();
             this.nodeComponents = new Dictionary<Node, Dictionary<string, NodeComponent>>();
@@ -475,33 +475,33 @@ namespace SharpGraph
         private void AddIncidence(Node node, Edge edge)
         {
             HashSet<Edge> edges;
-            if (this.incidenceMap.TryGetValue(node, out edges))
+            if (this.IncidenceMap.TryGetValue(node, out edges))
             {
                 edges.Add(edge);
-                this.incidenceMap[node] = edges;
+                this.IncidenceMap[node] = edges;
             }
             else
             {
                 var el = new HashSet<Edge>();
                 el.Add(edge);
-                this.incidenceMap.Add(node, el);
+                this.IncidenceMap.Add(node, el);
             }
         }
 
         private void RemoveIncidence(Node node, Edge edge)
         {
             HashSet<Edge> edges;
-            if (this.incidenceMap.TryGetValue(node, out edges))
+            if (this.IncidenceMap.TryGetValue(node, out edges))
             {
                 edges.Remove(edge);
-                this.incidenceMap[node] = edges;
+                this.IncidenceMap[node] = edges;
             }
         }
 
         private bool IsIncident(Node node, Edge edge)
         {
             HashSet<Edge> edges;
-            if (this.incidenceMap.TryGetValue(node, out edges))
+            if (this.IncidenceMap.TryGetValue(node, out edges))
             {
                 return edges.Contains(edge);
             }
