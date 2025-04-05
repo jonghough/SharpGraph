@@ -11,6 +11,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SharpGraph.Builder", "Sharp
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SharpGraph.Builder.Test", "SharpGraph.Builder.Test\SharpGraph.Builder.Test.fsproj", "{E719B05B-A97A-4D7D-9BBC-3A190FF01893}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleProject", "SampleProject\SampleProject.csproj", "{2C119B6B-922B-456C-88A1-25C436A9147D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,5 +98,17 @@ Global
 		{E719B05B-A97A-4D7D-9BBC-3A190FF01893}.Release|x64.Build.0 = Release|Any CPU
 		{E719B05B-A97A-4D7D-9BBC-3A190FF01893}.Release|x86.ActiveCfg = Release|Any CPU
 		{E719B05B-A97A-4D7D-9BBC-3A190FF01893}.Release|x86.Build.0 = Release|Any CPU
+		{2C119B6B-922B-456C-88A1-25C436A9147D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C119B6B-922B-456C-88A1-25C436A9147D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C119B6B-922B-456C-88A1-25C436A9147D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2C119B6B-922B-456C-88A1-25C436A9147D}.Debug|x64.Build.0 = Debug|Any CPU
+		{2C119B6B-922B-456C-88A1-25C436A9147D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2C119B6B-922B-456C-88A1-25C436A9147D}.Debug|x86.Build.0 = Debug|Any CPU
+		{2C119B6B-922B-456C-88A1-25C436A9147D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C119B6B-922B-456C-88A1-25C436A9147D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C119B6B-922B-456C-88A1-25C436A9147D}.Release|x64.ActiveCfg = Release|Any CPU
+		{2C119B6B-922B-456C-88A1-25C436A9147D}.Release|x64.Build.0 = Release|Any CPU
+		{2C119B6B-922B-456C-88A1-25C436A9147D}.Release|x86.ActiveCfg = Release|Any CPU
+		{2C119B6B-922B-456C-88A1-25C436A9147D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
