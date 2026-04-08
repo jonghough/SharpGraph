@@ -2,7 +2,7 @@
 
 A C# Library Package for `.Net 6` and above, for the purpose of working with graphs and graph algorithms.
 
-![unit test workflow](https://github.com/jonghough/SharpGraph/actions/workflows/unit-test.yaml/badge.svg?branch=master)
+![unit test workflow](https://github.com/jonghough/SharpGraph/actions/workflows/dotnet%20package/badge.svg?branch=master) 
 
 ## Project
 
